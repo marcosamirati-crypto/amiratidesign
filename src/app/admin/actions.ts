@@ -64,7 +64,15 @@ export async function saveProject(_p: AdminState, fd: FormData): Promise<AdminSt
     let highlights: string[] = [];
     try {
       const h = JSON.parse(String(fd.get("highlights_json") ?? "[]"));
-      highlights = Array.isArray(h) ? h.filter(isUrl).filter((u: string) => images.includes(u)) : [];
+      const set = new Set(Array.isArray(h) ? h.filter(isUrl) : []);
+      highlights = images.filter((u) => set.has(u)); // mural segue a ordem das imagens
+    } catch {}
+    let joined: string[] = [];
+    try {
+      const j = JSON.parse(String(fd.get("joined_json") ?? "[]"));
+      const set = new Set(Array.isArray(j) ? j.filter(isUrl) : []);
+      // a 1ª do mural nunca é "colada"; só vale para quem é destaque
+      joined = highlights.filter((u, i) => i > 0 && set.has(u));
     } catch {}
     const coverRaw = String(fd.get("cover_url") ?? "");
     const cover = isUrl(coverRaw) ? coverRaw : (images[0] ?? null);
@@ -81,6 +89,8 @@ export async function saveProject(_p: AdminState, fd: FormData): Promise<AdminSt
       published: fd.get("published") === "on",
       cover_url: cover,
       images,
+      highlights,
+      joined,
       updated_at: new Date().toISOString(),
     };
 
@@ -90,9 +100,15 @@ export async function saveProject(_p: AdminState, fd: FormData): Promise<AdminSt
       old = data;
     }
 
-    const { error } = id
-      ? await supabase.from("projects").update(row).eq("id", id)
-      : await supabase.from("projects").insert(row);
+    const save = (r: Record<string, unknown>) =>
+      id ? supabase.from("projects").update(r).eq("id", id) : supabase.from("projects").insert(r);
+    let { error } = await save(row);
+    if (error && /joined/.test(error.message)) {
+      // coluna "joined" ainda não criada no Supabase: salva o resto e avisa
+      const { joined: _omit, ...rest } = row;
+      ({ error } = await save(rest));
+      if (!error) return { error: "Salvo, mas as trincas coladas só funcionam depois de rodar o SQL 0003_joined.sql no Supabase." };
+    }
     if (error) return { error: error.code === "23505" ? "Já existe um projeto com esse slug." : error.message };
 
     if (old) {

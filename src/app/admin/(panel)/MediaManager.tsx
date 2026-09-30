@@ -7,6 +7,7 @@ type Props = {
   initialImages: string[];
   initialCover: string | null;
   initialHighlights: string[];
+  initialJoined: string[];
   onBusyChange: (busy: boolean) => void;
 };
 
@@ -14,7 +15,7 @@ type Props = {
  * Gerencia capa + imagens do projeto. Os arquivos vão direto do navegador para o Supabase Storage
  * (sem passar pela Vercel, que limita o envio a ~4,5 MB). O formulário recebe só as URLs.
  */
-export default function MediaManager({ initialImages, initialCover, initialHighlights, onBusyChange }: Props) {
+export default function MediaManager({ initialImages, initialCover, initialHighlights, initialJoined, onBusyChange }: Props) {
   const [images, setImages] = useState<string[]>(() => {
     // projetos antigos: a capa ficava fora da lista; junta no começo
     if (initialCover && !initialImages.includes(initialCover)) return [initialCover, ...initialImages];
@@ -22,6 +23,7 @@ export default function MediaManager({ initialImages, initialCover, initialHighl
   });
   const [cover, setCover] = useState<string | null>(initialCover);
   const [highlights, setHighlights] = useState<string[]>(initialHighlights);
+  const [joined, setJoined] = useState<string[]>(initialJoined);
   const [status, setStatus] = useState<string>("");
   const [error, setError] = useState<string>("");
   const input = useRef<HTMLInputElement>(null);
@@ -68,6 +70,7 @@ export default function MediaManager({ initialImages, initialCover, initialHighl
 
   const remove = (url: string) => {
     setHighlights((h) => h.filter((u) => u !== url));
+    setJoined((j) => j.filter((u) => u !== url));
     setImages((prev) => {
       const next = prev.filter((u) => u !== url);
       if (cover === url) setCover(next[0] ?? null);
@@ -84,13 +87,14 @@ export default function MediaManager({ initialImages, initialCover, initialHighl
       </legend>
       <input type="hidden" name="images_json" value={JSON.stringify(images)} />
       <input type="hidden" name="cover_url" value={cover ?? ""} />
+      <input type="hidden" name="joined_json" value={JSON.stringify(joined)} />
       <input type="hidden" name="highlights_json" value={JSON.stringify(highlights.filter((u) => images.includes(u)))} />
 
       <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3">
         {images.map((u, i) => (
           <li key={u} className="space-y-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={u} alt="" className="aspect-video w-full bg-surface-2 object-cover" />
+            <img src={u} alt="" className="aspect-video w-full bg-surface-2 object-contain" />
             <div className="flex flex-wrap gap-1.5">
               <button type="button" className={btn} onClick={() => move(i, -1)} disabled={i === 0} aria-label="Mover para cima">↑</button>
               <button type="button" className={btn} onClick={() => move(i, 1)} disabled={i === images.length - 1} aria-label="Mover para baixo">↓</button>
@@ -109,6 +113,16 @@ export default function MediaManager({ initialImages, initialCover, initialHighl
               >
                 {highlights.includes(u) ? "★ Destaque" : "☆ Destaque"}
               </button>
+              {highlights.includes(u) && (
+                <button
+                  type="button"
+                  className={`${btn} ${joined.includes(u) ? "!border-accent bg-accent text-on-accent" : ""}`}
+                  onClick={() => setJoined((j) => (j.includes(u) ? j.filter((x) => x !== u) : [...j, u]))}
+                  title="Na home, aparece colada ao destaque anterior (trinca contínua)"
+                >
+                  {joined.includes(u) ? "⛓ Colada" : "⛓ Colar no anterior"}
+                </button>
+              )}
               <button type="button" className={btn} onClick={() => remove(u)}>Remover</button>
             </div>
           </li>
@@ -125,7 +139,10 @@ export default function MediaManager({ initialImages, initialCover, initialHighl
       />
       {status && <p role="status" className="text-sm text-muted">{status}</p>}
       {error && <p role="alert" className="text-sm text-accent-ink">{error}</p>}
-      <p className="text-xs text-muted">Até 50 MB por arquivo. Envie várias de uma vez e depois ajuste a ordem.</p>
+      <p className="text-xs text-muted">
+        Até 50 MB por arquivo. A ordem do mural da home segue a ordem desta lista: mova as imagens com ↑ ↓.
+        Para uma trinca contínua, marque as três como destaque e use "Colar no anterior" na 2ª e na 3ª.
+      </p>
     </fieldset>
   );
 }

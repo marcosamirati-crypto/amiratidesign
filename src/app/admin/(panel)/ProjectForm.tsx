@@ -36,6 +36,7 @@ export default function ProjectForm({ project }: { project?: Project }) {
         initialImages={project?.images ?? []}
         initialCover={project?.cover_url ?? null}
         initialHighlights={project?.highlights ?? []}
+        initialJoined={project?.joined ?? []}
         onBusyChange={setBusy}
       />
 

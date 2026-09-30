@@ -13,6 +13,8 @@ export type Project = {
   images: string[];
   /** Subconjunto de `images` em destaque (capas de posts). Vazio = usa todas. */
   highlights?: string[];
+  /** Destaques que aparecem colados ao destaque anterior (trinca contínua). */
+  joined?: string[];
   published: boolean;
   sort_order: number;
   created_at: string;
