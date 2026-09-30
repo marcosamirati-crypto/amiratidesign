@@ -10,9 +10,10 @@
   --border: #262626;
   --fg: #f4f4f2;
   --muted: #a1a1a1;
-  --accent: #ea0637;
-  --on-accent: #ffffff;
-  --accent-ink: #ff4d6d; /* texto/ícone de acento sobre fundo escuro */
+  --accent: #ff4a1f; /* laranja-vermelho: usado onde só cabe uma cor (foco, checkbox) */
+  --accent-gradient: linear-gradient(105deg, #ff2d3d 0%, #ff6a1f 52%, #ffb02e 100%);
+  --on-accent: #0a0a0a; /* texto escuro sobre o gradiente quente: contraste alto até no trecho amarelo */
+  --accent-ink: #ff8a3d; /* texto/ícone de acento sobre fundo escuro */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   color-scheme: dark;
@@ -264,4 +265,71 @@ body {
         rgb(var(--gl-deep) / 0) 100%);
     mix-blend-mode: soft-light;
   }
+}
+
+/* ───────── Paleta quente em gradiente ─────────
+   Todo fundo de acento (botões, chips, pontos) usa o gradiente vermelho → laranja → âmbar. */
+.bg-accent {
+  background-image: var(--accent-gradient);
+  background-size: 180% 100%;
+  background-position: 0% 50%;
+}
+@media (hover: hover) and (pointer: fine) {
+  .hover\:bg-accent:hover {
+    background-image: var(--accent-gradient);
+  }
+  .btn.bg-accent:hover {
+    background-position: 100% 50%;
+  }
+}
+.btn.bg-accent {
+  transition: transform 0.16s var(--ease-out), background-position 0.6s var(--ease-out), color 0.16s ease,
+    border-color 0.16s ease;
+}
+
+/* ───────── Cursor em elipse + texto não selecionável (ver components/Cursor.tsx) ───────── */
+html.site-noselect body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+html.site-noselect input,
+html.site-noselect textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+html.site-cursor,
+html.site-cursor * {
+  cursor: none !important;
+}
+.cursor-ellipse {
+  display: none;
+}
+html.site-cursor .cursor-ellipse {
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  width: 20px;
+  height: 13px;
+  margin: -6.5px 0 0 -10px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  box-shadow: 0 0 0 1px rgb(10 10 10 / 0.35);
+  pointer-events: none;
+  rotate: -14deg;
+  opacity: 0;
+  scale: 1;
+  transition: opacity 0.2s ease, scale 0.22s var(--ease-out);
+}
+html.site-cursor .cursor-ellipse[data-on] {
+  opacity: 1;
+}
+html.site-cursor .cursor-ellipse[data-link] {
+  scale: 2.3;
+  opacity: 0.55;
+}
+html.site-cursor .cursor-ellipse[data-down] {
+  scale: 0.8;
 }
