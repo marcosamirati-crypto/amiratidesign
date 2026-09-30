@@ -171,3 +171,97 @@ body {
     transform: none !important;
   }
 }
+
+/* ───────── Cursor light ─────────
+   Efeito do cursor (ver components/CursorLight.tsx). Só com mouse e sem "reduzir movimento".
+   Texto: gradiente quente revelado por background-clip:text perto do cursor.
+   Imagem: véu luminoso suave (soft-light) que acompanha o cursor.
+   No claro, as cores são escuras o bastante para manter contraste sobre o fundo branco. */
+@property --glow {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+:root {
+  --gl-core: 255 221 80; /* amarelo */
+  --gl-mid: 255 140 30; /* laranja */
+  --gl-halo: 255 61 54; /* vermelho vivo */
+  --gl-deep: 234 6 55; /* vermelho da marca */
+}
+:root[data-theme="light"] {
+  --gl-core: 214 90 0;
+  --gl-mid: 200 50 10;
+  --gl-halo: 178 14 50;
+  --gl-deep: 150 8 40;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  [data-glow][data-lit] {
+    background-image:
+      radial-gradient(circle calc(var(--gr, 220px) * 0.62) at var(--gx, -999px) var(--gy, -999px),
+        rgb(var(--gl-core) / var(--glow)) 0%,
+        rgb(var(--gl-mid) / calc(var(--glow) * 0.9)) 48%,
+        rgb(var(--gl-mid) / 0) 100%),
+      radial-gradient(circle var(--gr, 220px) at var(--hx, -999px) var(--hy, -999px),
+        rgb(var(--gl-halo) / var(--glow)) 0%,
+        rgb(var(--gl-deep) / calc(var(--glow) * 0.92)) 52%,
+        rgb(var(--gl-deep) / 0) 100%),
+      linear-gradient(currentColor, currentColor);
+    background-size: 100% 100%, 100% 100%, 100% 100%;
+    background-position: 0 0, 0 0, 0 0;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: --glow 0.45s var(--ease-out);
+  }
+  /* filhos com cor própria (ex.: o ponto vermelho do hero) mantêm a cor */
+  [data-glow][data-lit] .text-accent,
+  [data-glow][data-lit] [data-glow]:not([data-lit]) {
+    -webkit-text-fill-color: currentColor;
+  }
+  /* links com sublinhado animado: preserva o sublinhado como 3ª camada (sem recorte de texto) */
+  .link-u[data-glow][data-lit] {
+    background-image:
+      radial-gradient(circle calc(var(--gr, 220px) * 0.62) at var(--gx, -999px) var(--gy, -999px),
+        rgb(var(--gl-core) / var(--glow)) 0%,
+        rgb(var(--gl-mid) / calc(var(--glow) * 0.9)) 48%,
+        rgb(var(--gl-mid) / 0) 100%),
+      radial-gradient(circle var(--gr, 220px) at var(--hx, -999px) var(--hy, -999px),
+        rgb(var(--gl-halo) / var(--glow)) 0%,
+        rgb(var(--gl-deep) / calc(var(--glow) * 0.92)) 52%,
+        rgb(var(--gl-deep) / 0) 100%),
+      linear-gradient(currentColor, currentColor),
+      linear-gradient(currentColor, currentColor);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 0 1px;
+    background-position: 0 0, 0 0, 0 0, left bottom;
+    -webkit-background-clip: text, text, text, border-box;
+    background-clip: text, text, text, border-box;
+    transition: --glow 0.45s var(--ease-out), background-size 0.25s var(--ease-out);
+  }
+  .link-u[data-glow][data-lit]:hover {
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 1px;
+  }
+
+  /* Imagens: o contêiner da imagem ganha um véu luminoso discreto */
+  [data-glow-img] {
+    position: relative;
+  }
+  [data-glow-img][data-lit] {
+    transition: --glow 0.45s var(--ease-out);
+  }
+  [data-glow-img][data-lit]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle var(--gr, 300px) at var(--gx, -999px) var(--gy, -999px),
+        rgb(var(--gl-core) / calc(var(--glow) * 0.5)) 0%,
+        rgb(var(--gl-mid) / calc(var(--glow) * 0.34)) 38%,
+        rgb(var(--gl-deep) / calc(var(--glow) * 0.2)) 68%,
+        rgb(var(--gl-deep) / 0) 100%);
+    mix-blend-mode: soft-light;
+  }
+}

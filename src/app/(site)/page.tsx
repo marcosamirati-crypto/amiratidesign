@@ -21,6 +21,9 @@ export default async function Home() {
     <>
       {/* Hero */}
       <section className="container-x flex min-h-[calc(100dvh-4rem)] flex-col justify-end pb-16 pt-24 md:pb-24">
+        <p className="mb-6 text-[clamp(1.5rem,3.2vw,2.75rem)] font-medium leading-tight tracking-[-0.03em] md:mb-10">
+          <span className="line-mask"><span>Oi! Eu sou o Amirati!</span></span>
+        </p>
         <h1 className="display text-[clamp(3.5rem,14vw,13rem)]">
           <span className="line-mask"><span style={{ "--d": "60ms" } as React.CSSProperties}>Design</span></span>
           <span className="line-mask"><span style={{ "--d": "160ms" } as React.CSSProperties}>Admirável<span className="text-accent">.</span></span></span>
