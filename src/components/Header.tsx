@@ -4,6 +4,7 @@ import { site } from "@/content/site";
 
 const nav = [
   { href: "/#trabalhos", label: "Trabalhos" },
+  { href: "/#fotografia", label: "Fotografia" },
   { href: "/#experiencia", label: "Experiência" },
   { href: "/#servicos", label: "Serviços" },
   { href: "/#processo", label: "Processo" },
