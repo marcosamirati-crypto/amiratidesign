@@ -2,6 +2,7 @@ import Link from "next/link";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Experience from "@/components/Experience";
+import HeroPointer from "@/components/HeroPointer";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
 import SocialShowcase from "@/components/SocialShowcase";
@@ -20,25 +21,42 @@ export default async function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="container-x flex min-h-[calc(100dvh-4rem)] flex-col items-center justify-center pb-20 pt-16 text-center">
-        <span className="line-mask mx-auto">
-          <span style={{ "--d": "0ms" } as React.CSSProperties}>
+      <section id="hero" className="container-x flex min-h-[calc(100dvh-4rem)] flex-col items-center justify-center pb-20 pt-16 text-center">
+        <HeroPointer />
+        <div className="hero-rise mx-auto" style={{ "--d": "0ms" } as React.CSSProperties}>
+          <div data-memoji className="relative mx-auto w-[clamp(7rem,13vw,11.5rem)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/memoji.png"
-              alt="Memoji do Amirati"
-              width={248}
-              height={282}
-              draggable={false}
-              data-no-glow
-              className="mx-auto block h-auto w-[clamp(7rem,13vw,11.5rem)]"
-            />
-          </span>
-        </span>
-        <h1 className="display mt-8 max-w-[14ch] text-balance text-[clamp(3rem,9.4vw,8.5rem)] md:mt-10">
-          <span className="line-mask"><span style={{ "--d": "120ms" } as React.CSSProperties}>oi! eu sou o amirati!</span></span>
+            <img src="/memoji.png" alt="Memoji do Amirati" width={248} height={282} draggable={false} data-no-glow className="block h-auto w-full" />
+            {/* Pupilas: cobrem a original e se movem dentro da íris (HeroPointer). Em repouso ficam idênticas ao desenho. */}
+            <svg id="memoji-eyes" viewBox="0 0 248 282" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full">
+              <defs>
+                <radialGradient id="iris">
+                  <stop offset="0" stopColor="#2a2a2e" />
+                  <stop offset="0.7" stopColor="#3a3a3f" />
+                  <stop offset="1" stopColor="#55555b" />
+                </radialGradient>
+              </defs>
+              {[
+                { cx: 78, cy: 141.3, r: 11.6, hx: 72.7, hy: 135.8 },
+                { cx: 173.3, cy: 149.7, r: 11.4, hx: 164.5, hy: 142.5 },
+              ].map((e) => (
+                <g key={e.cx} data-eye data-cx={e.cx} data-cy={e.cy}>
+                  <circle cx={e.cx} cy={e.cy} r={e.r + 0.7} fill="url(#iris)" />
+                  <g data-pupil>
+                    <circle cx={e.cx} cy={e.cy} r={e.r} fill="#050506" />
+                  </g>
+                  <g data-hl>
+                    <circle cx={e.hx} cy={e.hy} r={3.6} fill="#fff" />
+                  </g>
+                </g>
+              ))}
+            </svg>
+          </div>
+        </div>
+        <h1 data-hero-title className="display mt-8 max-w-[14ch] text-balance text-[clamp(3rem,9.4vw,8.5rem)] md:mt-10">
+          <span className="line-mask"><span style={{ "--d": "120ms" } as React.CSSProperties}>Oi! Eu sou o Amirati!</span></span>
         </h1>
-        <p className="mt-6 text-xl text-muted md:text-2xl">{site.tagline}</p>
+        <p className="mt-6 text-sm font-medium uppercase tracking-[0.16em] text-muted md:text-base">{site.tagline}</p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <Link href="#contato" className="btn rounded-full bg-accent px-7 py-4 font-medium text-on-accent">
             Pedir orçamento

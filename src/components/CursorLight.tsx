@@ -28,6 +28,7 @@ export default function CursorLight() {
     let tx = -9999, ty = -9999; // alvo (cursor)
     let fx = tx, fy = ty; // luz rápida
     let sx = tx, sy = ty; // rastro lento
+    let kx = tx, ky = ty; // rastro mais lento ainda (3ª mancha de cor)
     let inside = false;
     let raf = 0;
 
@@ -99,6 +100,8 @@ export default function CursorLight() {
           el.style.removeProperty("--gy");
           el.style.removeProperty("--hx");
           el.style.removeProperty("--hy");
+          el.style.removeProperty("--kx");
+          el.style.removeProperty("--ky");
           el.style.removeProperty("--gr");
           lit.delete(el);
         }, 480),
@@ -111,6 +114,8 @@ export default function CursorLight() {
       fy += (ty - fy) * 0.28;
       sx += (tx - sx) * 0.1;
       sy += (ty - sy) * 0.1;
+      kx += (tx - kx) * 0.05;
+      ky += (ty - ky) * 0.05;
 
       // 1) leituras
       const hits: { el: HTMLElement; l: number; t: number; r: number; on: boolean }[] = [];
@@ -134,13 +139,15 @@ export default function CursorLight() {
           s.setProperty("--gy", `${(fy - h.t).toFixed(1)}px`);
           s.setProperty("--hx", `${(sx - h.l).toFixed(1)}px`);
           s.setProperty("--hy", `${(sy - h.t).toFixed(1)}px`);
+          s.setProperty("--kx", `${(kx - h.l).toFixed(1)}px`);
+          s.setProperty("--ky", `${(ky - h.t).toFixed(1)}px`);
           s.setProperty("--gr", `${h.r}px`);
         } else {
           turnOff(h.el);
         }
       }
 
-      const moving = Math.abs(tx - fx) > 0.4 || Math.abs(ty - fy) > 0.4 || Math.abs(tx - sx) > 0.4 || Math.abs(ty - sy) > 0.4;
+      const moving = Math.abs(tx - fx) > 0.4 || Math.abs(ty - fy) > 0.4 || Math.abs(tx - sx) > 0.4 || Math.abs(ty - sy) > 0.4 || Math.abs(tx - kx) > 0.4 || Math.abs(ty - ky) > 0.4;
       if (moving) raf = requestAnimationFrame(frame);
     }
 
@@ -152,8 +159,8 @@ export default function CursorLight() {
       if (e.pointerType === "touch") return;
       if (!inside) {
         // entrada: começa o rastro já no cursor, sem "voar" do canto
-        fx = sx = e.clientX;
-        fy = sy = e.clientY;
+        fx = sx = kx = e.clientX;
+        fy = sy = ky = e.clientY;
       }
       inside = true;
       tx = e.clientX;

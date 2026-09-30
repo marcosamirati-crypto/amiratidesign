@@ -91,7 +91,13 @@ export default function Cursor() {
 
   return (
     <>
-      <div ref={ringRef} aria-hidden className="cursor-ring" />
+      <div ref={ringRef} aria-hidden className="cursor-ring">
+        {/* elipse + 3 cílios, mesma cor do contorno */}
+        <svg width="36" height="28" viewBox="0 0 36 28" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round">
+          <ellipse cx="18" cy="16" rx="14" ry="9" />
+          <path d="M9.4 8.9 6.9 5.3M18 7V2.4M26.6 8.9 29.1 5.3" />
+        </svg>
+      </div>
       <div ref={dotRef} aria-hidden className="cursor-dot" />
     </>
   );

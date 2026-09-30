@@ -3,7 +3,7 @@
 export const site = {
   name: "Amirati Design",
   headline: "Design Admirável",
-  tagline: "Branding que é lembrado",
+  tagline: "Brand Designer e Diretor de Arte em Fortaleza",
   description:
     "Estúdio de branding especializado em gestão de marcas. Identidade visual, projetos de branding e gestão gráfica de redes sociais.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",

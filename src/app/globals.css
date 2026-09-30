@@ -175,9 +175,9 @@ body {
 
 /* ───────── Cursor light ─────────
    Efeito do cursor (ver components/CursorLight.tsx). Só com mouse e sem "reduzir movimento".
-   Texto: gradiente quente revelado por background-clip:text perto do cursor.
-   Imagem: véu luminoso suave (soft-light) que acompanha o cursor.
-   No claro, as cores são escuras o bastante para manter contraste sobre o fundo branco. */
+   Texto: três manchas de cor (rosa → magenta → violeta) revelam o texto por background-clip:text, cada
+   uma seguindo o cursor com um atraso diferente, o que dá o movimento fluido e misturado.
+   Imagem: véu luminoso suave (soft-light). No claro, os tons são mais escuros para manter contraste. */
 @property --glow {
   syntax: "<number>";
   inherits: true;
@@ -185,64 +185,72 @@ body {
 }
 
 :root {
-  --gl-core: 255 221 80; /* amarelo */
-  --gl-mid: 255 140 30; /* laranja */
-  --gl-halo: 255 61 54; /* vermelho vivo */
-  --gl-deep: 234 6 55; /* vermelho da marca */
+  --gl-1: 255 96 128; /* rosa-avermelhado */
+  --gl-2: 232 40 108; /* carmim / magenta */
+  --gl-3: 176 56 200; /* orquídea */
+  --gl-4: 112 76 232; /* violeta */
 }
 :root[data-theme="light"] {
-  --gl-core: 214 90 0;
-  --gl-mid: 200 50 10;
-  --gl-halo: 178 14 50;
-  --gl-deep: 150 8 40;
+  --gl-1: 214 30 70;
+  --gl-2: 180 20 110;
+  --gl-3: 130 36 160;
+  --gl-4: 84 56 190;
 }
 
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   [data-glow][data-lit] {
     background-image:
-      radial-gradient(circle calc(var(--gr, 220px) * 0.62) at var(--gx, -999px) var(--gy, -999px),
-        rgb(var(--gl-core) / var(--glow)) 0%,
-        rgb(var(--gl-mid) / calc(var(--glow) * 0.9)) 48%,
-        rgb(var(--gl-mid) / 0) 100%),
-      radial-gradient(circle var(--gr, 220px) at var(--hx, -999px) var(--hy, -999px),
-        rgb(var(--gl-halo) / var(--glow)) 0%,
-        rgb(var(--gl-deep) / calc(var(--glow) * 0.92)) 52%,
-        rgb(var(--gl-deep) / 0) 100%),
+      radial-gradient(circle calc(var(--gr, 220px) * 0.64) at var(--gx, -999px) var(--gy, -999px),
+        rgb(var(--gl-1) / calc(var(--glow) * 0.85)) 0%,
+        rgb(var(--gl-2) / calc(var(--glow) * 0.55)) 55%,
+        rgb(var(--gl-2) / 0) 100%),
+      radial-gradient(circle calc(var(--gr, 220px) * 1.05) at var(--hx, -999px) var(--hy, -999px),
+        rgb(var(--gl-3) / calc(var(--glow) * 0.8)) 0%,
+        rgb(var(--gl-2) / calc(var(--glow) * 0.4)) 55%,
+        rgb(var(--gl-2) / 0) 100%),
+      radial-gradient(circle calc(var(--gr, 220px) * 1.45) at var(--kx, -999px) var(--ky, -999px),
+        rgb(var(--gl-4) / calc(var(--glow) * 0.75)) 0%,
+        rgb(var(--gl-3) / calc(var(--glow) * 0.38)) 60%,
+        rgb(var(--gl-3) / 0) 100%),
       linear-gradient(currentColor, currentColor);
-    background-size: 100% 100%, 100% 100%, 100% 100%;
-    background-position: 0 0, 0 0, 0 0;
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+    background-position: 0 0, 0 0, 0 0, 0 0;
     background-repeat: no-repeat;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    transition: --glow 0.45s var(--ease-out);
+    transition: --glow 0.6s var(--ease-out);
   }
-  /* filhos com cor própria (ex.: o ponto vermelho do hero) mantêm a cor */
+  /* filhos com cor própria (ex.: o ponto do logo) mantêm a cor */
   [data-glow][data-lit] .text-accent,
   [data-glow][data-lit] [data-glow]:not([data-lit]) {
     -webkit-text-fill-color: currentColor;
   }
-  /* links com sublinhado animado: preserva o sublinhado como 3ª camada (sem recorte de texto) */
+  /* links com sublinhado animado: preserva o sublinhado como 5ª camada (sem recorte de texto) */
   .link-u[data-glow][data-lit] {
     background-image:
-      radial-gradient(circle calc(var(--gr, 220px) * 0.62) at var(--gx, -999px) var(--gy, -999px),
-        rgb(var(--gl-core) / var(--glow)) 0%,
-        rgb(var(--gl-mid) / calc(var(--glow) * 0.9)) 48%,
-        rgb(var(--gl-mid) / 0) 100%),
-      radial-gradient(circle var(--gr, 220px) at var(--hx, -999px) var(--hy, -999px),
-        rgb(var(--gl-halo) / var(--glow)) 0%,
-        rgb(var(--gl-deep) / calc(var(--glow) * 0.92)) 52%,
-        rgb(var(--gl-deep) / 0) 100%),
+      radial-gradient(circle calc(var(--gr, 220px) * 0.64) at var(--gx, -999px) var(--gy, -999px),
+        rgb(var(--gl-1) / calc(var(--glow) * 0.85)) 0%,
+        rgb(var(--gl-2) / calc(var(--glow) * 0.55)) 55%,
+        rgb(var(--gl-2) / 0) 100%),
+      radial-gradient(circle calc(var(--gr, 220px) * 1.05) at var(--hx, -999px) var(--hy, -999px),
+        rgb(var(--gl-3) / calc(var(--glow) * 0.8)) 0%,
+        rgb(var(--gl-2) / calc(var(--glow) * 0.4)) 55%,
+        rgb(var(--gl-2) / 0) 100%),
+      radial-gradient(circle calc(var(--gr, 220px) * 1.45) at var(--kx, -999px) var(--ky, -999px),
+        rgb(var(--gl-4) / calc(var(--glow) * 0.75)) 0%,
+        rgb(var(--gl-3) / calc(var(--glow) * 0.38)) 60%,
+        rgb(var(--gl-3) / 0) 100%),
       linear-gradient(currentColor, currentColor),
       linear-gradient(currentColor, currentColor);
-    background-size: 100% 100%, 100% 100%, 100% 100%, 0 1px;
-    background-position: 0 0, 0 0, 0 0, left bottom;
-    -webkit-background-clip: text, text, text, border-box;
-    background-clip: text, text, text, border-box;
-    transition: --glow 0.45s var(--ease-out), background-size 0.25s var(--ease-out);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 0 1px;
+    background-position: 0 0, 0 0, 0 0, 0 0, left bottom;
+    -webkit-background-clip: text, text, text, text, border-box;
+    background-clip: text, text, text, text, border-box;
+    transition: --glow 0.6s var(--ease-out), background-size 0.25s var(--ease-out);
   }
   .link-u[data-glow][data-lit]:hover {
-    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 1px;
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 1px;
   }
 
   /* Imagens: o contêiner da imagem ganha um véu luminoso discreto */
@@ -250,23 +258,21 @@ body {
     position: relative;
   }
   [data-glow-img][data-lit] {
-    transition: --glow 0.45s var(--ease-out);
+    transition: --glow 0.6s var(--ease-out);
   }
   [data-glow-img][data-lit]::after {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background:
-      radial-gradient(circle var(--gr, 300px) at var(--gx, -999px) var(--gy, -999px),
-        rgb(var(--gl-core) / calc(var(--glow) * 0.5)) 0%,
-        rgb(var(--gl-mid) / calc(var(--glow) * 0.34)) 38%,
-        rgb(var(--gl-deep) / calc(var(--glow) * 0.2)) 68%,
-        rgb(var(--gl-deep) / 0) 100%);
+    background: radial-gradient(circle var(--gr, 300px) at var(--gx, -999px) var(--gy, -999px),
+      rgb(var(--gl-1) / calc(var(--glow) * 0.42)) 0%,
+      rgb(var(--gl-3) / calc(var(--glow) * 0.3)) 42%,
+      rgb(var(--gl-4) / calc(var(--glow) * 0.2)) 70%,
+      rgb(var(--gl-4) / 0) 100%);
     mix-blend-mode: soft-light;
   }
 }
-
 /* ───────── Paleta quente em gradiente ─────────
    Todo fundo de acento (botões, chips, pontos) usa o gradiente vermelho → laranja → âmbar. */
 .bg-accent {
@@ -320,6 +326,11 @@ html.site-cursor .cursor-ring {
   opacity: 0;
   transition: opacity 0.2s ease, scale 0.25s var(--ease-out);
 }
+html.site-cursor[data-theme="light"] .cursor-dot,
+html.site-cursor[data-theme="light"] .cursor-ring {
+  --cursor: #1d1d1f;
+  --cursor-halo: rgb(255 255 255 / 0.6);
+}
 html.site-cursor .cursor-dot {
   width: 6px;
   height: 6px;
@@ -329,17 +340,16 @@ html.site-cursor .cursor-dot {
   box-shadow: 0 0 0 0.5px var(--cursor-halo);
 }
 html.site-cursor .cursor-ring {
-  width: 28px;
-  height: 18px;
-  margin: -9px 0 0 -14px;
-  border-radius: 50%;
-  border: 1px solid var(--cursor);
-  box-shadow: 0 0 0 0.5px var(--cursor-halo), inset 0 0 0 0.5px var(--cursor-halo);
+  /* elipse com 3 cílios (SVG); o centro da elipse fica no ponteiro */
+  width: 36px;
+  height: 28px;
+  margin: -16px 0 0 -18px;
+  transform-origin: 18px 16px;
+  color: var(--cursor);
+  filter: drop-shadow(0 0 0.5px var(--cursor-halo));
 }
-html.site-cursor[data-theme="light"] .cursor-dot,
-html.site-cursor[data-theme="light"] .cursor-ring {
-  --cursor: #1d1d1f;
-  --cursor-halo: rgb(255 255 255 / 0.6);
+html.site-cursor .cursor-ring svg {
+  display: block;
 }
 html.site-cursor .cursor-dot[data-on],
 html.site-cursor .cursor-ring[data-on] {
@@ -353,4 +363,50 @@ html.site-cursor .cursor-dot[data-link] {
 }
 html.site-cursor .cursor-ring[data-down] {
   scale: 0.85;
+}
+
+/* ───────── Capa: entrada, inclinação do memoji e paralaxe do título (ver components/HeroPointer.tsx) ───────── */
+.hero-rise {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: hero-rise 0.9s var(--ease-out) forwards;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes hero-rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise {
+    transform: none;
+    animation: fade 0.3s ease forwards;
+  }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  #hero [data-memoji] {
+    transform: perspective(900px) translate3d(calc(var(--mx, 0) * 9px), calc(var(--my, 0) * 6px), 0)
+      rotateY(calc(var(--mx, 0) * 9deg)) rotateX(calc(var(--my, 0) * -8deg));
+    scale: 1;
+    transition: scale 0.5s var(--ease-out);
+    will-change: transform;
+  }
+  #hero [data-memoji]:hover {
+    scale: 1.07;
+  }
+  #hero [data-hero-title] {
+    translate: calc(var(--mx, 0) * -12px) calc(var(--my, 0) * -7px);
+    scale: 1;
+    transition: scale 0.5s var(--ease-out);
+  }
+  #hero [data-hero-title]:hover {
+    scale: 1.018;
+  }
+  [data-pupil] {
+    transform: translate(var(--ex, 0px), var(--ey, 0px));
+  }
+  [data-hl] {
+    transform: translate(calc(var(--ex, 0px) * 0.3), calc(var(--ey, 0px) * 0.3));
+  }
 }
