@@ -20,21 +20,32 @@ export default async function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="container-x flex min-h-[calc(100dvh-4rem)] flex-col justify-end pb-16 pt-24 md:pb-24">
-        <h1 className="display text-[clamp(3.25rem,10.8vw,10.5rem)]">
-          <span className="line-mask"><span style={{ "--d": "60ms" } as React.CSSProperties}>Oi!</span></span>
-          <span className="line-mask"><span style={{ "--d": "160ms" } as React.CSSProperties}>Eu sou o Amirati!</span></span>
+      <section className="container-x flex min-h-[calc(100dvh-4rem)] flex-col items-center justify-center pb-20 pt-16 text-center">
+        <span className="line-mask mx-auto">
+          <span style={{ "--d": "0ms" } as React.CSSProperties}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/memoji.png"
+              alt="Memoji do Amirati"
+              width={248}
+              height={282}
+              draggable={false}
+              data-no-glow
+              className="mx-auto block h-auto w-[clamp(7rem,13vw,11.5rem)]"
+            />
+          </span>
+        </span>
+        <h1 className="display mt-8 max-w-[14ch] text-balance text-[clamp(3rem,9.4vw,8.5rem)] md:mt-10">
+          <span className="line-mask"><span style={{ "--d": "120ms" } as React.CSSProperties}>oi! eu sou o amirati!</span></span>
         </h1>
-        <div className="mt-12 flex flex-col justify-between gap-8 md:flex-row md:items-end">
-          <p className="max-w-md text-xl text-muted md:text-2xl">{site.tagline}</p>
-          <div className="flex flex-wrap gap-3">
-            <Link href="#contato" className="btn rounded-full bg-accent px-7 py-4 font-medium text-on-accent">
-              Pedir orçamento
-            </Link>
-            <Link href="#trabalhos" className="btn rounded-full border border-line px-7 py-4 font-medium hover:border-fg">
-              Ver trabalhos
-            </Link>
-          </div>
+        <p className="mt-6 text-xl text-muted md:text-2xl">{site.tagline}</p>
+        <div className="mt-10 flex flex-wrap justify-center gap-3">
+          <Link href="#contato" className="btn rounded-full bg-accent px-7 py-4 font-medium text-on-accent">
+            Pedir orçamento
+          </Link>
+          <Link href="#trabalhos" className="btn rounded-full border border-line px-7 py-4 font-medium hover:border-fg">
+            Ver trabalhos
+          </Link>
         </div>
       </section>
 

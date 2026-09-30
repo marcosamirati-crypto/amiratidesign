@@ -4,12 +4,12 @@
    Dark é o padrão. O acento (#ea0637) NUNCA é cor de texto no tema claro
    (contraste baixo sobre branco): lá ele só aparece como fundo/chip/borda/hover. */
 :root {
-  --bg: #0a0a0a;
-  --surface: #121212;
-  --surface-2: #1a1a1a;
-  --border: #262626;
-  --fg: #f4f4f2;
-  --muted: #a1a1a1;
+  --bg: #000000;
+  --surface: #0f0f10;
+  --surface-2: #1d1d1f;
+  --border: #2a2a2d;
+  --fg: #f5f5f7;
+  --muted: #86868b;
   --accent: #ff4a1f; /* laranja-vermelho: usado onde só cabe uma cor (foco, checkbox) */
   --accent-gradient: linear-gradient(105deg, #ff2d3d 0%, #ff6a1f 52%, #ffb02e 100%);
   --on-accent: #0a0a0a; /* texto escuro sobre o gradiente quente: contraste alto até no trecho amarelo */
@@ -20,12 +20,12 @@
 }
 
 :root[data-theme="light"] {
-  --bg: #f5f5f3;
-  --surface: #ffffff;
-  --surface-2: #ebebe8;
-  --border: #dcdcd8;
-  --fg: #0a0a0a;
-  --muted: #5b5b5b;
+  --bg: #ffffff;
+  --surface: #f5f5f7;
+  --surface-2: #e8e8ed;
+  --border: #d2d2d7;
+  --fg: #1d1d1f;
+  --muted: #6e6e73;
   --accent-ink: #0a0a0a; /* no claro, "texto de acento" vira o próprio texto */
   color-scheme: light;
 }
@@ -287,7 +287,7 @@ body {
     border-color 0.16s ease;
 }
 
-/* ───────── Cursor em elipse + texto não selecionável (ver components/Cursor.tsx) ───────── */
+/* ───────── Cursor (círculo + elipse de contorno) e texto não selecionável (ver components/Cursor.tsx) ───────── */
 html.site-noselect body {
   -webkit-user-select: none;
   user-select: none;
@@ -302,34 +302,55 @@ html.site-cursor,
 html.site-cursor * {
   cursor: none !important;
 }
-.cursor-ellipse {
+.cursor-dot,
+.cursor-ring {
   display: none;
 }
-html.site-cursor .cursor-ellipse {
+html.site-cursor .cursor-dot,
+html.site-cursor .cursor-ring {
   display: block;
   position: fixed;
   left: 0;
   top: 0;
   z-index: 9999;
-  width: 20px;
-  height: 13px;
-  margin: -6.5px 0 0 -10px;
-  border-radius: 50%;
-  background: var(--accent-gradient);
-  box-shadow: 0 0 0 1px rgb(10 10 10 / 0.35);
   pointer-events: none;
-  rotate: -14deg;
+  /* branco no tema escuro, escuro no claro; halo finíssimo mantém legível sobre imagens */
+  --cursor: #ffffff;
+  --cursor-halo: rgb(0 0 0 / 0.35);
   opacity: 0;
-  scale: 1;
-  transition: opacity 0.2s ease, scale 0.22s var(--ease-out);
+  transition: opacity 0.2s ease, scale 0.25s var(--ease-out);
 }
-html.site-cursor .cursor-ellipse[data-on] {
+html.site-cursor .cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--cursor);
+  box-shadow: 0 0 0 0.5px var(--cursor-halo);
+}
+html.site-cursor .cursor-ring {
+  width: 28px;
+  height: 18px;
+  margin: -9px 0 0 -14px;
+  border-radius: 50%;
+  border: 1px solid var(--cursor);
+  box-shadow: 0 0 0 0.5px var(--cursor-halo), inset 0 0 0 0.5px var(--cursor-halo);
+}
+html.site-cursor[data-theme="light"] .cursor-dot,
+html.site-cursor[data-theme="light"] .cursor-ring {
+  --cursor: #1d1d1f;
+  --cursor-halo: rgb(255 255 255 / 0.6);
+}
+html.site-cursor .cursor-dot[data-on],
+html.site-cursor .cursor-ring[data-on] {
   opacity: 1;
 }
-html.site-cursor .cursor-ellipse[data-link] {
-  scale: 2.3;
-  opacity: 0.55;
+html.site-cursor .cursor-ring[data-link] {
+  scale: 1.7;
 }
-html.site-cursor .cursor-ellipse[data-down] {
-  scale: 0.8;
+html.site-cursor .cursor-dot[data-link] {
+  scale: 0;
+}
+html.site-cursor .cursor-ring[data-down] {
+  scale: 0.85;
 }

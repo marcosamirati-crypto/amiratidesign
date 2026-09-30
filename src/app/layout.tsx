@@ -14,19 +14,19 @@ const stack = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: `${site.name} — ${site.headline}`, template: `%s — ${site.name}` },
+  title: { default: "Portfólio do Amirati", template: "%s — Portfólio do Amirati" },
   description: site.description,
   openGraph: {
     type: "website",
-    siteName: site.name,
-    title: `${site.name} — ${site.headline}`,
+    siteName: "Portfólio do Amirati",
+    title: "Portfólio do Amirati",
     description: site.description,
     locale: "pt_BR",
   },
   twitter: { card: "summary_large_image" },
 };
 
-export const viewport: Viewport = { themeColor: "#0a0a0a" };
+export const viewport: Viewport = { themeColor: "#000000" };
 
 // Aplica o tema salvo antes da pintura (evita flash). Padrão: escuro.
 const themeScript = `try{var t=localStorage.getItem('theme')||'dark';document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='dark'}`;

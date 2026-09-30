@@ -58,6 +58,7 @@ export default function CursorLight() {
         track(el, "text");
       }
       document.querySelectorAll("img").forEach((img) => {
+        if (img.hasAttribute("data-no-glow")) return; // imagens com fundo transparente (ex.: memoji)
         const p = img.parentElement;
         if (p && !kinds.has(p) && !p.closest("[aria-hidden='true']")) {
           p.setAttribute("data-glow-img", "");

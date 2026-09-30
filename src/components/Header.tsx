@@ -12,7 +12,7 @@ const nav = [
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-line/60 bg-bg/80 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-line/60 bg-bg/70 backdrop-blur-xl backdrop-saturate-150">
       <div className="container-x flex h-16 items-center justify-between gap-4">
         <Link href="/" className="text-lg font-semibold tracking-tight">
           {site.name}
