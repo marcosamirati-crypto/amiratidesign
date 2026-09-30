@@ -1,8 +1,11 @@
 import Link from "next/link";
+import About from "@/components/About";
 import Contact from "@/components/Contact";
+import Experience from "@/components/Experience";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
-import { about, audience, deliverables, services, site, steps } from "@/content/site";
+import SocialShowcase from "@/components/SocialShowcase";
+import { audience, deliverables, services, site, steps } from "@/content/site";
 import { getPublishedProjects } from "@/lib/data";
 
 export const revalidate = 60;
@@ -10,7 +13,9 @@ export const revalidate = 60;
 const label = "mb-8 text-sm text-muted";
 
 export default async function Home() {
-  const projects = await getPublishedProjects();
+  const all = await getPublishedProjects();
+  const socialProjects = all.filter((p) => p.type === "social-media");
+  const projects = all.filter((p) => p.type !== "social-media");
 
   return (
     <>
@@ -33,19 +38,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Sobre */}
-      <section id="sobre" className="scroll-mt-16 border-t border-line py-24 md:py-40">
-        <div className="container-x grid gap-12 md:grid-cols-12">
-          <Reveal className="md:col-span-3"><p className={label}>/ Sobre</p></Reveal>
-          <Reveal className="md:col-span-9" delay={60}>
-            <h2 className="display text-4xl md:text-7xl">{about.title}</h2>
-            <div className="mt-10 max-w-2xl space-y-5 text-lg text-muted md:text-xl">
-              {about.text.map((t) => <p key={t}>{t}</p>)}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
       {/* Trabalhos */}
       <section id="trabalhos" className="scroll-mt-16 border-t border-line py-24 md:py-40">
         <div className="container-x">
@@ -63,6 +55,13 @@ export default async function Home() {
           )}
         </div>
       </section>
+
+      {/* Social Media (some se não houver projetos do tipo) */}
+      <SocialShowcase projects={socialProjects} />
+
+      <About />
+
+      <Experience />
 
       {/* Serviços */}
       <section id="servicos" className="scroll-mt-16 border-t border-line py-24 md:py-40">

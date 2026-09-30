@@ -27,6 +27,12 @@ export default function Contact() {
             <a href={site.instagramUrl} target="_blank" rel="noreferrer" className="link-u block">
               {site.instagram}
             </a>
+            <a href={site.linkedinUrl} target="_blank" rel="noreferrer" className="link-u block">
+              {site.linkedin}
+            </a>
+            <a href={site.whatsapp} target="_blank" rel="noreferrer" className="link-u block">
+              {site.phone}
+            </a>
           </p>
         </Reveal>
         <Reveal delay={80} className="md:pt-16">

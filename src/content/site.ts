@@ -12,14 +12,46 @@ export const site = {
   email: "marcosamirati@gmail.com",
   instagram: "@amiratidesign",
   instagramUrl: "https://instagram.com/amiratidesign",
+  phone: "+55 (85) 98883-1106",
+  linkedin: "linkedin.com/in/marcosamirati",
+  linkedinUrl: "https://www.linkedin.com/in/marcosamirati",
 };
 
 export const about = {
-  title: "Marcas que ficam na memória.",
+  title: "Sou Amirati, Brand Designer e Art Director de Fortaleza.",
   text: [
-    "A Amirati Design é um estúdio de branding que cuida da marca de ponta a ponta — da ideia ao feed.",
-    "Eu desenho a identidade, organizo o sistema visual e mantenho tudo consistente, para que o seu negócio seja reconhecido antes mesmo de assinar embaixo.",
+    "Minha especialidade é identidade visual e gestão de marcas: crio sistemas de design estratégicos e emocionalmente envolventes para negócios que querem se posicionar com clareza e personalidade.",
+    "Com formação em Publicidade e anos de experiência em agências, startups e como freelancer, uno pensamento conceitual a uma execução visual forte. Meu trabalho conecta branding, produção gráfica e presença digital, transformando ideias em experiências de marca coesas e memoráveis.",
   ],
+  photo: "/amirati.jpg",
+  photoAlt: "Retrato de Amirati",
+  softwares: [
+    { short: "Ps", name: "Photoshop" },
+    { short: "Ai", name: "Illustrator" },
+    { short: "Ae", name: "After Effects" },
+    { short: "Id", name: "InDesign" },
+    { short: "Pr", name: "Premiere Pro" },
+  ],
+};
+export const experience = {
+  title: "Aqui tem um pouco de onde eu já passei…",
+  jobs: [
+    { period: "2017 — atualmente", place: "Brand Designer Freelancer", role: "" },
+    { period: "2025 — 2026", place: "Quitanda Soluções Criativas", role: "Estágio em Design" },
+    { period: "2024 — 2025", place: "Sicredi", role: "Estágio em Marketing" },
+    { period: "2022 — 2023", place: "Rastro Agência Jr.", role: "Diretoria de Projetos" },
+    { period: "2022 — 2023", place: "Caju Benefícios", role: "Estágio em Brand Design" },
+    { period: "2021 — 2022", place: "Voadora Design", role: "Brand Designer Júnior" },
+  ],
+  education: [
+    { period: "2021 — 2027", place: "Universidade Federal do Ceará", role: "Publicidade e Propaganda" },
+    { period: "2016 — 2019", place: "Gracom School of Visual Effects", role: "Curso técnico em Design Gráfico" },
+  ],
+};
+
+export const socialIntro = {
+  title: "Social Media",
+  line: "Posts pensados para a marca ser reconhecida no feed, com identidade e consistência.",
 };
 
 export const projectTypes: Record<string, string> = {

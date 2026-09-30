@@ -33,7 +33,10 @@ export default async function ProjectPage({ params }: Props) {
   const [project, all] = await Promise.all([getProjectBySlug(slug), getPublishedProjects()]);
   if (!project) notFound();
 
-  const images = [project.cover_url, ...project.images].filter((s): s is string => Boolean(s));
+  // A lista `images` já vem na ordem do admin (inclui a capa). Projetos antigos tinham a capa fora da lista.
+  const images = project.images.includes(project.cover_url ?? "")
+    ? project.images
+    : [project.cover_url, ...project.images].filter((s): s is string => Boolean(s));
   const related = pickRelated(project, all);
 
   const info: [string, string | number | null][] = [
@@ -71,15 +74,22 @@ export default async function ProjectPage({ params }: Props) {
           </div>
         </aside>
 
-        <div className="space-y-4 md:space-y-6 lg:order-1">
+        {/* Identidades: pranchetas grandes empilhadas. Social Media: posts (4:5) em grade. */}
+        <div
+          className={
+            project.type === "social-media"
+              ? "grid grid-cols-2 gap-3 md:gap-5 xl:grid-cols-3 lg:order-1"
+              : "space-y-4 md:space-y-6 lg:order-1"
+          }
+        >
           {images.map((src, i) => (
-            <Reveal key={src + i}>
+            <Reveal key={src + i} delay={project.type === "social-media" ? (i % 3) * 40 : 0}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={src}
                 alt={`${project.title} — imagem ${i + 1}`}
                 className="w-full bg-surface-2"
-                loading={i === 0 ? "eager" : "lazy"}
+                loading={i < 2 ? "eager" : "lazy"}
               />
             </Reveal>
           ))}

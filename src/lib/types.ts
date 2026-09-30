@@ -11,6 +11,8 @@ export type Project = {
   external_url: string | null;
   cover_url: string | null;
   images: string[];
+  /** Subconjunto de `images` em destaque (capas de posts). Vazio = usa todas. */
+  highlights?: string[];
   published: boolean;
   sort_order: number;
   created_at: string;

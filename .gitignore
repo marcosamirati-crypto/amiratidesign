@@ -6,3 +6,7 @@ node_modules
 next-env.d.ts
 .vercel
 
+
+# cópias acidentais (OneDrive/Explorer)
+* - Copia*
+*/* - Copia*
