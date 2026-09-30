@@ -103,7 +103,26 @@ function socialProjects() {
   });
 }
 
-const projects = [...identities, ...socialProjects()].filter((p) => p.files.length);
+// Pasta FOTOGRAFIA (ao lado do projeto): fotos soltas viram o projeto "Fotografia";
+// cada subpasta vira uma série (projeto) com o nome da pasta. Fotos .heic (iPhone) não são lidas: exporte como JPG.
+const FOTO = path.join(ROOT, "FOTOGRAFIA");
+const natural = (a, b) => a.localeCompare(b, undefined, { numeric: true });
+function photoProjects() {
+  if (!fs.existsSync(FOTO)) return [];
+  const out = [];
+  const entries = fs.readdirSync(FOTO, { withFileTypes: true });
+  for (const e of entries) if (e.isFile() && /\.hei[cf]$/i.test(e.name)) console.warn(`  ? ignorado (HEIC não suportado, exporte como JPG): ${e.name}`);
+  const loose = entries.filter((e) => e.isFile() && isImg(e.name)).map((e) => e.name).sort(natural).map((n) => path.join(FOTO, n));
+  if (loose.length) out.push({ slug: "fotografia", title: "Fotografia", type: "fotografia", order: 30, published: true, files: loose });
+  entries.filter((e) => e.isDirectory()).forEach((d, i) => {
+    const dir = path.join(FOTO, d.name);
+    const files = fs.readdirSync(dir).filter(isImg).sort(natural).map((n) => path.join(dir, n));
+    out.push({ slug: slugify(d.name), title: d.name, type: "fotografia", order: 31 + i, published: true, files });
+  });
+  return out;
+}
+
+const projects = [...identities, ...socialProjects(), ...photoProjects()].filter((p) => p.files.length);
 
 // ───────── simulação ─────────
 console.log(`\nPasta base: ${ROOT}\n`);

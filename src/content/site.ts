@@ -54,10 +54,16 @@ export const socialIntro = {
   line: "Posts pensados para a marca ser reconhecida no feed, com identidade e consistência.",
 };
 
+export const photoIntro = {
+  title: "Fotografia",
+  line: "Fotografias feitas por mim: o olhar por trás dos projetos.",
+};
+
 export const projectTypes: Record<string, string> = {
   "identidade-visual": "Identidade Visual",
   branding: "Branding",
   "social-media": "Social Media",
+  fotografia: "Fotografia",
 };
 
 export const services = [

@@ -365,48 +365,22 @@ html.site-cursor .cursor-ring[data-down] {
   scale: 0.85;
 }
 
-/* ───────── Capa: entrada, inclinação do memoji e paralaxe do título (ver components/HeroPointer.tsx) ───────── */
-.hero-rise {
-  opacity: 0;
-  transform: translateY(24px);
-  animation: hero-rise 0.9s var(--ease-out) forwards;
-  animation-delay: var(--d, 0ms);
+/* ───────── Capa: a fotografia ocupa a tela; entra com um zoom-out lento (um único gesto de entrada) ───────── */
+.hero-photo {
+  animation: hero-photo 1.6s var(--ease-out) both;
 }
-@keyframes hero-rise {
+@keyframes hero-photo {
+  from {
+    opacity: 0;
+    transform: scale(1.06);
+  }
   to {
     opacity: 1;
     transform: none;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-rise {
-    transform: none;
-    animation: fade 0.3s ease forwards;
-  }
-}
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  #hero [data-memoji] {
-    transform: perspective(900px) translate3d(calc(var(--mx, 0) * 9px), calc(var(--my, 0) * 6px), 0)
-      rotateY(calc(var(--mx, 0) * 9deg)) rotateX(calc(var(--my, 0) * -8deg));
-    scale: 1;
-    transition: scale 0.5s var(--ease-out);
-    will-change: transform;
-  }
-  #hero [data-memoji]:hover {
-    scale: 1.07;
-  }
-  #hero [data-hero-title] {
-    translate: calc(var(--mx, 0) * -12px) calc(var(--my, 0) * -7px);
-    scale: 1;
-    transition: scale 0.5s var(--ease-out);
-  }
-  #hero [data-hero-title]:hover {
-    scale: 1.018;
-  }
-  [data-pupil] {
-    transform: translate(var(--ex, 0px), var(--ey, 0px));
-  }
-  [data-hl] {
-    transform: translate(calc(var(--ex, 0px) * 0.3), calc(var(--ey, 0px) * 0.3));
+  .hero-photo {
+    animation: fade 0.3s ease both;
   }
 }

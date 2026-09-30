@@ -1,8 +1,7 @@
-import Link from "next/link";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Experience from "@/components/Experience";
-import HeroPointer from "@/components/HeroPointer";
+import PhotoShowcase from "@/components/PhotoShowcase";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
 import SocialShowcase from "@/components/SocialShowcase";
@@ -16,54 +15,32 @@ const label = "mb-8 text-sm text-muted";
 export default async function Home() {
   const all = await getPublishedProjects();
   const socialProjects = all.filter((p) => p.type === "social-media");
-  const projects = all.filter((p) => p.type !== "social-media");
+  const photoProjects = all.filter((p) => p.type === "fotografia");
+  const projects = all.filter((p) => p.type !== "social-media" && p.type !== "fotografia");
 
   return (
     <>
-      {/* Hero */}
-      <section id="hero" className="container-x flex min-h-[calc(100dvh-4rem)] flex-col items-center justify-center pb-20 pt-16 text-center">
-        <HeroPointer />
-        <div className="hero-rise mx-auto" style={{ "--d": "0ms" } as React.CSSProperties}>
-          <div data-memoji className="relative mx-auto w-[clamp(7rem,13vw,11.5rem)]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/memoji.png" alt="Memoji do Amirati" width={248} height={282} draggable={false} data-no-glow className="block h-auto w-full" />
-            {/* Pupilas: cobrem a original e se movem dentro da íris (HeroPointer). Em repouso ficam idênticas ao desenho. */}
-            <svg id="memoji-eyes" viewBox="0 0 248 282" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full">
-              <defs>
-                <radialGradient id="iris">
-                  <stop offset="0" stopColor="#2a2a2e" />
-                  <stop offset="0.7" stopColor="#3a3a3f" />
-                  <stop offset="1" stopColor="#55555b" />
-                </radialGradient>
-              </defs>
-              {[
-                { cx: 78, cy: 141.3, r: 11.6, hx: 72.7, hy: 135.8 },
-                { cx: 173.3, cy: 149.7, r: 11.4, hx: 164.5, hy: 142.5 },
-              ].map((e) => (
-                <g key={e.cx} data-eye data-cx={e.cx} data-cy={e.cy}>
-                  <circle cx={e.cx} cy={e.cy} r={e.r + 0.7} fill="url(#iris)" />
-                  <g data-pupil>
-                    <circle cx={e.cx} cy={e.cy} r={e.r} fill="#050506" />
-                  </g>
-                  <g data-hl>
-                    <circle cx={e.hx} cy={e.hy} r={3.6} fill="#fff" />
-                  </g>
-                </g>
-              ))}
-            </svg>
-          </div>
-        </div>
-        <h1 data-hero-title className="display mt-8 max-w-[14ch] text-balance text-[clamp(3rem,9.4vw,8.5rem)] md:mt-10">
-          <span className="line-mask"><span style={{ "--d": "120ms" } as React.CSSProperties}>Oi! Eu sou o Amirati!</span></span>
-        </h1>
-        <p className="mt-6 text-sm font-medium uppercase tracking-[0.16em] text-muted md:text-base">{site.tagline}</p>
-        <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <Link href="#contato" className="btn rounded-full bg-accent px-7 py-4 font-medium text-on-accent">
-            Pedir orçamento
-          </Link>
-          <Link href="#trabalhos" className="btn rounded-full border border-line px-7 py-4 font-medium hover:border-fg">
-            Ver trabalhos
-          </Link>
+      {/* Capa: só a fotografia */}
+      <section id="hero" aria-label="Capa" className="relative h-[calc(100dvh-4rem)] min-h-[22rem] w-full overflow-hidden bg-surface-2">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/capa.webp"
+          alt="Fotografia de Marcos Amirati: a obra “A Revolução não é metáfora de nada”, de Gustavo Speridião, no Museu de Arte Contemporânea do Ceará, com uma pessoa de costas observando"
+          width={1226}
+          height={676}
+          fetchPriority="high"
+          draggable={false}
+          className="hero-photo h-full w-full object-cover object-[50%_45%]"
+        />
+      </section>
+
+      {/* Faixa de apresentação: uma linha só */}
+      <section aria-label="Apresentação" className="border-b border-line">
+        <div className="container-x flex flex-wrap items-center justify-center gap-x-4 gap-y-2 py-5 text-center md:py-6">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/memoji.png" alt="" width={248} height={282} draggable={false} data-no-glow className="h-9 w-auto" />
+          <h1 className="text-lg font-semibold tracking-tight md:text-xl">Oi! Eu sou o Amirati!</h1>
+          <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted md:text-sm">{site.tagline}</p>
         </div>
       </section>
 
@@ -87,6 +64,9 @@ export default async function Home() {
 
       {/* Social Media (some se não houver projetos do tipo) */}
       <SocialShowcase projects={socialProjects} />
+
+      {/* Fotografia (some se não houver fotos publicadas) */}
+      <PhotoShowcase projects={photoProjects} />
 
       <About />
 

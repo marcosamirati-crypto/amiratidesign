@@ -1,4 +1,4 @@
-export type ProjectType = "identidade-visual" | "branding" | "social-media";
+export type ProjectType = "identidade-visual" | "branding" | "social-media" | "fotografia";
 
 export type Project = {
   id: string;
