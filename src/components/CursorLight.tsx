@@ -8,9 +8,13 @@ import { useEffect } from "react";
  * contêineres de imagem com `data-glow` / `data-glow-img`, e o CSS (globals.css, bloco "Cursor light")
  * desenha o gradiente a partir de variáveis (--gx/--gy = cursor; --hx/--hy = rastro mais lento).
  *
+ * Nas páginas de marca (.sante-page / .tudo-page), texto em cima de um bloco colorido (chips, cartazes, fichas,
+ * botões) não recebe a luz: o bloco já tem a cor da marca e o gradiente atrapalharia a leitura.
+ *
  * Desligado em touch (sem hover) e com prefers-reduced-motion. O loop de animação só roda enquanto
  * o cursor se move ou há algo apagando.
  */
+const BRAND_PAGES = ".sante-page,.tudo-page";
 const SKIP = "script,style,noscript,svg,button,input,textarea,select,option,code,.sr-only,.btn,.bg-accent,[aria-hidden='true']";
 
 export default function CursorLight() {
@@ -48,13 +52,35 @@ export default function CursorLight() {
       io.observe(el);
     };
 
+    /** Texto dentro de um bloco com fundo próprio (que não é a faixa da seção) numa página de marca. */
+    const blockCache = new WeakMap<HTMLElement, boolean>();
+    function onColoredBlock(el: HTMLElement) {
+      const page = el.closest(BRAND_PAGES);
+      if (!page) return false;
+      const cached = blockCache.get(el);
+      if (cached !== undefined) return cached;
+      let hit = false;
+      for (let p: HTMLElement | null = el; p && p !== page; p = p.parentElement) {
+        const m = getComputedStyle(p).backgroundColor.match(/rgba?\(([^)]+)\)/);
+        if (!m) continue;
+        const parts = m[1].split(",");
+        const a = parts.length > 3 ? parseFloat(parts[3]) : 1;
+        if (a > 0.2) {
+          hit = p.parentElement !== page; // o fundo da própria seção (filha direta da página) não conta
+          break;
+        }
+      }
+      blockCache.set(el, hit);
+      return hit;
+    }
+
     function scan() {
       const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
       let n: Node | null;
       while ((n = tw.nextNode())) {
         if (!n.nodeValue || !n.nodeValue.trim()) continue;
         const el = n.parentElement;
-        if (!el || kinds.has(el) || el.closest(SKIP) || el.closest("[data-no-glow]")) continue;
+        if (!el || kinds.has(el) || el.closest(SKIP) || el.closest("[data-no-glow]") || onColoredBlock(el)) continue;
         el.setAttribute("data-glow", "");
         track(el, "text");
       }
@@ -72,7 +98,7 @@ export default function CursorLight() {
       let r = radii.get(el);
       if (!r) {
         const fs = parseFloat(getComputedStyle(el).fontSize) || 16;
-        r = Math.min(340, Math.max(170, fs * 1.8));
+        r = Math.min(230, Math.max(120, fs * 1.4));
         radii.set(el, r);
       }
       return r;
@@ -122,11 +148,11 @@ export default function CursorLight() {
       for (const el of visible) {
         const rect = el.getBoundingClientRect();
         const kind = kinds.get(el);
-        const r = kind === "img" ? 300 : radiusOf(el);
+        const r = kind === "img" ? 260 : radiusOf(el);
         const dx = Math.max(rect.left - fx, 0, fx - rect.right);
         const dy = Math.max(rect.top - fy, 0, fy - rect.bottom);
         const d = Math.hypot(dx, dy);
-        const on = inside && (kind === "img" ? d === 0 : d < r * 0.9);
+        const on = inside && (kind === "img" ? d === 0 : d < r * 0.4);
         hits.push({ el, l: rect.left, t: rect.top, r, on });
       }
 

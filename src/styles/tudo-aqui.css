@@ -281,7 +281,12 @@ body:has(.tudo-page) .wa-fab {
   stroke-linejoin: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  animation: t-draw 1.1s var(--ease-out) 0.15s forwards;
+  animation: t-draw 1.1s var(--ease-out) 0.15s forwards, t-solid 0.01s linear 1.3s forwards;
+}
+@keyframes t-solid {
+  to {
+    stroke-dasharray: none;
+  }
 }
 @keyframes t-draw {
   to {
@@ -1224,8 +1229,9 @@ body:has(.tudo-page) .wa-fab {
 }
 .r-humana .hand {
   position: absolute;
+  z-index: 2;
   left: 10%;
-  bottom: 22%;
+  bottom: 38%;
   font-family: "Brown Cookies", sans-serif;
   font-size: 2.2rem;
   line-height: 1;
@@ -1233,9 +1239,10 @@ body:has(.tudo-page) .wa-fab {
 }
 .r-humana .wave {
   position: absolute;
+  z-index: 1;
   left: 8%;
-  bottom: 10%;
-  width: 46%;
+  bottom: 12%;
+  width: min(46%, 9.5rem);
   fill: none;
   stroke: var(--az);
   stroke-width: 3;
@@ -1786,7 +1793,7 @@ body:has(.tudo-page) .wa-fab {
   stroke-linejoin: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  animation: t-draw 1.3s ease-in-out 0.1s forwards;
+  animation: t-draw 1.3s ease-in-out 0.1s forwards, t-solid 0.01s linear 1.5s forwards;
 }
 .sc-pocket span {
   position: relative;
@@ -2208,6 +2215,7 @@ body:has(.tudo-page) .wa-fab {
   .sr-line,
   .spk-line {
     stroke-dashoffset: 0;
+    stroke-dasharray: none;
   }
   .t-badge-stitch,
   .sr-pin,
