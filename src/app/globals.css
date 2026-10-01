@@ -376,6 +376,8 @@ html.site-cursor .cursor-ring[data-down] {
 
 .hero {
   --hero-h: max(100svh, 34rem);
+  --iw: calc(var(--hero-h) * 16 / 9);
+  --ox: calc((var(--iw) - 100vw) * -0.3);
   position: relative;
   height: var(--hero-h);
   overflow: hidden;
@@ -423,6 +425,13 @@ html.site-cursor .cursor-ring[data-down] {
 .hero-arm {
   z-index: 3;
   pointer-events: none;
+  clip-path: var(--arm-d);
+}
+/* a capa preenche a parte visível da tela (com a barra do navegador do celular aberta) */
+@supports (height: 100dvh) {
+  .hero {
+    --hero-h: max(100dvh, 34rem);
+  }
 }
 .hero-arrow {
   position: absolute;
@@ -468,22 +477,22 @@ html.site-cursor .cursor-ring[data-down] {
     container-type: normal;
   }
   .hero-img {
-    object-position: 24% 50%;
+    object-position: 30% 50%;
   }
   .hero-arm {
-    display: none;
+    clip-path: var(--arm-m);
   }
   .hero-title {
     left: 0;
     right: 0;
-    top: 14svh;
-    padding-inline: 10vw;
+    top: 49.9%;
+    padding-inline: 0;
     text-align: center;
-    font-size: clamp(1.05rem, 4.6vw, 1.45rem);
+    font-size: clamp(1.1rem, 4.9vw, 1.55rem);
     line-height: 1.15;
-    letter-spacing: -0.02em;
-    white-space: normal;
-    text-shadow: 0 1px 18px rgb(150 10 0 / 0.4);
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    text-shadow: 0 1px 18px rgb(150 10 0 / 0.35);
   }
   /* no celular rolar para baixo já é o gesto natural: sem seta */
   .hero-arrow {
