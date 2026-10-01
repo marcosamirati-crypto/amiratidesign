@@ -12,7 +12,7 @@ export default function About() {
             <img
               src={about.photo}
               alt={about.photoAlt}
-              className="aspect-[2/3] w-full bg-surface-2 object-cover object-center"
+              className="aspect-[5/4] w-full bg-surface-2 object-cover object-[50%_30%] md:aspect-[2/3] md:object-center"
               loading="lazy"
             />
           </Reveal>

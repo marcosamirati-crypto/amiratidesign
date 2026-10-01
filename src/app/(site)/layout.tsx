@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CursorLight from "@/components/CursorLight";
 import Cursor from "@/components/Cursor";
+import WhatsAppFab from "@/components/WhatsAppFab";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,6 +12,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <Footer />
       <CursorLight />
       <Cursor />
+      <WhatsAppFab />
     </>
   );
 }

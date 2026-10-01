@@ -8,7 +8,7 @@ export const site = {
     "Estúdio de branding especializado em gestão de marcas. Identidade visual, projetos de branding e gestão gráfica de redes sociais.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   whatsapp:
-    "https://api.whatsapp.com/send/?phone=8598883106&text&type=phone_number&app_absent=0",
+    "https://wa.me/5585988831106",
   email: "marcosamirati@gmail.com",
   instagram: "@amiratidesign",
   instagramUrl: "https://instagram.com/amiratidesign",

@@ -32,7 +32,11 @@ export const viewport: Viewport = { themeColor: "#151314" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" data-theme="dark" className={stack.variable}>
+    <html lang="pt-BR" data-theme="dark" className={stack.variable} suppressHydrationWarning>
+      <head>
+        {/* sinaliza JS ativo antes da pintura: as animações de entrada só "escondem" conteúdo quando há JS */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body className="min-h-dvh antialiased">{children}</body>
     </html>
   );

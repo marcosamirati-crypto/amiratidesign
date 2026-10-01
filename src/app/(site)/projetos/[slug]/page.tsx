@@ -4,6 +4,7 @@ import Contact from "@/components/Contact";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
 import { projectTypes } from "@/content/site";
+import { brandPages } from "@/components/brand/registry";
 import { getProjectBySlug, getPublishedProjects, pickRelated } from "@/lib/data";
 
 export const revalidate = 60;
@@ -45,8 +46,14 @@ export default async function ProjectPage({ params }: Props) {
     ["Ano", project.year],
   ];
 
+  // Páginas de marca (ex.: Santé) têm layout próprio, com gráficos animados; as demais usam o layout padrão.
+  const Brand = brandPages[project.slug];
+
   return (
     <>
+      {Brand ? (
+        <Brand project={project} images={images} />
+      ) : (
       <div className="container-x grid gap-10 pb-10 pt-28 md:pb-16 md:pt-32 lg:grid-cols-[1fr_22rem] lg:gap-16">
         {/* Info: antes das imagens no mobile; sticky à direita no desktop */}
         <aside className="lg:order-2">
@@ -95,6 +102,7 @@ export default async function ProjectPage({ params }: Props) {
           ))}
         </div>
       </div>
+      )}
 
       {related.length > 0 && (
         <section className="border-t border-line py-24 md:py-32">

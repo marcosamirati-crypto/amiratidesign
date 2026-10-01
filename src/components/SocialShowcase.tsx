@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Reveal from "./Reveal";
+import SocialMosaic from "./SocialMosaic";
 import { feed } from "@/content/site";
 import type { Project } from "@/lib/types";
 
@@ -36,13 +37,17 @@ export default function SocialShowcase({ projects }: { projects: Project[] }) {
         <h2 className="display text-[clamp(2.6rem,7vw,7.5rem)] md:col-span-8">{feed.title}</h2>
         <p className="aside max-w-xs text-[1.1rem] text-muted md:col-span-3 md:col-start-10 md:self-end">{feed.aside}</p>
       </div>
-      {/* Grade em linhas (da esquerda para a direita), 2 colunas no celular e 4 no desktop */}
-      <div className="grid grid-cols-2 items-start gap-3 md:gap-5 lg:grid-cols-4">
+      {/* Celular: linhas justificadas (todos os posts da linha com a mesma altura), sem buracos. Desktop: grade em linhas, 4 colunas. */}
+      <SocialMosaic
+        className="md:hidden"
+        blocks={blocks.map((b) => b.map(({ src, project }) => ({ src, slug: project.slug, title: project.title })))}
+      />
+      <div className="hidden md:grid md:grid-cols-2 md:items-start md:gap-5 lg:grid-cols-4">
         {blocks.map((block, i) => (
           <Reveal
             key={block[0].src + i}
             delay={(i % 4) * 50}
-            className={`${block.length > 1 ? "col-span-2" : ""} ${SPAN_LG[block.length]}`}
+            className={`${block.length > 1 ? "md:col-span-2" : ""} ${SPAN_LG[block.length]}`}
           >
             <div className="flex">
               {block.map(({ src, project }, k) => (
