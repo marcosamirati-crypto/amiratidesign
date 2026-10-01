@@ -1,59 +1,42 @@
-import HeroMotion from "./HeroMotion";
-import { hero } from "@/content/story";
-
-/** Cada palavra vira um conjunto de letras (para a entrada por letra e o peso que reage ao cursor). */
-function Letters({ text, offset }: { text: string; offset: number }) {
-  let i = offset;
-  return (
-    <>
-      {text.split(" ").map((word, w) => (
-        <span key={w} className="hero-word" aria-hidden>
-          {Array.from(word).map((ch) => (
-            <span key={i} data-letter className="hero-letter" style={{ "--i": i++ } as React.CSSProperties}>
-              {ch}
-            </span>
-          ))}
-          {w < text.split(" ").length - 1 ? " " : ""}
-        </span>
-      ))}
-    </>
-  );
-}
-
 /**
- * Pôster de entrada. O fundo cinza do estúdio da foto vira a cor da própria página (a foto se dissolve
- * nas bordas), e o título, em mix-blend-mode: difference, cruza o retrato e o corte para o preto sem
- * perder leitura. O título NÃO passa por cima do rosto.
+ * Capa. No desktop (tela larga) a foto e o título ficam em um "palco" 16:9 que cobre a tela: tudo é
+ * posicionado em % do palco, então o título mantém sempre a mesma relação com o braço. Uma segunda
+ * cópia da foto, recortada só no contorno do braço, fica POR CIMA do título: o texto passa por trás.
+ * Em tela alta (celular/tablet em pé) não há sobreposição: a foto é recortada na pessoa e o título fica embaixo.
  */
+
+// Contorno superior do antebraço (em % do quadro 1920×1080), de cima do cotovelo até a mão, fechando por baixo.
+const ARM = [
+  [24.87, 42.13], [25.65, 45.37], [26.69, 49.07], [27.47, 51.62], [28.91, 51.62], [30.21, 52.08],
+  [31.51, 52.78], [33.46, 53.15], [35.42, 52.87], [36.72, 52.69], [38.02, 53.01], [39.58, 54.86],
+  [39.58, 66], [20, 66], [20, 42.13],
+];
+const ARM_CLIP = `polygon(${ARM.map(([x, y]) => `${x}% ${y}%`).join(", ")})`;
+
+const ALT =
+  "Retrato de Amirati sentado, de camiseta escura, segurando um óculos de lentes vermelhas, sob luz vermelha em degradê";
+
 export default function Hero() {
-  const [l1, l2, l3] = hero.lines;
   return (
-    <section id="hero" aria-label="Apresentação" className="hero">
-      <div className="hero-photo-wrap">
+    <section id="hero" aria-label="Capa" className="hero">
+      <div className="hero-stage">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/amirati-portrait.jpg"
-          alt={hero.alt}
-          width={854}
-          height={1280}
-          fetchPriority="high"
-          draggable={false}
-          data-no-glow
-          className="hero-photo"
-        />
+        <img src="/capa-vermelha.webp" alt={ALT} width={1920} height={1080} fetchPriority="high" draggable={false} data-no-glow className="hero-img" />
+
+        <h1 className="hero-title">
+          <span className="hero-light">Oi! Eu sou o</span> <span className="hero-bold">Amirati!</span>
+        </h1>
+
+        {/* Cópia recortada do braço, acima do título (só decorativa) */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/capa-vermelha.webp" alt="" aria-hidden width={1920} height={1080} draggable={false} data-no-glow className="hero-img hero-arm" style={{ clipPath: ARM_CLIP }} />
+
+        <a href="#trabalhos" className="hero-arrow" aria-label="Ver os trabalhos">
+          <svg width="34" height="44" viewBox="0 0 34 44" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M17 4v34M5 27l12 12 12-12" />
+          </svg>
+        </a>
       </div>
-
-      <h1 className="hero-title" data-hero-title aria-label={hero.lines.join(" ")}>
-        <span className="hero-line hero-l1"><Letters text={l1} offset={0} /></span>
-        <span className="hero-line hero-l2"><Letters text={l2} offset={l1.length} /></span>
-        <span className="hero-line hero-l3"><Letters text={l3} offset={l1.length + l2.length} /></span>
-      </h1>
-
-      <p className="hero-note hero-note-top">{hero.noteTop}</p>
-      <p className="hero-note hero-note-mid">{hero.noteMid}</p>
-      <p className="hero-note hero-note-bottom">{hero.noteBottom}</p>
-
-      <HeroMotion />
     </section>
   );
 }

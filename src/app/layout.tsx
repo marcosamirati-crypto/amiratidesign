@@ -1,20 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Fraunces } from "next/font/google";
 import "./globals.css";
 import { site } from "@/content/site";
 
-// Segunda voz: serifada itálica calorosa, só para observações e notas pequenas.
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  style: ["italic"],
-  axes: ["opsz", "SOFT"],
-  variable: "--font-fraunces",
-  display: "swap",
-  fallback: ["Georgia", "Times New Roman", "serif"],
-});
-
-// Fonte principal (display + corpo). Para trocar: substitua o arquivo em /public/fonts.
+// Fonte única do site (títulos e texto): variações de peso (200–700) fazem o papel de "segunda voz".
+// Para trocar: substitua o arquivo em /public/fonts.
 const stack = localFont({
   src: "../../public/fonts/StackSansHeadline-VariableFont_wght.ttf",
   weight: "200 700",
@@ -33,21 +23,16 @@ export const metadata: Metadata = {
     title: "Portfólio do Amirati",
     description: site.description,
     locale: "pt_BR",
+    images: [{ url: "/capa-vermelha.webp", width: 1920, height: 1080, alt: "Portfólio do Amirati" }],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", images: ["/capa-vermelha.webp"] },
 };
 
-export const viewport: Viewport = { themeColor: "#000000" };
-
-// Aplica o tema salvo antes da pintura (evita flash). Padrão: escuro.
-const themeScript = `try{var t=localStorage.getItem('theme')||'dark';document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='dark'}`;
+export const viewport: Viewport = { themeColor: "#151314" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" data-theme="dark" className={`${stack.variable} ${fraunces.variable}`} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
+    <html lang="pt-BR" data-theme="dark" className={stack.variable}>
       <body className="min-h-dvh antialiased">{children}</body>
     </html>
   );

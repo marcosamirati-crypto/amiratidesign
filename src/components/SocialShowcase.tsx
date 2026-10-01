@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Reveal from "./Reveal";
-import { feed } from "@/content/story";
+import { feed } from "@/content/site";
 import type { Project } from "@/lib/types";
 
 type Post = { src: string; project: Project };
@@ -30,7 +30,8 @@ export default function SocialShowcase({ projects }: { projects: Project[] }) {
   if (blocks.length === 0) return null;
 
   return (
-    <section id="feed" className="scroll-mt-16 border-t border-line px-[4.6vw] py-28 md:px-[3.2vw] md:py-44">
+    <section className="border-t border-line py-24 md:py-40">
+      <div className="container-x">
       <div className="mb-16 grid gap-8 md:mb-24 md:grid-cols-12">
         <h2 className="display text-[clamp(2.6rem,7vw,7.5rem)] md:col-span-8">{feed.title}</h2>
         <p className="aside max-w-xs text-[1.1rem] text-muted md:col-span-3 md:col-start-10 md:self-end">{feed.aside}</p>
@@ -60,6 +61,7 @@ export default function SocialShowcase({ projects }: { projects: Project[] }) {
             </div>
           </Reveal>
         ))}
+      </div>
       </div>
     </section>
   );
