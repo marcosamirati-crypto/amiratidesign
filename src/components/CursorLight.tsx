@@ -54,7 +54,7 @@ export default function CursorLight() {
       while ((n = tw.nextNode())) {
         if (!n.nodeValue || !n.nodeValue.trim()) continue;
         const el = n.parentElement;
-        if (!el || kinds.has(el) || el.closest(SKIP)) continue;
+        if (!el || kinds.has(el) || el.closest(SKIP) || el.closest("[data-no-glow]")) continue;
         el.setAttribute("data-glow", "");
         track(el, "text");
       }

@@ -17,22 +17,6 @@ export const site = {
   linkedinUrl: "https://www.linkedin.com/in/marcosamirati",
 };
 
-export const about = {
-  title: "Sou Amirati, Brand Designer e Art Director de Fortaleza.",
-  text: [
-    "Minha especialidade é identidade visual e gestão de marcas: crio sistemas de design estratégicos e emocionalmente envolventes para negócios que querem se posicionar com clareza e personalidade.",
-    "Com formação em Publicidade e anos de experiência em agências, startups e como freelancer, uno pensamento conceitual a uma execução visual forte. Meu trabalho conecta branding, produção gráfica e presença digital, transformando ideias em experiências de marca coesas e memoráveis.",
-  ],
-  photo: "/amirati.jpg",
-  photoAlt: "Retrato de Amirati",
-  softwares: [
-    { short: "Ps", name: "Photoshop" },
-    { short: "Ai", name: "Illustrator" },
-    { short: "Ae", name: "After Effects" },
-    { short: "Id", name: "InDesign" },
-    { short: "Pr", name: "Premiere Pro" },
-  ],
-};
 export const experience = {
   title: "Aqui tem um pouco de onde eu já passei…",
   jobs: [
@@ -128,8 +112,3 @@ export const steps = [
   { title: "Ajustes", line: "Refinamentos em conjunto até a marca estar exatamente certa." },
   { title: "Entrega", line: "Arquivos organizados e prontos para usar em qualquer meio." },
 ];
-
-export const audience = {
-  title: "Para quem é",
-  text: "Para empreendedores, profissionais e negócios que querem uma marca com presença — e não só um logotipo. Se você quer ser lembrado, levar a imagem a sério e manter consistência nas redes, vamos conversar.",
-};

@@ -47,7 +47,7 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <>
-      <div className="container-x grid gap-10 py-10 md:py-16 lg:grid-cols-[1fr_22rem] lg:gap-16">
+      <div className="container-x grid gap-10 pb-10 pt-28 md:pb-16 md:pt-32 lg:grid-cols-[1fr_22rem] lg:gap-16">
         {/* Info: antes das imagens no mobile; sticky à direita no desktop */}
         <aside className="lg:order-2">
           <div className="lg:sticky lg:top-24">

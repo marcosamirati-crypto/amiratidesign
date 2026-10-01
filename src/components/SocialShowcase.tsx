@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Reveal from "./Reveal";
-import { socialIntro } from "@/content/site";
+import { feed } from "@/content/story";
 import type { Project } from "@/lib/types";
 
 type Post = { src: string; project: Project };
@@ -9,9 +9,8 @@ type Post = { src: string; project: Project };
 const SPAN_LG: Record<number, string> = { 1: "", 2: "lg:col-span-2", 3: "lg:col-span-3", 4: "lg:col-span-4" };
 
 /**
- * Mural de posts da home. A ordem é a da lista de imagens de cada projeto (definida no admin),
- * projeto a projeto. Um destaque marcado como "colado" forma bloco com o anterior (trinca contínua):
- * as imagens ficam lado a lado, sem espaço entre elas.
+ * Mural de posts. A ordem é a da lista de imagens de cada projeto (definida no admin), projeto a projeto.
+ * Um destaque marcado como "colado" forma bloco com o anterior (trinca contínua): lado a lado, sem espaço.
  */
 export default function SocialShowcase({ projects }: { projects: Project[] }) {
   const blocks: Post[][] = [];
@@ -31,40 +30,36 @@ export default function SocialShowcase({ projects }: { projects: Project[] }) {
   if (blocks.length === 0) return null;
 
   return (
-    <section id="social" className="scroll-mt-16 border-t border-line py-24 md:py-40">
-      <div className="container-x">
-        <div className="mb-12 grid gap-6 md:grid-cols-12">
-          <Reveal className="md:col-span-3"><p className="text-sm text-muted">/ {socialIntro.title}</p></Reveal>
-          <Reveal className="md:col-span-9" delay={60}>
-            <p className="display max-w-3xl text-3xl md:text-5xl">{socialIntro.line}</p>
+    <section id="feed" className="scroll-mt-16 border-t border-line px-[4.6vw] py-28 md:px-[3.2vw] md:py-44">
+      <div className="mb-16 grid gap-8 md:mb-24 md:grid-cols-12">
+        <h2 className="display text-[clamp(2.6rem,7vw,7.5rem)] md:col-span-8">{feed.title}</h2>
+        <p className="aside max-w-xs text-[1.1rem] text-muted md:col-span-3 md:col-start-10 md:self-end">{feed.aside}</p>
+      </div>
+      {/* Grade em linhas (da esquerda para a direita), 2 colunas no celular e 4 no desktop */}
+      <div className="grid grid-cols-2 items-start gap-3 md:gap-5 lg:grid-cols-4">
+        {blocks.map((block, i) => (
+          <Reveal
+            key={block[0].src + i}
+            delay={(i % 4) * 50}
+            className={`${block.length > 1 ? "col-span-2" : ""} ${SPAN_LG[block.length]}`}
+          >
+            <div className="flex">
+              {block.map(({ src, project }, k) => (
+                <Link
+                  key={src + k}
+                  href={`/projetos/${project.slug}`}
+                  className="card block min-w-0 flex-1"
+                  aria-label={`Ver projeto ${project.title}`}
+                >
+                  <div className="card-img overflow-hidden bg-surface-2">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={src} alt={`Post de ${project.title}`} className="block w-full" loading="lazy" />
+                  </div>
+                </Link>
+              ))}
+            </div>
           </Reveal>
-        </div>
-        {/* Grade em linhas (da esquerda para a direita), 2 colunas no celular e 4 no desktop */}
-        <div className="grid grid-cols-2 items-start gap-3 md:gap-5 lg:grid-cols-4">
-          {blocks.map((block, i) => (
-            <Reveal
-              key={block[0].src + i}
-              delay={(i % 4) * 50}
-              className={`${block.length > 1 ? "col-span-2" : ""} ${SPAN_LG[block.length]}`}
-            >
-              <div className="flex">
-                {block.map(({ src, project }, k) => (
-                  <Link
-                    key={src + k}
-                    href={`/projetos/${project.slug}`}
-                    className="card block min-w-0 flex-1"
-                    aria-label={`Ver projeto ${project.title}`}
-                  >
-                    <div className="card-img overflow-hidden bg-surface-2">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={src} alt={`Post de ${project.title}`} className="block w-full" loading="lazy" />
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        ))}
       </div>
     </section>
   );

@@ -1,7 +1,18 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { Fraunces } from "next/font/google";
 import "./globals.css";
 import { site } from "@/content/site";
+
+// Segunda voz: serifada itálica calorosa, só para observações e notas pequenas.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  style: ["italic"],
+  axes: ["opsz", "SOFT"],
+  variable: "--font-fraunces",
+  display: "swap",
+  fallback: ["Georgia", "Times New Roman", "serif"],
+});
 
 // Fonte principal (display + corpo). Para trocar: substitua o arquivo em /public/fonts.
 const stack = localFont({
@@ -33,7 +44,7 @@ const themeScript = `try{var t=localStorage.getItem('theme')||'dark';document.do
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" data-theme="dark" className={stack.variable} suppressHydrationWarning>
+    <html lang="pt-BR" data-theme="dark" className={`${stack.variable} ${fraunces.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

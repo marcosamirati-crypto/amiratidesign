@@ -48,6 +48,9 @@ npm run build      # also type-checks; must end with the route table
 - Sections use scroll-reveal (`.reveal` → `.is-in` via IntersectionObserver, 0.7 s). Jumping with `scrollTo` and screenshotting immediately shows a black/blank page or `Screenshot timed out`; wait 1–2 s and retry, or check `getComputedStyle(el).opacity`.
 - If the browser pane is hidden (`document.hidden === true`), IntersectionObserver is suspended and NO `.reveal` block ever gets `.is-in` (sections look blank, `Screenshot timed out`). That is the pane, not a bug: force it with `document.querySelectorAll('.reveal').forEach(e=>e.classList.add('is-in'))` before screenshotting.
 - `npm run import:dry` (no network, no password) prints how `scripts/import-portfolio.mjs` groups the sibling folders `IDENTIDADES VISUAIS/` and `SOCIAL MEDIA/` into projects; `npm run import` uploads (asks admin e-mail/password in the terminal — never ask the user to paste it in chat). Needs `supabase/migrations/0002_highlights.sql` applied first.
+- If 
+pm run build fails with EPERM: unlink '.next\server\app\(site)', OneDrive is holding files in .next. Stop every node process, then empty the folder with obocopy <emptydir> .next /MIR (plain Remove-Item/Directory.Delete can fail), and build again.
+- The home hero (src/components/Hero.tsx) relies on mix-blend-mode: difference for the title and header; screenshots from a hidden pane still show it correctly, but the hover letter-weight effect needs a real pointer.
 - Next 16 renamed `middleware.ts` to `proxy.ts` (`src/proxy.ts`, `export function proxy`).
 - Do not name a top-level export `process` in `src/content/site.ts` — it shadows Node's global (`process.env`) and fails type-check (it is `steps` now).
 - React inserts comment nodes between adjacent text/expressions in SSR HTML, so grepping for `/01` in `fetch` output fails; match on plain text like "O que você recebe".
