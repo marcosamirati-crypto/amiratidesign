@@ -181,11 +181,25 @@ body:has(.sante-page) .nav-pill .nav-link {
 }
 
 .s-stamp {
-  width: min(82vw, 880px, calc(44svh * 1.54));
+  width: min(92vw, 1120px, calc(62svh * 1.54));
   height: auto;
   overflow: visible;
   transform-origin: 50% 62%;
-  animation: s-slam 1.25s cubic-bezier(0.3, 0.7, 0.2, 1) 0.9s both;
+  animation: s-slam 1.25s cubic-bezier(0.3, 0.7, 0.2, 1) 0.9s both, s-idle 7s ease-in-out 2.4s infinite;
+}
+.s-stamp-h {
+  margin: 0;
+  display: block;
+  line-height: 0;
+}
+@keyframes s-idle {
+  0%,
+  100% {
+    transform: rotate(-4deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-2.4deg) translateY(-0.6rem);
+  }
 }
 @keyframes s-slam {
   0% {
@@ -2877,4 +2891,31 @@ body:has(.sante-page) .wa-fab {
   background: #015551;
   color: #fdfbee;
   box-shadow: 0 10px 30px rgb(1 85 81 / 0.4), inset 0 0 0 2px #fdfbee;
+}
+
+/* Luz do cursor com as cores da Santé (cada fundo pede um contraste: a luz nunca some no fundo) */
+.sante-page {
+  --gl-1: 254 79 45;
+  --gl-2: 255 138 92;
+  --gl-3: 87 180 186;
+  --gl-4: 1 112 106;
+}
+.sante-page .is-orange,
+.sante-page .s-hero {
+  --gl-1: 253 251 238;
+  --gl-2: 255 226 170;
+  --gl-3: 87 180 186;
+  --gl-4: 1 85 81;
+}
+.sante-page .is-teal {
+  --gl-1: 254 79 45;
+  --gl-2: 255 150 100;
+  --gl-3: 87 180 186;
+  --gl-4: 253 251 238;
+}
+.sante-page .is-blue {
+  --gl-1: 254 79 45;
+  --gl-2: 253 251 238;
+  --gl-3: 253 251 238;
+  --gl-4: 1 85 81;
 }

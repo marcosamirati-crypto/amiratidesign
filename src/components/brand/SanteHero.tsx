@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { SanteStamp } from "./SanteLogos";
 
-const WORD = "CHEGUEI!";
 const CONFETTI = [
   { dx: "-34vw", dy: "-20vh", r: "-40deg", c: "cream", s: 3.2 },
   { dx: "-24vw", dy: "18vh", r: "30deg", c: "teal", s: 2.4 },
@@ -16,8 +15,8 @@ const CONFETTI = [
 ];
 
 /**
- * "CHEGUEI!": uma onda de quadrados do xadrez se dissolve, o selo da Santé cai e bate na tela (com tremida),
- * as letras de CHEGUEI! pulam uma a uma e quadradinhos voam do impacto. O botão repete a entrada.
+ * Entrada: uma onda de quadrados do xadrez se dissolve, o selo da Santé cai e bate na tela (com tremida)
+ * e quadradinhos voam do impacto. Depois o selo balança devagar. O botão repete a entrada.
  */
 export default function SanteHero({ client, year, kicker }: { client: string; year: string; kicker: string }) {
   const [run, setRun] = useState(0);
@@ -62,13 +61,8 @@ export default function SanteHero({ client, year, kicker }: { client: string; ye
             />
           ))}
         </div>
-        <SanteStamp className="s-stamp" />
-        <h1 className="s-cheguei" aria-label="Cheguei!">
-          {Array.from(WORD).map((ch, i) => (
-            <span key={i} aria-hidden className={`s-letter${ch === "!" ? " is-bang" : ""}`} style={{ "--i": i } as React.CSSProperties}>
-              {ch}
-            </span>
-          ))}
+        <h1 className="s-stamp-h" aria-label={client}>
+          <SanteStamp className="s-stamp" />
         </h1>
         <p className="s-hero-sub">
           {kicker} · {year}
