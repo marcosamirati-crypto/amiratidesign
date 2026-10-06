@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <base href="/osipova/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#000000">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>IA mata Osipova</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23000'/%3E%3Cpath d='M16 6c-2.2 0-3.5 1.6-3.5 3.6S14 13 16 13s3.5-1.4 3.5-3.4S18.2 6 16 6zm0 8c-4 0-7 2-7.5 5.5h15C23 16 20 14 16 14zm-6.5 8h13l1.5 4h-16z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preload" href="fonts/StackSansHeadline.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="css/estilo.css">
+  <script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+</head>
+<body>
+  <canvas id="tela"></canvas>
+
+  <!-- TELA INICIAL -->
+  <section id="splash">
+    <div class="splash-in">
+      <p class="rotulo" id="creditos"></p>
+
+      <svg class="ilustra" viewBox="0 0 320 214" aria-hidden="true">
+        <line class="linha-olho" x1="14" y1="78" x2="306" y2="78"/>
+        <text class="svg-txt" x="4" y="60">ALTURA</text><text class="svg-txt" x="4" y="70">DOS OLHOS</text>
+        <!-- pessoa -->
+        <circle class="tr" cx="110" cy="78" r="30"/>
+        <path class="tr" d="M139 71 l11 8 -11 4"/>
+        <circle class="pt" cx="128" cy="74" r="2.8"/>
+        <path class="tr" d="M98 107 v16 M124 107 v16"/>
+        <path class="tr" d="M40 200 C40 146 66 128 111 128 C156 128 182 146 182 200"/>
+        <!-- braço e celular -->
+        <path class="tr pontilhado" d="M152 150 C176 146 196 132 208 116"/>
+        <g class="celular">
+          <rect class="tr" x="200" y="46" width="38" height="68" rx="7"/>
+          <line class="tr" x1="212" y1="54" x2="226" y2="54"/>
+          <circle class="pt" cx="219" cy="78" r="3.2"/>
+        </g>
+        <!-- giro do corpo -->
+        <path class="giro" d="M56 206 C100 216 160 216 206 204"/>
+        <path class="giro-ponta" d="M198 197 L208 203 L197 209"/>
+      </svg>
+
+      <h1>Coloque seu smartphone<br>na altura dos olhos</h1>
+      <p class="texto">Fique em pé, com espaço livre ao redor. A obra acontece em volta de você: gire o corpo para acompanhá-la. Use fones de ouvido.</p>
+
+      <div class="modos" role="radiogroup" aria-label="Como assistir">
+        <button type="button" class="modo" role="radio" data-modo="orbita"><b>Órbita</b><span>Ela gira 32 vezes ao seu redor</span></button>
+        <button type="button" class="modo" role="radio" data-modo="carrossel"><b>Carrossel</b><span>32 cópias dela em volta de você</span></button>
+        <button type="button" class="modo" role="radio" data-modo="cinema"><b>Cinema</b><span>O vídeo numa tela grande</span></button>
+      </div>
+
+      <p class="nota">Alguns trechos têm movimento rápido e luz intensa. Se sentir tontura, pare e escolha o modo Cinema.</p>
+
+      <div class="acoes">
+        <button type="button" id="btn-pov" class="btn primario" disabled>
+          <span class="rot">Carregando…</span><i class="progresso"></i>
+        </button>
+        <button type="button" id="btn-vr" class="btn" disabled>Usar óculos VR</button>
+      </div>
+
+      <details class="ajustes">
+        <summary>Ajustes do óculos</summary>
+        <label>Distorção da lente <input type="range" id="aj-dist" min="0" max="2" step="0.05"></label>
+        <label>Separação dos olhos <input type="range" id="aj-sep" min="-0.15" max="0.15" step="0.005"></label>
+        <label>Zoom <input type="range" id="aj-zoom" min="0.7" max="1.4" step="0.01"></label>
+        <button type="button" id="aj-zerar" class="mini">Voltar ao padrão</button>
+      </details>
+      <p class="aviso" id="aviso" role="status"></p>
+    </div>
+  </section>
+
+  <!-- gire o celular (modo óculos) -->
+  <div id="girar" hidden>
+    <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="22" y="8" width="20" height="36" rx="4" class="tr" transform="rotate(0 32 26)"/><path class="tr" d="M10 50 A22 22 0 0 0 54 50 M48 44 l6 6 -8 3"/></svg>
+    <p>Gire o celular para a horizontal</p>
+  </div>
+
+  <!-- controles do modo celular -->
+  <div id="controles" hidden>
+    <button type="button" data-acao="pausa" aria-label="Pausar"><svg viewBox="0 0 24 24"><path class="ic-pausa" d="M8 5v14M16 5v14"/><path class="ic-toca" d="M8 5l11 7-11 7z"/></svg></button>
+    <button type="button" data-acao="centro" aria-label="Recentralizar"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5"/></svg></button>
+    <button type="button" data-acao="modo" aria-label="Trocar modo"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="4" r="1.6" class="pt"/><path d="M12 12l6 3"/></svg><em id="nome-modo"></em></button>
+    <button type="button" data-acao="pular" aria-label="Pular para a dança"><svg viewBox="0 0 24 24"><path d="M5 5l8 7-8 7zM15 5v14M19 5v14"/></svg></button>
+    <button type="button" data-acao="tela" aria-label="Tela cheia"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+    <button type="button" data-acao="sair" aria-label="Sair"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+
+  <!-- fim -->
+  <div id="fim" hidden>
+    <p class="rotulo">FIM</p>
+    <div class="acoes">
+      <button type="button" class="btn primario" data-acao="rever">Rever</button>
+      <button type="button" class="btn" data-acao="sair">Voltar ao início</button>
+    </div>
+  </div>
+
+  <noscript><p style="padding:2rem;color:#fff">Este site precisa de JavaScript.</p></noscript>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
