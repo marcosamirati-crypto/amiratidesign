@@ -8,9 +8,11 @@
                     "start":  "next start",
                     "typecheck":  "tsc --noEmit",
                     "import":  "node scripts/import-portfolio.mjs",
-                    "import:dry":  "node scripts/import-portfolio.mjs --dry"
+                    "import:dry":  "node scripts/import-portfolio.mjs --dry",
+                    "elle:plans":  "node scripts/elle-plans.mjs"
                 },
     "dependencies":  {
+                         "@anthropic-ai/sdk":  "^0.132.1",
                          "@supabase/ssr":  "^0.12.7",
                          "@supabase/supabase-js":  "^2.117.2",
                          "next":  "^16.4.0",
@@ -24,6 +26,7 @@
                             "@types/react-dom":  "^19.3.0",
                             "sharp":  "^0.35.5",
                             "tailwindcss":  "^4.3.3",
-                            "typescript":  "^7.0.2"
+                            "typescript":  "^7.0.2",
+                            "unpdf":  "^1.8.1"
                         }
 }

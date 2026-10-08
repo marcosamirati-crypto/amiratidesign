@@ -47,6 +47,49 @@ Nunca use a chave `service_role` neste projeto.
 - **Fonte:** `public/fonts/StackSansHeadline-VariableFont_wght.ttf`, carregada em `src/app/layout.tsx` via `next/font/local`.
 - **Imagens do OG:** cada projeto usa a própria capa (`generateMetadata`).
 
+## ELLE — assistente de debates online (`/elle`)
+
+Experiência separada do portfólio (sem cabeçalho, cursor ou WhatsApp do site). A pessoa envia o print de um comentário; a Elle lê o texto, separa afirmação de opinião, **pesquisa na internet** e nos **planos de governo do TSE**, confere o que a IA escreveu e entrega: o que é fato, o que é opinião, contraponto, fontes e uma resposta pronta (280 / 150 caracteres / com fonte), que ela reescreve com a opinião da pessoa.
+
+**Fluxo e arquivos** (tudo em `src/`):
+
+| Etapa | Onde |
+| --- | --- |
+| Telas, orbe, resultado | `components/elle/`, `styles/elle.css`, `app/elle/` |
+| Orbe (canvas 2D, 6 estados) | `lib/elle/orb-engine.ts` |
+| Textos (voz da Elle, erros, eixos) | `content/elle/copy.ts` |
+| API (a chave fica aqui, no servidor) | `app/api/elle/analyze`, `app/api/elle/personalize` |
+| Pipeline: leitura → buscas → planos → síntese → conferência | `lib/elle/server/pipeline.ts` |
+| Buscador trocável (Tavily, Brave) | `lib/elle/server/search/` |
+| Fontes de nível 1/2/3 (editável) | `lib/elle/server/sources/registry.ts` |
+| Trava anti-invenção | `lib/elle/server/verification.ts` |
+| Instruções da IA | `lib/elle/server/prompts.ts` |
+| Pistas de pesquisa por eixo (editável) | `content/elle/leads.ts` |
+
+**Variáveis de ambiente:** ver `.env.example` (bloco ELLE). Mínimo: `ANTHROPIC_API_KEY` + `TAVILY_API_KEY` (ou `BRAVE_SEARCH_API_KEY`).
+
+**Planos de governo (TSE):** o TSE bloqueia download automático, então baixe os PDFs pelo navegador e rode:
+
+```bash
+npm run elle:plans -- --from "C:\caminho\da\pasta\com\os\pdfs"
+```
+
+O nome de cada arquivo precisa conter `flavio` ou `lula`. O script grava os trechos (com página) em `src/content/elle/plans/`. Rode de novo quando o TSE publicar uma versão nova.
+
+**Modos:** com chaves = real. Sem chaves, só em desenvolvimento = **demonstração** (exemplo fixo, com faixa avisando; nada é pesquisado). Em produção sem chaves a Elle diz que não está disponível.
+
+**Testar o caminho real sem gastar crédito:** `node scripts/elle-fake-apis.mjs` sobe uma IA e um buscador **falsos** (só para teste; erram de propósito para provar a trava). Em outro terminal, rode o site apontando para eles. No PowerShell:
+
+```powershell
+$env:ANTHROPIC_API_KEY="x"; $env:ANTHROPIC_BASE_URL="http://localhost:4010"; $env:TAVILY_API_KEY="x"; $env:TAVILY_BASE_URL="http://localhost:4010"; npm.cmd run dev
+```
+
+(Em Linux/macOS: `ANTHROPIC_API_KEY=x ANTHROPIC_BASE_URL=http://localhost:4010 TAVILY_API_KEY=x TAVILY_BASE_URL=http://localhost:4010 npm run dev`.) O servidor falso aceita `POST /__mode` para simular falhas (ver o comentário no topo de `scripts/elle-fake-apis.mjs`).
+
+**Privacidade:** o print é lido em memória e **não é gravado** pela Elle (nem a imagem, nem o texto lido). Ele é enviado ao serviço de IA para ser lido. Resultados de busca ficam em cache de memória por 30 min (não persistem). O log do servidor guarda só o tipo do erro, nunca o conteúdo.
+
+**Fora do Google:** a página tem `noindex` até o lançamento. Para liberar, troque `robots` em `src/app/elle/layout.tsx`.
+
 ## Backlog
 
 Gerador de propostas comerciais no admin: **não implementado**. O ponto de entrada está documentado em `src/app/admin/(panel)/propostas/README.md`.

@@ -21,6 +21,8 @@ await check("/projetos/nao-existe", { status: 404 });
 await check("/placeholder/pulso-fit-0", { has: ["<svg"] });
 await check("/sitemap.xml", { has: ["/projetos/pulso-fit"] });
 await check("/robots.txt", { has: ["Disallow: /admin"] });
+await check("/elle", { has: ["Envie um print", "A Elle pesquisa o contexto", "noindex"] });
+await check("/api/elle/analyze", { status: 405 }); // só aceita POST
 await check("/admin", { redirect: "/admin/login" });
 await check("/admin/login", { has: ["Entrar"] });
 
