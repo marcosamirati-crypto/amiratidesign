@@ -37,7 +37,7 @@ export default function OgImage() {
         </div>
         <div style={{ position: "absolute", bottom: 52, display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div style={{ fontSize: 58, letterSpacing: -1.5 }}>Envie um print.</div>
-          <div style={{ fontSize: 58, letterSpacing: -1.5, color: "#5c6269" }}>A Elle pesquisa o contexto.</div>
+          <div style={{ fontSize: 58, letterSpacing: -1.5, color: "#5c6269" }}>O Elle pesquisa o contexto.</div>
         </div>
       </div>
     ),

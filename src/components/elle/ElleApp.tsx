@@ -143,7 +143,7 @@ export default function ElleApp() {
               state={orbState}
               interactive={screen === "home"}
               onPress={() => setAbout(true)}
-              label={screen === "home" ? elleCopy.home.orbLabel : screen === "thinking" ? "A Elle está investigando" : "Elle"}
+              label={screen === "home" ? elleCopy.home.orbLabel : screen === "thinking" ? "O Elle está investigando" : "Elle"}
               data-orb="stage"
             />
           </div>

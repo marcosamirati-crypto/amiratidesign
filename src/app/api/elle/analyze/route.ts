@@ -1,5 +1,6 @@
 import { elleCopy } from "@/content/elle/copy";
-import type { ElleErrorCode, ElleEvent } from "@/lib/elle/types";
+import type { Analysis, ElleErrorCode, ElleEvent } from "@/lib/elle/types";
+import { recordEvent } from "@/lib/elle/server/telemetry";
 import { getConfig, getMode, missingEnv } from "@/lib/elle/server/config";
 import { runDemo } from "@/lib/elle/server/demo";
 import { toElleError } from "@/lib/elle/server/errors";
@@ -10,7 +11,9 @@ import type { ImageInput } from "@/lib/elle/server/vision";
 
 // Recebe o print, devolve as etapas reais da pesquisa em fluxo (NDJSON) e, no fim, o resultado.
 // A chave da IA e a do buscador só existem aqui, no servidor. O print não é gravado em lugar nenhum.
-export const maxDuration = 60;
+// 120 s: com o Opus nas duas etapas, 60 s cortava análises no meio (erros "timeout abort").
+// Precisa de Fluid Compute ligado no projeto (padrão em projetos novos da Vercel; limite do Hobby: 300 s).
+export const maxDuration = 120;
 export const dynamic = "force-dynamic";
 
 const messageFor = (code: ElleErrorCode): string => {
@@ -70,14 +73,33 @@ export async function POST(req: Request): Promise<Response> {
   return ndjsonResponse(
     req,
     async (emit, signal) => {
+      const t0 = Date.now();
+      let result: Analysis | null = null;
+      // Observa o resultado para a estatística anônima, sem mudar o que vai para a pessoa.
+      const observe = (e: ElleEvent) => {
+        if (e.type === "result") result = e.analysis;
+        emit(e);
+      };
       try {
-        if (mode === "demo") await runDemo(emit, signal);
-        else await runAnalysis({ image, signal, emit });
+        if (mode === "demo") await runDemo(observe, signal);
+        else await runAnalysis({ image, signal, emit: observe });
+        if (mode === "live") {
+          await (result
+            ? recordEvent({ outcome: "ok", analysis: result, durationMs: Date.now() - t0 })
+            : recordEvent({ outcome: "error", code: "unknown", detail: "no result", durationMs: Date.now() - t0 }));
+        }
       } catch (e) {
         const err = toElleError(e);
         // Log só do tipo do erro: nunca do conteúdo do print.
         console.error("[elle] falha:", err.code, err.message);
         if (!signal.aborted) emit({ type: "error", code: err.code, message: messageFor(err.code), retryable: err.retryable });
+        if (mode === "live") {
+          await recordEvent(
+            signal.aborted
+              ? { outcome: "cancelled", durationMs: Date.now() - t0 }
+              : { outcome: "error", code: err.code, detail: err.message, durationMs: Date.now() - t0 },
+          );
+        }
       }
     },
     gate.release,
