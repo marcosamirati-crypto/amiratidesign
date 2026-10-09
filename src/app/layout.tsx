@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { site } from "@/content/site";
-import { Analytics } from "@vercel/analytics/next";
 
 // Fonte única do site (títulos e texto): variações de peso (200–700) fazem o papel de "segunda voz".
 // Para trocar: substitua o arquivo em /public/fonts.
@@ -38,10 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* sinaliza JS ativo antes da pintura: as animações de entrada só "escondem" conteúdo quando há JS */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
       </head>
-      <body className="min-h-dvh antialiased">
-        {children}
-        <Analytics />
-      </body>
+      <body className="min-h-dvh antialiased">{children}</body>
     </html>
   );
 }
