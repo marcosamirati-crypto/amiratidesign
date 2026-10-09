@@ -41,8 +41,14 @@ export function getConfig() {
     rateDay: { max: num(env.ELLE_RATE_PER_DAY, 30), windowMs: 24 * 60 * 60_000 },
     maxConcurrent: num(env.ELLE_MAX_CONCURRENT, 6),
     maxImageBytes: 4 * 1024 * 1024,
-    // A rota tem maxDuration = 60 s; fica folga para responder o erro com educação.
-    budget: { totalMs: 54_000, readMs: 22_000, searchMs: 11_000, minWriteMs: 14_000 },
+    // A rota tem maxDuration = 120 s; fica folga para responder o erro com educação e gravar a estatística.
+    // Ajustável sem deploy: ELLE_BUDGET_MS (ex.: 54000 para voltar ao limite antigo de 60 s).
+    budget: {
+      totalMs: Math.min(num(env.ELLE_BUDGET_MS, 110_000), 115_000),
+      readMs: 35_000,
+      searchMs: 15_000,
+      minWriteMs: 14_000,
+    },
   };
 }
 

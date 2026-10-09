@@ -1,4 +1,4 @@
-// Toda a copy da Elle fica aqui — edite sem mexer nos componentes.
+// Toda a copy do Elle fica aqui — edite sem mexer nos componentes.
 // Voz: calma, curiosa, objetiva; nunca arrogante, nunca partidária.
 
 import type { CategoryId, ElleErrorCode, FactStatus, StageId } from "@/lib/elle/types";
@@ -8,26 +8,26 @@ export const elleCopy = {
   tagline: "Assistente de debates online",
   home: {
     line1: "Envie um print.",
-    line2: "A Elle pesquisa o contexto.",
+    line2: "O Elle pesquisa o contexto.",
     action: "Enviar um print",
     hintDesktop: "Ou arraste a imagem para cá, ou cole com Ctrl+V.",
     hintTouch: "Ou cole a imagem aqui.",
     camera: "Usar a câmera",
     privacy: "Seu print é usado apenas para realizar a análise.",
     privacyDetail:
-      "Ele é enviado ao serviço de IA que o lê e a Elle não guarda a imagem.",
+      "Ele é enviado ao serviço de IA que o lê e o Elle não guarda a imagem. Para melhorar a ferramenta, o Elle conta apenas estatísticas anônimas de uso (como o tema do debate), sem guardar o print, o texto ou dados de quem enviou.",
     drop: "Solte o print aqui",
-    orbLabel: "Conhecer a Elle",
+    orbLabel: "Conhecer o Elle",
   },
   preview: {
     title: "Esse é o print?",
     alt: "Prévia do print enviado",
     swap: "Trocar imagem",
     cancel: "Cancelar",
-    go: "Investigar com a Elle",
+    go: "Investigar com o Elle",
   },
   thinking: {
-    title: "A Elle está investigando…",
+    title: "O Elle está investigando…",
     cancel: "Cancelar",
     demo: "Modo de demonstração: nada está sendo pesquisado.",
   },
@@ -64,12 +64,12 @@ export const elleCopy = {
       suggested: "Resposta sugerida",
       followUps: "Se a pessoa retrucar",
       broad: "Argumento amplo do eixo",
-      opinion: "Agora deixe a Elle entender você",
+      opinion: "Agora deixe o Elle entender você",
       yours: "Sua resposta",
     },
     noFacts: "Não encontrei fatos verificáveis aqui. Esse ponto depende mais de opinião do que de dados.",
     opinionLabel: "Qual é a sua opinião sobre isso?",
-    opinionHint: "Escreva do seu jeito. A Elle usa só o que você digitar aqui.",
+    opinionHint: "Escreva do seu jeito. O Elle usa só o que você digitar aqui.",
     opinionPlaceholder: "Eu acho que…",
     opinionAction: "Escrever com a minha opinião",
     opinionWorking: "Escrevendo…",
@@ -120,15 +120,15 @@ export const elleCopy = {
       body: "Nada foi perdido. Tente de novo.",
     },
     network: {
-      title: "Não consegui falar com a Elle.",
+      title: "Não consegui falar com o Elle.",
       body: "Parece que a conexão caiu. Confira a internet e tente de novo.",
     },
     rate_limited: {
-      title: "Muita gente chamando a Elle agora.",
+      title: "Muita gente chamando o Elle agora.",
       body: "Espere alguns minutos e tente de novo.",
     },
     unavailable: {
-      title: "A Elle não está disponível agora.",
+      title: "O Elle não está disponível agora.",
       body: "Ainda não está conectada ou está fora do ar. Tente mais tarde.",
     },
     bad_request: {
@@ -143,9 +143,9 @@ export const elleCopy = {
     other: "Escolher outro print",
   } satisfies Record<ElleErrorCode | "retry" | "other", string | { title: string; body: string }>,
   about: {
-    title: "Oi. Eu sou a Elle.",
+    title: "Oi. Eu sou o Elle.",
     subtitle: "Seu assistente de debates online.",
-    body: "A Elle lê comentários a partir de prints, pesquisa o contexto na internet, compara argumentos com fontes confiáveis e ajuda você a construir respostas mais informadas.",
+    body: "O Elle lê comentários a partir de prints, pesquisa o contexto na internet, compara argumentos com fontes confiáveis e ajuda você a construir respostas mais informadas.",
     close: "Fechar",
     categoriesTitle: "Quatro eixos para debater",
     credit1: "Criado por",
