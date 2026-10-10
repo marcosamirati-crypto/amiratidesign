@@ -31,9 +31,13 @@ export function getConfig() {
     searchProvider,
     tavilyBaseUrl: (env.TAVILY_BASE_URL ?? "https://api.tavily.com").replace(/\/+$/, ""),
     braveBaseUrl: (env.BRAVE_BASE_URL ?? "https://api.search.brave.com").replace(/\/+$/, ""),
-    // Modelos por etapa. Padrão: Claude Opus 5.5. Para ficar mais rápido/barato: claude-sonnet-5-5 ou claude-haiku-5-5.
-    modelRead: (env.ELLE_MODEL_READ ?? "claude-opus-5-5").trim(),
-    modelWrite: (env.ELLE_MODEL_WRITE ?? "claude-opus-5-5").trim(),
+    // Modelos por etapa, escolhidos pelo custo. Ler o print é tarefa simples (Haiku); a análise pede mais (Sonnet);
+    // reescrever a resposta com a opinião da pessoa é curto (Haiku). Para voltar ao mais caro: claude-opus-5-5.
+    modelRead: (env.ELLE_MODEL_READ ?? "claude-haiku-5-5").trim(),
+    modelWrite: (env.ELLE_MODEL_WRITE ?? "claude-sonnet-5-5").trim(),
+    modelPersonalize: (env.ELLE_MODEL_PERSONALIZE ?? "claude-haiku-5-5").trim(),
+    // Teto de buscas na internet por análise (cada busca gasta crédito do buscador). Antes: 7.
+    maxSearches: Math.min(num(env.ELLE_MAX_SEARCHES, 4), 7),
     enabled: env.ELLE_ENABLED !== "0",
     forceDemo: env.ELLE_DEMO === "1",
     // Limites de uso por pessoa (IP). Melhor esforço: cada instância da Vercel conta sozinha.

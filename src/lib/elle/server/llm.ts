@@ -40,7 +40,8 @@ export async function generateJson<T>(call: JsonCall<T>): Promise<T> {
   const params: Anthropic.MessageCreateParamsNonStreaming = {
     model: call.model,
     max_tokens: call.maxTokens,
-    system: call.system,
+    // O prompt de sistema é igual em toda análise: fica em cache e as próximas leituras dele custam ~5-10% do preço.
+    system: [{ type: "text", text: call.system, cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: call.content }],
     output_config: {
       format: { type: "json_schema", schema: call.schema },

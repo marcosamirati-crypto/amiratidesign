@@ -22,9 +22,10 @@ export interface SearchTask extends SearchRequest {
 
 /**
  * Do conjunto de perguntas à lista de buscas: para cada pergunta, uma busca em fontes de NÍVEL 1
- * (oficiais) e uma em NÍVEL 2 (imprensa de alto nível e checagem). Máximo de 7 buscas por análise.
+ * (oficiais) e uma em NÍVEL 2 (imprensa de alto nível e checagem). O teto vem de ELLE_MAX_SEARCHES (padrão 4).
+ * As perguntas do modelo vêm em ordem de importância, então cortar no fim preserva as mais relevantes.
  */
-export function planSearches(reading: Reading, lead?: string | null): SearchTask[] {
+export function planSearches(reading: Reading, lead?: string | null, max = 4): SearchTask[] {
   const topics: Array<CategoryId | "geral"> = reading.topics.length ? reading.topics : ["geral"];
   const tasks: SearchTask[] = [];
   // Com pista do eixo, ficam 2 perguntas do modelo + 1 pista: no máximo 3 perguntas, 6 buscas.
@@ -38,7 +39,7 @@ export function planSearches(reading: Reading, lead?: string | null): SearchTask
       tasks.push({ question: q.query, query: q.query, domains: getNewsSources(), freshness: q.freshness, news: true, limit: 5, label: "imprensa" });
     }
   }
-  return tasks.slice(0, 7);
+  return tasks.slice(0, Math.max(1, Math.min(max, 7)));
 }
 
 /** Escolhe, entre as pistas do eixo principal, a que mais combina com o que o comentário diz. */
