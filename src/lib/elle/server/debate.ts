@@ -130,7 +130,7 @@ export async function personalizeReply(req: PersonalizeRequest, signal: AbortSig
     .join("\n");
 
   const out = await generateJson({
-    model: c.modelWrite,
+    model: c.modelPersonalize,
     system: PERSONALIZE_SYSTEM,
     content,
     schema: PERSONALIZE_SCHEMA as unknown as Record<string, unknown>,
