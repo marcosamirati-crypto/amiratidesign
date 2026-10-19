@@ -49,7 +49,7 @@ export async function runAnalysis({ image, signal, emit }: PipelineArgs): Promis
   const retrievedAt = new Date().toISOString();
   const notes: string[] = [];
   const evidenceAll: Evidence[] = [];
-  const tasks = checkable.length || reading.research_questions.length ? planSearches(reading, pickLead(reading)) : [];
+  const tasks = checkable.length || reading.research_questions.length ? planSearches(reading, pickLead(reading), c.maxSearches) : [];
   let searchesOk = 0;
   let searchErrors = 0;
   let authFailed = false;

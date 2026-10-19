@@ -23,6 +23,11 @@ export function toElleError(err: unknown): ElleError {
     return new ElleError("unavailable", "api auth", false);
   }
   if (err instanceof Anthropic.APIError) {
+    // Créditos da API acabaram: a Anthropic responde 400 com "credit balance". Vira "unavailable"
+    // (a pessoa vê que o Elle está fora do ar, não um erro genérico) e o log diz "api 400 credit".
+    if (err.status === 400 && /credit balance/i.test(err.message)) {
+      return new ElleError("unavailable", "api 400 credit", false);
+    }
     // 400 com imagem inválida, 5xx etc.
     return new ElleError(err.status && err.status >= 500 ? "unavailable" : "unknown", `api ${err.status}`);
   }
