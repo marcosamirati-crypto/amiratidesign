@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IPES App Teste</title>
+<meta name="description" content="Mapa dos 184 municípios do Ceará, oportunidades internacionais abertas e o retrato de potencial de cada entidade. Versão de teste do Instituto de Paradiplomacia e Entes Subnacionais.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0F2A25">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-50%20-50%20100%20100%22%3E%3Cpath%20d%3D%22M0%200C10.1%20-17%2C36.8%20-10.5%2C46%200C36.8%2010.5%2C10.1%2017%2C0%200Z%22%20transform%3D%22rotate(-90)%22%20fill%3D%22%23FF4F88%22%2F%3E%3Cpath%20d%3D%22M0%200C10.1%20-17%2C36.8%20-10.5%2C46%200C36.8%2010.5%2C10.1%2017%2C0%200Z%22%20transform%3D%22rotate(-18)%22%20fill%3D%22%23FF8B9B%22%2F%3E%3Cpath%20d%3D%22M0%200C10.1%20-17%2C36.8%20-10.5%2C46%200C36.8%2010.5%2C10.1%2017%2C0%200Z%22%20transform%3D%22rotate(54)%22%20fill%3D%22%23FF4F88%22%2F%3E%3Cpath%20d%3D%22M0%200C10.1%20-17%2C36.8%20-10.5%2C46%200C36.8%2010.5%2C10.1%2017%2C0%200Z%22%20transform%3D%22rotate(126)%22%20fill%3D%22%23FF8B9B%22%2F%3E%3Cpath%20d%3D%22M0%200C10.1%20-17%2C36.8%20-10.5%2C46%200C36.8%2010.5%2C10.1%2017%2C0%200Z%22%20transform%3D%22rotate(198)%22%20fill%3D%22%23FF4F88%22%2F%3E%3Ccircle%20r%3D%2211%22%20fill%3D%22%23FFD777%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="IPES">
+<meta property="og:title" content="IPES, app de teste">
+<meta property="og:description" content="Mapa dos 184 municípios do Ceará, oportunidades internacionais abertas e o retrato de potencial de cada entidade. Versão de teste do Instituto de Paradiplomacia e Entes Subnacionais.">
+<meta property="og:url" content="https://www.marcosamirati.com/ipes">
+<meta property="og:image" content="https://www.marcosamirati.com/ipes/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mapa dos 184 municípios do Ceará ao lado da frase Seu território, legível para o mundo.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,500;0,700;0,800;1,500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}</style>
+</head>
+<body>
+<style>
+/* Layout: edição bilíngue. O território fica à esquerda, o mundo à direita; o mapa dos 184 municípios é o único gesto forte.
+   Valores provisórios: ainda não existe design system do IPES. Paleta definida pelo cliente: menta, rosa, ipê, pink. */
+:root{
+  --menta:#B5D6CC; --rosa:#FF8B9B; --ipe:#FFD777; --pink:#FF4F88;
+  --bg:#F5FAF8; --fg:#0F2A25; --muted:#46625B; --line:#CFE3DC; --surface:#FFFFFF; --band:#E8F3EF;
+  --land:#B5D6CC; --land-edge:#F5FAF8; --on-accent:#0F2A25; --petal:#FF8B9B; --petal-strong:#FF4F88; --track:#DCEBE5;
+  --f-display:"Alegreya", Georgia, "Times New Roman", serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:72px;
+  --t-xs:.8125rem; --t-sm:.9375rem; --t-md:1.0625rem; --t-lg:1.3125rem; --t-xl:1.75rem; --t-2xl:2.375rem;
+  --r-panel:14px; --r-pill:999px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0F2A25; --fg:#EAF4F0; --muted:#A8C7BE; --line:#2A4D45; --surface:#14352F; --band:#12302A;
+  --land:#2F5A50; --land-edge:#0F2A25; --on-accent:#0F2A25; --petal:#FF8B9B; --petal-strong:#FF4F88; --track:#24453E;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0F2A25; --fg:#EAF4F0; --muted:#A8C7BE; --line:#2A4D45; --surface:#14352F; --band:#12302A;
+  --land:#2F5A50; --land-edge:#0F2A25; --on-accent:#0F2A25; --petal:#FF8B9B; --petal-strong:#FF4F88; --track:#24453E;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:var(--t-md);line-height:1.55;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+h1,h2,h3{font-family:var(--f-display);font-weight:800;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.005em}
+p{margin:0}
+a{color:inherit;text-decoration-color:var(--pink);text-decoration-thickness:2px;text-underline-offset:3px}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--pink);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.measure{max-width:62ch}
+.muted{color:var(--muted)}
+.num{font-variant-numeric:tabular-nums lining-nums}
+
+/* Cabeçalho */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:var(--s5);padding-block:var(--s3);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:var(--s3);text-decoration:none;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+.brand svg{width:34px;height:34px;flex:none}
+.brand-name{font-family:var(--f-display);font-weight:800;font-size:1.75rem;line-height:1;letter-spacing:.01em}
+.brand-desc{font-size:var(--t-xs);color:var(--muted);line-height:1.25;max-width:22ch}
+.nav{display:flex;gap:var(--s1);margin-left:auto;flex-wrap:wrap;align-items:center}
+.nav button{background:none;border:0;padding:var(--s2) var(--s3);border-radius:var(--r-pill);cursor:pointer;font-size:var(--t-sm)}
+.nav button[aria-current="page"]{background:var(--menta);color:var(--on-accent);font-weight:700}
+.nav .session{border:1.5px solid var(--fg);font-weight:700}
+@media (max-width:720px){.brand-desc{display:none}.nav{margin-left:0;width:100%}}
+
+/* Botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);border-radius:var(--r-pill);padding:12px 22px;font-weight:700;cursor:pointer;border:1.5px solid transparent;text-decoration:none;font-size:var(--t-md);line-height:1.2}
+.btn-primary{background:var(--pink);color:var(--on-accent)}
+.btn-primary:hover{background:var(--rosa)}
+.btn-ghost{background:transparent;border-color:var(--fg)}
+.btn-ghost:hover{background:var(--band)}
+
+/* Aviso de teste */
+.testbar{background:var(--ipe);color:var(--on-accent);font-size:var(--t-sm)}
+.testbar .wrap{padding-block:var(--s2)}
+
+/* Início: herói */
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:var(--s6);padding-block:var(--s7) var(--s8);align-items:start}
+.hero h1{font-size:clamp(2.5rem,1.4rem + 4.2vw,4.6rem);line-height:1;margin-bottom:var(--s5)}
+.hero .lede{font-size:var(--t-lg);line-height:1.5;max-width:34ch;margin-bottom:var(--s6)}
+.mapbox{position:relative;max-width:520px;width:100%;justify-self:end}
+.mapbox svg{width:100%;height:auto;display:block}
+.mapbox path{fill:var(--land);stroke:var(--land-edge);stroke-width:.7;cursor:pointer;transition:fill .15s}
+.mapbox path:hover{fill:var(--ipe)}
+.mapbox path.sel{fill:var(--pink)}
+.maplabel{font-family:var(--f-display);font-weight:800;font-size:17px;fill:var(--fg);paint-order:stroke;stroke:var(--bg);stroke-width:5px;stroke-linejoin:round;pointer-events:none}
+.mapnote{font-size:var(--t-xs);color:var(--muted);margin-top:var(--s2)}
+.finder label{display:block;font-weight:700;margin-bottom:var(--s2)}
+.field{width:100%;max-width:420px;padding:12px 16px;border-radius:var(--r-pill);border:1.5px solid var(--fg);background:var(--surface)}
+.field:focus-visible{outline-offset:1px}
+.err{color:var(--fg);background:var(--rosa);display:inline-block;padding:2px 10px;border-radius:6px;margin-top:var(--s2);font-size:var(--t-sm)}
+
+/* Tradução: território | mundo */
+.spread{margin-top:var(--s5);border:1.5px solid var(--fg);border-radius:var(--r-panel);background:var(--surface);display:grid;grid-template-columns:1fr 1fr;overflow:hidden;max-width:560px}
+.spread > div{padding:var(--s5);min-width:0}
+.spread .world{background:var(--menta);color:var(--on-accent)}
+.spread h2{font-size:var(--t-xl);line-height:1.15;margin-bottom:var(--s3);overflow-wrap:anywhere;hyphens:auto}
+.spread .world h2{font-size:var(--t-2xl);line-height:1}
+.spread .side{font-size:var(--t-sm);font-weight:700;margin-bottom:var(--s3)}
+.spread dl{margin:0;display:grid;gap:var(--s3)}
+.spread dt{font-size:var(--t-xs)}
+.spread .territory dt{color:var(--muted)}
+.spread dd{margin:0;font-weight:700}
+.spread .foot{grid-column:1 / -1;border-top:1.5px solid var(--fg);display:flex;gap:var(--s4);align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--surface)}
+.spread .foot p{font-size:var(--t-sm);max-width:32ch}
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.mapbox{justify-self:start;max-width:440px}}
+@media (max-width:460px){.spread{grid-template-columns:1fr}}
+
+/* Seções da home */
+.band{background:var(--band)}
+.section .wrap{padding-block:var(--s8)}
+.section h2{font-size:clamp(1.9rem,1.4rem + 1.6vw,2.6rem);margin-bottom:var(--s4)}
+.moves{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s6);margin-top:var(--s6)}
+.move h3{font-size:var(--t-2xl);margin-bottom:var(--s1)}
+.move .access{font-size:var(--t-sm);font-weight:700;margin-bottom:var(--s3);display:inline-block;padding:2px 10px;border-radius:var(--r-pill)}
+.move:nth-child(1) .access{background:var(--menta);color:var(--on-accent)}
+.move:nth-child(2) .access{background:var(--ipe);color:var(--on-accent)}
+.move:nth-child(3) .access{background:var(--rosa);color:var(--on-accent)}
+.move p{max-width:36ch}
+.move button{margin-top:var(--s4)}
+@media (max-width:820px){.moves{grid-template-columns:1fr;gap:var(--s6)}}
+.origin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s7);align-items:start}
+.origin blockquote{margin:0;font-family:var(--f-display);font-size:clamp(1.4rem,1.1rem + 1vw,1.9rem);line-height:1.3;font-weight:500;font-style:italic}
+.origin .team{margin-top:var(--s5);font-size:var(--t-sm)}
+@media (max-width:820px){.origin{grid-template-columns:1fr;gap:var(--s5)}}
+.dimtable{width:100%;border-collapse:collapse;margin-top:var(--s5);font-size:var(--t-sm)}
+.dimtable th,.dimtable td{text-align:left;padding:var(--s3) var(--s3) var(--s3) 0;border-bottom:1px solid var(--line);vertical-align:top}
+.dimtable th{font-weight:700}
+.dimtable td:first-child{font-family:var(--f-display);font-weight:800;font-size:var(--t-lg);white-space:nowrap}
+.scroll-x{overflow-x:auto}
+
+/* Janela */
+.page .wrap{padding-block:var(--s7) var(--s8)}
+.page-head{display:flex;justify-content:space-between;gap:var(--s5);align-items:end;flex-wrap:wrap;margin-bottom:var(--s5)}
+.page-head h1{font-size:clamp(2.2rem,1.5rem + 2.4vw,3.4rem)}
+.page-head p{max-width:56ch;margin-top:var(--s3)}
+.filters{display:grid;gap:var(--s3);padding-block:var(--s4);border-block:1px solid var(--line)}
+.fgroup{display:flex;gap:var(--s2);flex-wrap:wrap;align-items:center}
+.fgroup > span{font-size:var(--t-sm);font-weight:700;min-width:7.5em}
+.chip{border:1.5px solid var(--line);background:var(--surface);border-radius:var(--r-pill);padding:6px 14px;cursor:pointer;font-size:var(--t-sm)}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.count{font-size:var(--t-sm);color:var(--muted);margin-block:var(--s4)}
+.opps{list-style:none;margin:0;padding:0}
+.opp{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:var(--s5);padding-block:var(--s5);border-bottom:1px solid var(--line)}
+.opp h3{font-size:var(--t-xl);margin-bottom:var(--s2)}
+.opp .desc{max-width:58ch}
+.opp .meta{display:grid;grid-template-columns:auto 1fr;gap:var(--s1) var(--s3);font-size:var(--t-sm);align-content:start}
+.opp .meta dt{color:var(--muted)}
+.opp .meta dd{margin:0}
+.tag{display:inline-block;padding:1px 9px;border-radius:var(--r-pill);background:var(--band);margin:0 4px 4px 0;font-size:var(--t-xs);font-weight:700}
+.tag.type{background:var(--ipe);color:var(--on-accent)}
+@media (max-width:760px){.opp{grid-template-columns:1fr;gap:var(--s3)}}
+.empty{padding:var(--s7) 0;display:grid;gap:var(--s4);justify-items:start}
+
+/* Entrar */
+.login{max-width:560px;display:grid;gap:var(--s5)}
+.login fieldset{border:0;padding:0;margin:0;display:grid;gap:var(--s2)}
+.login legend,.login .lbl{font-weight:700;margin-bottom:var(--s2);padding:0}
+.radio{display:flex;gap:var(--s3);align-items:center;padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;background:var(--surface)}
+.radio:has(input:checked){border-color:var(--fg);box-shadow:inset 6px 0 0 var(--pink)}
+.radio input{accent-color:var(--pink);width:18px;height:18px}
+.login .field{max-width:none}
+.hint{font-size:var(--t-sm);color:var(--muted)}
+
+/* Retrato */
+.portrait-head{display:flex;justify-content:space-between;align-items:end;gap:var(--s5);flex-wrap:wrap;margin-bottom:var(--s6)}
+.portrait-head h1{font-size:clamp(2.2rem,1.5rem + 2.6vw,3.6rem)}
+.portrait-head .who{font-size:var(--t-sm);color:var(--muted);margin-bottom:var(--s2)}
+.facts{display:flex;gap:var(--s5);flex-wrap:wrap;font-size:var(--t-sm)}
+.facts div{display:grid}
+.facts b{font-size:var(--t-lg)}
+.pgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s7);align-items:center}
+.flower svg{width:100%;max-width:440px;height:auto;display:block;margin-inline:auto}
+.flower .ref{fill:none;stroke:var(--muted);stroke-opacity:.45;stroke-width:1.2;stroke-dasharray:3 4}
+.flower .petal{fill:var(--petal)}
+.flower .petal.strong{fill:var(--petal-strong)}
+.flower .core{fill:var(--ipe)}
+.flower text{fill:var(--fg);font-family:var(--f-body);font-size:16px}
+.flower .pv{font-weight:700;font-size:18px}
+.score{display:flex;align-items:baseline;gap:var(--s3);margin-bottom:var(--s3)}
+.score b{font-family:var(--f-display);font-size:clamp(4rem,3rem + 4vw,6.5rem);line-height:.9;font-weight:800}
+.score span{font-size:var(--t-lg)}
+.reading p+p{margin-top:var(--s3)}
+.reading h2{font-size:var(--t-2xl);margin-bottom:var(--s3)}
+@media (max-width:860px){.pgrid{grid-template-columns:1fr;gap:var(--s5)}}
+.block{margin-top:var(--s8)}
+.block > h2{font-size:clamp(1.8rem,1.4rem + 1.4vw,2.4rem);margin-bottom:var(--s2)}
+.block > .sub{margin-bottom:var(--s5);max-width:60ch}
+.odsgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:var(--s5) var(--s6)}
+.odsgroup h3{font-size:var(--t-lg);display:flex;justify-content:space-between;gap:var(--s3);border-bottom:1.5px solid var(--fg);padding-bottom:var(--s1);margin-bottom:var(--s3)}
+.odsrow{display:grid;grid-template-columns:3.6em minmax(0,1fr) 2.2em;gap:var(--s2);align-items:center;font-size:var(--t-sm);padding-block:3px}
+.odsrow .lbl{grid-column:1 / -1;display:flex;gap:var(--s2)}
+.odsrow .n{font-weight:700;white-space:nowrap}
+.bar{grid-column:1 / 3;height:8px;background:var(--track);border-radius:var(--r-pill);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--petal);border-radius:var(--r-pill)}
+.odsrow .v{text-align:right}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:var(--s2);max-width:760px}
+.step{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:var(--s4);align-items:start;padding:var(--s4);border:1.5px solid var(--line);border-radius:12px;background:var(--surface)}
+.step input{width:22px;height:22px;accent-color:var(--pink);margin-top:3px}
+.step .k{font-family:var(--f-display);font-weight:800;font-size:var(--t-xl);line-height:1;min-width:1.2em}
+.step b{display:block}
+.step.done{background:var(--band)}
+.step.done b{text-decoration:line-through;text-decoration-color:var(--pink);text-decoration-thickness:2px}
+.progress{font-weight:700;margin-bottom:var(--s3)}
+.cta-band{margin-top:var(--s8);border-radius:var(--r-panel);background:var(--rosa);color:var(--on-accent);padding:var(--s6);display:flex;justify-content:space-between;gap:var(--s5);align-items:center;flex-wrap:wrap}
+.cta-band h2{font-size:var(--t-2xl);margin-bottom:var(--s2)}
+.cta-band .btn-ghost{border-color:var(--on-accent);color:var(--on-accent)}
+.cta-band .btn-ghost:hover{background:var(--ipe)}
+
+/* Travessia */
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s4);align-items:stretch;margin-top:var(--s5)}
+.plan{border:1.5px solid var(--line);border-radius:var(--r-panel);padding:var(--s5);display:flex;flex-direction:column;gap:var(--s3);background:var(--surface)}
+.plan.basic{border-color:var(--fg)}
+.plan.premium{background:var(--menta);border-color:var(--menta);color:var(--on-accent)}
+.plan h2{font-size:var(--t-2xl)}
+.plan .price{font-weight:700}
+.plan ul{margin:0;padding-left:1.1em;display:grid;gap:var(--s2);flex:1}
+.plan li::marker{color:var(--pink)}
+.plan.premium .btn-ghost{border-color:var(--on-accent);color:var(--on-accent)}
+.plan.premium .btn-ghost:hover{background:var(--ipe)}
+.plan .status{font-size:var(--t-sm);font-weight:700;background:var(--ipe);color:var(--on-accent);padding:6px 10px;border-radius:8px}
+@media (max-width:900px){.plans{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--line);font-size:var(--t-sm);color:var(--muted)}
+footer .wrap{padding-block:var(--s6);display:grid;gap:var(--s2)}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="testbar" role="note"><div class="wrap">App de teste do IPES. Os índices do retrato são simulados; a população vem do IBGE (Censo 2022).</div></div>
+
+<header class="top">
+  <div class="wrap">
+    <button class="brand" type="button" data-go="inicio" aria-label="IPES, ir para o início">
+      <svg viewBox="-50 -50 100 100" aria-hidden="true"><g id="logo-petals"></g><circle r="11" fill="var(--ipe)"/></svg>
+      <span class="brand-name">ipes</span>
+      <span class="brand-desc">Instituto de Paradiplomacia e Entes Subnacionais</span>
+    </button>
+    <nav class="nav" aria-label="Principal">
+      <button type="button" data-go="inicio">Início</button>
+      <button type="button" data-go="janela">Janela</button>
+      <button type="button" data-go="retrato">Retrato</button>
+      <button type="button" data-go="travessia">Travessia</button>
+      <button type="button" class="session" id="sessionBtn" data-go="entrar">Entrar</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- INÍCIO -->
+<section data-view="inicio">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <h1>Seu território, legível para o mundo.</h1>
+        <p class="lede">O IPES lê cada município com dados públicos, abre a todos as oportunidades internacionais e acompanha governos e organizações até o recurso chegar.</p>
+        <div class="finder">
+          <label for="q-muni">Encontre seu município</label>
+          <input class="field" id="q-muni" list="dl-munis" placeholder="Digite o nome, ex.: Guaramiranga" autocomplete="off">
+          <div id="q-err" class="err" hidden></div>
+        </div>
+        <div class="spread" id="spread" aria-live="polite"></div>
+      </div>
+      <div class="mapbox">
+        <svg id="map" role="img" aria-label="Mapa dos 184 municípios do Ceará. Clique em um município para selecioná-lo."></svg>
+        <p class="mapnote">184 municípios do Ceará. Malha municipal do IBGE.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section band">
+    <div class="wrap">
+      <h2>Do território ao recurso, em três movimentos</h2>
+      <p class="measure">Paradiplomacia é a atuação internacional de estados e municípios: buscar parcerias, cooperação e financiamento fora do país. O IPES torna esse caminho possível para quem nunca teve essa chance.</p>
+      <div class="moves">
+        <div class="move">
+          <span class="access">Aberta a todos</span>
+          <h3>Janela</h3>
+          <p>Bancos de desenvolvimento, agências de cooperação, fundações, prêmios e redes internacionais, num só lugar, com filtros por tema e por quem pode participar.</p>
+          <button class="btn btn-ghost" type="button" data-go="janela">Abrir a Janela</button>
+        </div>
+        <div class="move">
+          <span class="access">Grátis, com cadastro</span>
+          <h3>Retrato</h3>
+          <p>O potencial da sua entidade para internacionalizar projetos e captar recursos, lido em cinco dimensões e nos 18 ODS. Só a sua entidade vê o próprio retrato.</p>
+          <button class="btn btn-ghost" type="button" data-go="entrar">Ver meu retrato</button>
+        </div>
+        <div class="move">
+          <span class="access">Assessoria paga</span>
+          <h3>Travessia</h3>
+          <p>Quem quiser seguir sozinho segue, com os passos guiados. Quem quiser companhia contrata a assessoria Basic ou Premium.</p>
+          <button class="btn btn-ghost" type="button" data-go="travessia">Conhecer os planos</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="wrap origin">
+      <div>
+        <h2>Nasce de uma pesquisa</h2>
+        <p class="measure">O IPES começa no mestrado de Ana Fabian em Gestão Pública e Cooperação Internacional, na UFPB. A pesquisa mapeou a atuação internacional dos 26 estados e do Distrito Federal e ouviu gestores de nove deles. Encontrou estruturas muito diferentes de um estado para outro e, em alguns, nenhuma área dedicada às relações internacionais.</p>
+        <p class="team muted">Equipe fundadora: Ana Fabian, Ana Polliny, Carlos Cassimiro e Marcos Amirati. O IPES será uma fundação sem fins lucrativos.</p>
+      </div>
+      <blockquote>Se a distância até o mundo já é grande nos estados, nos municípios ela é maior. É aí que o IPES começa: pelos 184 municípios do Ceará.</blockquote>
+    </div>
+  </div>
+
+  <div class="section band" id="metodo">
+    <div class="wrap">
+      <h2>Como o retrato é lido</h2>
+      <p class="measure">O retrato mede o potencial de uma entidade para internacionalizar projetos e captar recursos fora do país. O IPES organiza indicadores públicos (IBGE, Governo do Ceará e painéis das secretarias estaduais) nos 18 Objetivos de Desenvolvimento Sustentável: os 17 da ONU e o 18º, de igualdade étnico-racial, adotado pelo Brasil. Os 18 ODS se agrupam em cinco dimensões.</p>
+      <div class="scroll-x">
+        <table class="dimtable" id="dimtable">
+          <thead><tr><th scope="col">Dimensão</th><th scope="col">ODS agrupados</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="hint" style="margin-top:var(--s4)">Neste teste, o agrupamento é provisório e os valores do retrato são simulados.</p>
+    </div>
+  </div>
+</section>
+
+<!-- JANELA -->
+<section data-view="janela" class="page" hidden>
+  <div class="wrap">
+    <div class="page-head">
+      <div>
+        <h1>Janela de oportunidades</h1>
+        <p>Instituições reais, com descrições resumidas pelo IPES para este teste. Antes de se candidatar, confira regras, prazos e elegibilidade no site de cada uma.</p>
+      </div>
+    </div>
+    <div class="filters" id="filters"></div>
+    <p class="count num" id="oppCount" aria-live="polite"></p>
+    <ul class="opps" id="oppList"></ul>
+    <div class="empty" id="oppEmpty" hidden>
+      <p>Nenhuma oportunidade com esses filtros. Remova um filtro para ver mais.</p>
+      <button class="btn btn-ghost" type="button" id="clearFilters">Limpar filtros</button>
+    </div>
+  </div>
+</section>
+
+<!-- ENTRAR -->
+<section data-view="entrar" class="page" hidden>
+  <div class="wrap">
+    <div class="page-head">
+      <div>
+        <h1>Entrar no ambiente de teste</h1>
+        <p>Escolha uma entidade para ver o retrato como ela veria. Não há senha, e nada sai do seu navegador.</p>
+      </div>
+    </div>
+    <form class="login" id="loginForm" novalidate>
+      <fieldset>
+        <legend>Tipo de entidade</legend>
+        <label class="radio"><input type="radio" name="tipo" id="t-prefeitura" value="prefeitura" checked> Prefeitura</label>
+        <label class="radio"><input type="radio" name="tipo" id="t-osc" value="osc"> Organização da sociedade civil</label>
+        <label class="radio"><input type="radio" name="tipo" id="t-estado" value="estado"> Governo do Estado do Ceará</label>
+      </fieldset>
+      <div id="muniWrap">
+        <label class="lbl" for="f-muni">Município</label>
+        <input class="field" id="f-muni" list="dl-munis" autocomplete="off" placeholder="Digite o nome do município">
+        <div id="f-err" class="err" hidden></div>
+      </div>
+      <div>
+        <label class="lbl" for="f-nome">Nome da entidade</label>
+        <input class="field" id="f-nome" autocomplete="off">
+        <p class="hint" style="margin-top:var(--s2)">Pode trocar. É só o nome que aparece no retrato.</p>
+      </div>
+      <div><button class="btn btn-primary" type="submit">Entrar no ambiente de teste</button></div>
+    </form>
+  </div>
+</section>
+
+<!-- RETRATO -->
+<section data-view="retrato" class="page" hidden>
+  <div class="wrap" id="retratoRoot"></div>
+</section>
+
+<!-- TRAVESSIA -->
+<section data-view="travessia" class="page" hidden>
+  <div class="wrap">
+    <div class="page-head">
+      <div>
+        <h1>Travessia</h1>
+        <p>A plataforma mostra os passos e dá acesso à informação. Quem quiser apoio da equipe IPES no caminho contrata a assessoria. Inscrever-se em oportunidades nunca custa nada.</p>
+      </div>
+    </div>
+    <div class="plans">
+      <article class="plan">
+        <h2>Autônomo</h2>
+        <p class="price">Grátis</p>
+        <p class="muted">Para quem quer seguir por conta própria.</p>
+        <ul>
+          <li>Retrato da sua entidade</li>
+          <li>Janela completa de oportunidades</li>
+          <li>Passos guiados para cada candidatura</li>
+          <li>Inscrições sem custo</li>
+        </ul>
+        <button class="btn btn-ghost" type="button" data-go="retrato">Ver meu retrato</button>
+      </article>
+      <article class="plan basic">
+        <h2>Basic</h2>
+        <p class="price">Sob consulta</p>
+        <p class="muted">Para dar os primeiros passos com apoio.</p>
+        <ul>
+          <li>Tudo do Autônomo</li>
+          <li>Leitura do retrato com a equipe IPES</li>
+          <li>Oportunidades priorizadas para o seu perfil</li>
+          <li>Revisão das propostas antes do envio</li>
+          <li>Cursos introdutórios de paradiplomacia para a equipe</li>
+        </ul>
+        <button class="btn btn-primary" type="button" data-plan="Basic">Pedir proposta Basic</button>
+        <p class="status" data-status="Basic" hidden></p>
+      </article>
+      <article class="plan premium">
+        <h2>Premium</h2>
+        <p class="price">Sob consulta</p>
+        <p>Para quem quer companhia do diagnóstico ao recurso.</p>
+        <ul>
+          <li>Tudo do Basic</li>
+          <li>Consultoria dedicada na elaboração das propostas</li>
+          <li>Acompanhamento das candidaturas até a resposta</li>
+          <li>Oficinas e cursos para a equipe</li>
+          <li>Apresentação do território em português, inglês e espanhol</li>
+        </ul>
+        <button class="btn btn-ghost" type="button" data-plan="Premium">Pedir proposta Premium</button>
+        <p class="status" data-status="Premium" hidden></p>
+      </article>
+    </div>
+    <p class="hint" style="margin-top:var(--s5)">Conteúdo e preços dos planos em definição pela equipe IPES.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>IPES, Instituto de Paradiplomacia e Entes Subnacionais. App de teste, outubro de 2026.</p>
+    <p>População: IBGE, Censo 2022. Malha municipal e lista de municípios: IBGE. Índices do retrato: simulados para teste.</p>
+  </div>
+</footer>
+
+<datalist id="dl-munis"></datalist>
+
+<script>
+const CE = {"w":480,"h":586,"m":[{"id":"2300101","n":"Abaiara","ri":"Juazeiro do Norte","rm":"Brejo Santo","p":10038,"d":"M269.5 537.2L281.9 537.8L282.9 534.2L278.4 524.1L272.8 522.1L267.9 518.4L269.1 523.2L266.7 527.8L269.5 537.2Z"},{"id":"2300150","n":"Acarape","ri":"Fortaleza","rm":"Redenção-Acarape","p":14027,"d":"M314.6 174.1L318.6 169.3L323.2 167.0L328.0 168.1L322.9 162.0L322.4 159.8L318.4 159.1L311.1 162.5L312.3 169.5L310.7 173.2L314.6 174.1Z"},{"id":"2300200","n":"Acaraú","ri":"Sobral","rm":"Acaraú","p":65264,"d":"M143.5 18.5L143.5 23.2L145.2 28.7L149.1 29.0L153.6 34.9L153.5 38.4L162.8 50.5L170.7 61.6L173.8 56.7L167.1 52.7L163.5 48.0L164.4 43.6L164.2 36.0L166.2 33.6L165.0 27.0L166.1 25.1L167.0 17.0L169.8 9.5L167.1 7.8L148.6 4.5L146.5 6.5L141.4 3.3L135.8 3.6L125.5 2.5L120.2 3.3L121.5 9.6L125.7 8.9L140.5 10.3L145.7 11.6L143.5 18.5Z"},{"id":"2300309","n":"Acopiara","ri":"Iguatu","rm":"Iguatu","p":44962,"d":"M236.6 370.3L223.0 371.1L216.7 370.2L213.2 368.2L208.0 370.4L203.2 368.6L200.7 375.1L197.4 373.1L184.6 374.0L183.3 377.3L176.0 383.8L175.5 385.7L186.6 389.6L187.4 396.4L189.6 396.2L195.4 404.1L196.7 411.9L203.3 411.6L210.0 408.4L213.9 411.0L218.2 411.8L225.5 410.1L225.0 405.0L230.4 402.7L233.4 398.2L237.3 398.6L243.0 392.7L248.5 387.4L262.1 390.4L268.1 383.3L272.6 375.4L271.5 372.9L265.5 369.8L263.4 370.6L258.9 367.9L255.6 367.6L254.0 371.5L243.1 371.8L241.5 373.3L236.6 370.3Z"},{"id":"2300408","n":"Aiuaba","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":14076,"d":"M120.4 465.5L128.5 465.9L135.2 462.5L141.9 460.5L145.8 463.4L146.4 467.3L150.0 467.2L153.8 464.2L162.0 454.7L162.5 452.0L156.8 443.3L160.1 440.0L159.4 435.1L156.3 430.5L159.3 422.5L154.3 418.8L153.4 415.1L150.2 412.9L141.6 414.7L125.4 419.0L120.9 422.3L118.0 427.5L112.1 429.2L110.9 433.2L96.4 436.1L92.8 442.4L78.2 442.0L79.9 444.0L78.7 448.2L81.2 450.8L88.0 451.1L93.7 455.4L108.1 457.4L113.3 466.7L120.4 465.5Z"},{"id":"2300507","n":"Alcântaras","ri":"Sobral","rm":"Sobral","p":11369,"d":"M105.6 97.9L105.6 91.9L103.0 88.1L103.1 84.5L100.8 85.5L99.2 87.3L93.1 94.0L95.3 99.0L99.8 100.7L103.8 100.2L105.6 97.9Z"},{"id":"2300606","n":"Altaneira","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":6782,"d":"M200.0 490.2L202.4 489.2L205.4 484.7L204.7 482.0L198.5 484.5L197.5 483.0L190.9 487.6L192.3 490.9L195.8 488.6L200.0 490.2Z"},{"id":"2300705","n":"Alto Santo","ri":"Quixadá","rm":"Russas - Limoeiro do Norte","p":14155,"d":"M343.9 329.3L363.0 326.3L365.1 331.4L371.4 330.0L377.9 334.9L384.3 334.5L390.6 328.9L387.2 327.3L389.7 322.4L384.8 308.2L375.5 298.1L363.7 304.2L357.6 301.1L354.4 303.4L348.3 298.7L346.2 300.0L343.1 306.0L344.2 310.9L340.8 316.0L343.3 319.8L343.9 329.3Z"},{"id":"2300754","n":"Amontada","ri":"Fortaleza","rm":"Itapipoca","p":42156,"d":"M188.1 78.8L193.7 71.4L193.3 66.4L197.4 62.4L194.4 53.3L197.3 53.5L200.1 46.2L206.3 42.2L208.2 42.8L213.2 40.2L215.0 34.2L210.2 33.0L207.0 28.0L202.3 27.4L200.4 25.1L195.3 24.6L196.7 26.7L178.4 39.4L178.3 44.6L174.4 49.1L175.9 50.9L173.8 56.7L170.7 61.6L170.1 63.8L164.6 67.3L163.5 72.3L160.0 75.6L168.8 75.2L188.1 78.8Z"},{"id":"2300804","n":"Antonina do Norte","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":7245,"d":"M182.4 453.6L181.8 451.2L173.1 452.3L170.1 455.0L164.7 451.3L162.5 452.0L162.0 454.7L153.8 464.2L150.0 467.2L146.4 467.3L146.2 468.7L154.2 471.7L157.0 468.1L162.9 465.5L164.6 466.9L173.6 460.9L182.4 453.6Z"},{"id":"2300903","n":"Apuiarés","ri":"Fortaleza","rm":"Itapagé","p":12928,"d":"M255.0 146.2L257.4 138.3L253.7 134.5L250.8 129.3L244.6 131.5L242.9 133.5L239.2 124.7L237.6 122.8L230.6 121.1L228.8 124.1L225.7 132.6L222.6 137.8L222.5 141.4L226.0 140.8L227.2 137.3L241.1 151.3L247.3 150.8L252.2 149.2L255.0 146.2Z"},{"id":"2301000","n":"Aquiraz","ri":"Fortaleza","rm":"Fortaleza","p":80645,"d":"M332.0 145.6L335.7 147.8L350.8 149.9L351.1 148.4L357.7 142.1L364.6 144.1L366.5 143.5L368.1 141.7L362.3 134.4L358.8 133.4L352.3 127.5L347.5 120.4L346.6 119.9L342.1 132.0L335.1 133.5L334.0 142.9L332.0 145.6Z"},{"id":"2301109","n":"Aracati","ri":"Quixadá","rm":"Aracati","p":75113,"d":"M399.5 217.5L404.3 217.7L411.7 220.0L413.5 218.0L416.8 221.6L423.3 224.2L438.1 224.0L438.6 229.8L441.2 234.5L435.3 248.1L455.3 243.4L457.7 242.9L468.0 240.2L468.1 232.8L463.1 230.7L451.0 232.6L444.9 224.5L446.8 215.5L439.6 212.3L433.9 207.2L424.7 197.4L422.2 191.5L420.4 190.2L418.6 192.1L420.3 195.9L418.2 199.6L414.1 199.2L409.1 203.7L398.0 202.2L396.0 203.5L395.4 208.4L396.9 212.1L394.6 217.4L399.5 217.5Z"},{"id":"2301208","n":"Aracoiaba","ri":"Fortaleza","rm":"Redenção-Acarape","p":25553,"d":"M305.5 213.0L313.0 211.7L314.3 216.3L317.4 217.5L321.0 222.0L327.7 218.4L323.2 216.4L318.9 205.2L322.1 202.9L320.5 197.1L321.1 193.1L324.4 189.5L328.3 188.7L332.2 183.6L327.6 185.4L323.3 184.8L319.6 188.9L316.6 188.6L313.8 184.8L311.8 185.3L307.8 181.6L305.5 176.2L303.0 178.0L298.8 177.2L296.7 182.7L296.7 193.4L297.6 195.8L302.6 199.9L307.6 201.9L305.5 213.0Z"},{"id":"2301257","n":"Ararendá","ri":"Crateús","rm":"Crateús","p":11096,"d":"M61.4 231.7L65.9 231.8L68.0 234.7L74.4 237.9L75.2 241.2L79.7 238.3L82.5 240.7L86.4 238.6L90.7 232.4L88.5 227.4L87.0 220.3L85.9 222.5L78.7 223.7L70.1 222.6L65.8 224.1L62.5 223.3L61.4 231.7Z"},{"id":"2301307","n":"Araripe","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":19783,"d":"M145.0 531.4L148.4 532.6L163.1 531.7L171.6 527.8L174.1 527.5L175.8 527.7L175.9 504.8L175.0 499.6L172.6 499.3L165.3 505.1L163.1 505.8L154.8 505.2L147.4 501.3L144.1 493.8L142.0 498.2L135.4 501.6L132.2 508.6L134.1 511.7L132.4 517.1L135.2 525.2L140.6 529.8L145.0 531.4Z"},{"id":"2301406","n":"Aratuba","ri":"Fortaleza","rm":"Redenção-Acarape","p":11224,"d":"M278.6 196.5L281.5 191.7L280.4 184.9L281.9 183.5L276.9 184.1L272.3 181.6L270.7 187.0L267.6 185.6L268.1 188.7L275.2 194.1L278.6 196.5Z"},{"id":"2301505","n":"Arneiroz","ri":"Crateús","rm":"Tauá","p":7429,"d":"M168.2 384.1L157.7 383.9L155.1 385.4L146.3 385.5L140.6 389.0L137.1 387.7L116.4 408.7L125.4 419.0L141.6 414.7L150.2 412.9L153.4 415.1L154.9 413.6L157.7 404.8L160.0 404.9L161.3 398.4L164.6 398.1L171.7 395.2L175.2 391.0L175.5 385.7L176.0 383.8L172.6 382.0L168.2 384.1Z"},{"id":"2301604","n":"Assaré","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":21697,"d":"M192.3 490.9L190.9 487.6L197.5 483.0L198.5 484.5L204.7 482.0L208.4 478.8L203.9 475.9L203.1 467.6L198.7 468.0L196.7 463.5L193.0 465.8L187.3 465.4L177.1 461.4L173.6 460.9L164.6 466.9L162.9 465.5L157.0 468.1L154.2 471.7L148.7 475.2L156.3 480.6L153.7 486.3L154.7 488.9L169.0 489.6L169.7 497.2L175.8 494.5L185.3 492.6L189.4 495.4L192.3 490.9Z"},{"id":"2301703","n":"Aurora","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":23714,"d":"M289.0 497.9L295.1 485.7L303.7 488.4L305.6 487.6L308.2 485.4L305.6 478.0L304.5 473.1L299.3 471.7L295.1 472.0L282.5 472.3L276.7 474.2L268.5 481.1L266.1 484.1L261.3 486.4L260.3 492.2L265.1 500.0L262.8 503.5L265.2 506.3L269.4 506.4L272.7 504.3L275.5 505.7L283.3 497.8L289.0 497.9Z"},{"id":"2301802","n":"Baixio","ri":"Iguatu","rm":"Icó","p":5704,"d":"M296.2 454.6L303.9 456.1L307.5 460.0L310.8 461.4L318.6 460.2L316.2 454.3L301.4 448.8L296.5 449.8L296.2 454.6Z"},{"id":"2301851","n":"Banabuiú","ri":"Quixadá","rm":"Quixadá","p":17195,"d":"M288.7 309.4L287.7 305.2L287.4 294.8L295.8 290.2L300.5 282.3L304.4 280.3L312.1 279.9L314.0 283.0L315.7 283.0L323.2 274.1L322.5 270.4L318.8 270.8L313.2 267.5L308.0 267.6L306.0 265.8L300.0 264.4L290.0 275.6L283.4 274.3L274.8 275.7L268.9 274.2L268.2 276.7L273.1 282.9L274.6 287.5L272.2 291.4L268.7 303.3L272.1 306.4L270.2 313.0L271.5 315.9L275.4 313.4L281.3 317.0L286.7 312.9L288.7 309.4Z"},{"id":"2301901","n":"Barbalha","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":75033,"d":"M249.2 544.8L249.1 540.2L252.8 534.3L250.7 530.4L254.6 523.3L248.7 518.8L238.5 519.1L235.2 523.7L232.2 523.9L227.0 527.2L226.8 554.6L229.9 558.2L233.3 558.8L235.8 560.1L235.6 541.4L249.2 544.8Z"},{"id":"2301950","n":"Barreira","ri":"Fortaleza","rm":"Redenção-Acarape","p":22392,"d":"M328.0 168.1L323.2 167.0L318.6 169.3L314.6 174.1L313.1 179.1L313.8 184.8L316.6 188.6L319.6 188.9L323.3 184.8L327.6 185.4L332.2 183.6L330.6 178.2L330.6 172.3L328.0 168.1Z"},{"id":"2302008","n":"Barro","ri":"Juazeiro do Norte","rm":"Brejo Santo","p":19381,"d":"M319.5 509.6L315.2 510.0L315.6 503.7L318.1 499.0L316.6 493.9L316.1 493.7L314.1 491.7L305.6 487.6L303.7 488.4L295.1 485.7L289.0 497.9L284.5 504.8L288.3 516.5L296.7 516.1L301.7 513.7L303.5 514.6L308.6 515.9L322.3 513.8L319.5 509.6Z"},{"id":"2302057","n":"Barroquinha","ri":"Sobral","rm":"Camocim","p":14567,"d":"M16.5 21.6L19.2 21.8L25.5 24.8L26.3 28.5L29.6 33.2L28.0 34.9L30.4 39.5L36.1 35.9L34.0 32.5L38.4 27.2L40.3 20.5L37.8 14.3L36.1 13.5L27.4 11.8L16.5 11.9L10.6 15.9L10.7 19.4L16.5 21.6Z"},{"id":"2302107","n":"Baturité","ri":"Fortaleza","rm":"Redenção-Acarape","p":35218,"d":"M283.2 182.2L285.0 185.6L291.5 190.7L295.5 192.6L301.5 208.3L305.5 213.0L307.6 201.9L302.6 199.9L297.6 195.8L296.7 193.4L296.7 182.7L298.8 177.2L303.0 178.0L305.5 176.2L302.0 175.1L300.4 169.8L295.9 167.4L291.0 172.9L286.1 178.2L283.2 182.2Z"},{"id":"2302206","n":"Beberibe","ri":"Fortaleza","rm":"Fortaleza","p":53114,"d":"M411.7 185.0L404.6 180.2L395.2 171.0L392.5 169.7L380.6 158.1L376.8 152.6L372.8 163.4L367.6 164.6L367.6 181.4L364.9 182.3L362.8 187.7L356.9 191.0L352.2 198.9L366.7 207.3L369.1 209.2L372.8 213.0L379.5 212.6L384.2 208.9L393.7 210.1L395.4 208.4L396.0 203.5L398.0 202.2L399.1 196.4L396.5 190.9L399.5 187.6L404.8 188.8L410.2 187.3L411.7 185.0Z"},{"id":"2302305","n":"Bela Cruz","ri":"Sobral","rm":"Acaraú","p":32775,"d":"M106.0 32.2L114.6 39.1L119.1 40.5L121.1 42.9L122.4 48.5L126.2 47.3L128.9 48.7L132.2 42.4L135.9 44.5L146.1 37.4L147.0 33.5L153.5 38.4L153.6 34.9L149.1 29.0L145.2 28.7L143.5 23.2L143.5 18.5L135.8 19.4L132.7 18.0L126.2 18.5L124.9 20.8L120.2 20.9L115.8 19.3L115.9 21.1L104.1 19.7L106.0 32.2Z"},{"id":"2302404","n":"Boa Viagem","ri":"Fortaleza","rm":"Canindé","p":50411,"d":"M201.7 298.6L206.2 292.2L206.5 286.2L216.6 270.4L207.7 266.4L205.9 261.6L209.6 256.5L207.1 246.0L203.5 241.6L202.0 234.4L200.3 232.3L195.1 230.9L194.7 227.6L194.3 221.4L192.8 224.2L185.4 222.8L183.5 225.4L179.8 226.1L176.4 232.4L171.4 230.5L169.0 235.5L169.4 238.0L175.3 243.4L174.5 245.6L168.1 248.0L166.8 250.6L168.0 259.6L163.4 266.4L144.7 275.7L152.0 275.1L157.0 277.6L160.4 280.7L157.7 284.4L157.5 289.0L160.7 294.7L163.9 297.2L168.0 297.0L172.1 301.8L175.0 302.6L177.4 300.0L181.3 299.4L186.3 302.9L188.2 300.6L199.2 298.2L201.7 298.6Z"},{"id":"2302503","n":"Brejo Santo","ri":"Juazeiro do Norte","rm":"Brejo Santo","p":51090,"d":"M275.3 561.8L282.2 558.6L290.9 559.1L290.6 575.3L293.5 570.7L298.3 571.7L298.7 566.9L306.1 564.3L308.1 564.8L311.0 560.9L304.3 558.3L292.0 541.3L285.3 537.9L281.9 537.8L269.5 537.2L267.6 542.1L260.8 540.6L268.3 544.6L275.0 550.1L275.3 561.8Z"},{"id":"2302602","n":"Camocim","ri":"Sobral","rm":"Camocim","p":62326,"d":"M95.1 7.2L85.8 6.8L75.4 7.5L65.6 11.7L64.2 8.9L58.6 8.9L56.6 10.4L47.5 12.2L36.1 13.5L37.8 14.3L40.3 20.5L38.4 27.2L34.0 32.5L36.1 35.9L48.7 28.5L61.6 26.2L66.4 29.2L83.3 26.0L98.1 26.9L106.0 32.2L104.1 19.7L102.0 18.3L102.2 12.2L98.4 11.4L95.1 7.2Z"},{"id":"2302701","n":"Campos Sales","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":25135,"d":"M110.1 497.4L111.6 498.7L124.5 503.1L125.8 497.8L134.1 495.3L138.6 491.7L147.6 488.5L149.0 490.9L153.7 486.3L156.3 480.6L148.7 475.2L154.2 471.7L146.2 468.7L146.4 467.3L145.8 463.4L141.9 460.5L135.2 462.5L128.5 465.9L120.4 465.5L118.5 468.6L113.7 472.6L114.1 480.8L113.8 492.3L110.1 497.4Z"},{"id":"2302800","n":"Canindé","ri":"Fortaleza","rm":"Canindé","p":74174,"d":"M267.6 185.6L259.1 185.0L256.4 176.5L250.8 173.7L239.9 163.3L221.8 174.5L220.0 168.9L212.7 166.2L216.1 159.4L215.4 153.6L217.0 150.6L214.2 152.6L209.5 151.8L206.0 148.9L201.8 150.3L193.1 153.6L189.2 160.9L187.6 162.7L190.1 169.5L194.3 172.7L193.8 179.4L196.4 184.9L191.7 188.0L194.3 192.7L195.1 196.9L189.9 201.5L192.5 203.9L197.2 203.8L204.3 199.5L208.4 199.0L213.6 195.3L217.4 197.4L221.5 196.6L226.3 210.3L229.9 215.5L229.4 219.5L232.2 220.4L235.6 223.9L236.1 224.8L243.3 222.8L245.9 216.3L257.7 216.7L263.5 213.6L270.9 205.8L268.8 202.9L268.7 195.4L275.2 194.1L268.1 188.7L267.6 185.6Z"},{"id":"2302909","n":"Capistrano","ri":"Fortaleza","rm":"Redenção-Acarape","p":17254,"d":"M278.6 196.5L280.8 198.3L284.2 197.3L289.9 202.0L293.1 201.8L296.7 204.5L297.0 207.9L301.5 208.3L295.5 192.6L291.5 190.7L285.0 185.6L283.2 182.2L281.9 183.5L280.4 184.9L281.5 191.7L278.6 196.5Z"},{"id":"2303006","n":"Caridade","ri":"Fortaleza","rm":"Canindé","p":16377,"d":"M239.9 163.3L250.8 173.7L256.4 176.5L259.1 185.0L267.6 185.6L270.7 187.0L272.3 181.6L275.5 177.8L273.2 175.6L278.1 171.1L277.8 165.4L284.2 161.9L283.7 156.7L286.5 156.9L285.0 152.8L280.3 146.0L278.1 139.9L275.3 148.1L271.1 148.5L255.0 146.2L260.6 152.2L259.9 155.5L254.7 156.0L254.8 161.2L242.8 161.5L239.9 163.3Z"},{"id":"2303105","n":"Cariré","ri":"Sobral","rm":"Sobral","p":17632,"d":"M108.6 150.8L113.4 151.4L120.1 151.5L121.6 144.5L117.6 137.0L115.2 118.4L111.8 121.7L105.4 123.7L96.1 124.7L91.3 120.6L84.8 122.5L80.9 127.7L80.9 131.3L86.4 133.8L86.2 139.2L89.4 142.7L97.6 146.3L104.0 146.2L108.6 150.8Z"},{"id":"2303204","n":"Caririaçu","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":26320,"d":"M239.2 500.9L244.7 501.1L246.0 499.1L256.2 505.8L262.8 503.5L265.1 500.0L260.3 492.2L261.3 486.4L266.1 484.1L265.1 481.7L259.3 480.9L251.3 480.0L250.0 480.8L238.5 480.9L239.4 477.4L232.9 479.3L228.2 484.1L226.3 489.4L226.0 494.9L236.8 495.0L239.2 500.9Z"},{"id":"2303303","n":"Cariús","ri":"Iguatu","rm":"Iguatu","p":17015,"d":"M219.6 462.5L223.3 460.0L227.5 464.0L234.4 461.6L240.7 461.7L243.6 458.2L239.7 456.4L241.6 452.8L245.0 450.6L246.2 445.4L242.4 440.2L244.1 437.6L246.0 433.4L239.2 434.5L237.1 431.4L238.3 428.7L232.5 426.3L229.9 426.1L225.2 431.6L219.4 433.3L216.6 437.1L200.3 444.6L193.4 445.8L201.7 446.3L203.8 451.8L204.5 458.1L209.3 460.4L207.4 463.8L214.3 462.5L219.6 462.5Z"},{"id":"2303402","n":"Carnaubal","ri":"Sobral","rm":"São Benedito - Ipu - Guaraciaba do Norte - Tianguá","p":17210,"d":"M36.4 161.9L39.2 164.0L47.7 163.4L50.6 167.5L59.2 159.2L60.3 153.5L54.6 147.5L50.1 147.2L43.9 148.6L39.9 146.6L36.7 148.4L31.7 154.8L34.2 160.0L36.5 161.7L36.4 161.9Z"},{"id":"2303501","n":"Cascavel","ri":"Fortaleza","rm":"Fortaleza","p":72720,"d":"M352.2 198.9L356.9 191.0L362.8 187.7L364.9 182.3L367.6 181.4L367.6 164.6L372.8 163.4L376.8 152.6L368.1 141.7L366.5 143.5L363.5 149.3L360.2 152.0L353.6 151.0L351.1 148.4L350.8 149.9L349.8 157.6L348.5 166.7L349.4 180.0L343.4 185.3L351.4 194.6L352.2 198.9Z"},{"id":"2303600","n":"Catarina","ri":"Iguatu","rm":"Iguatu","p":10243,"d":"M153.4 415.1L156.1 415.0L159.7 410.8L171.9 412.1L175.3 415.1L180.7 413.3L186.5 400.6L187.4 396.4L186.6 389.6L175.5 385.7L175.2 391.0L171.7 395.2L164.6 398.1L161.3 398.4L160.0 404.9L157.7 404.8L154.9 413.6L153.4 415.1Z"},{"id":"2303659","n":"Catunda","ri":"Sobral","rm":"Sobral","p":10444,"d":"M129.3 210.4L126.4 212.9L124.2 217.9L127.5 220.9L128.0 225.7L131.6 230.0L138.9 232.6L141.9 231.7L147.4 235.0L149.3 227.5L156.3 223.9L151.3 217.5L150.7 209.4L158.7 207.8L162.1 201.4L163.0 197.4L160.5 194.3L155.9 194.8L150.1 200.0L142.3 199.6L139.2 194.7L133.8 195.5L132.2 199.7L135.4 202.2L136.3 206.0L134.6 210.9L129.3 210.4Z"},{"id":"2303709","n":"Caucaia","ri":"Fortaleza","rm":"Fortaleza","p":355679,"d":"M320.2 117.8L324.5 110.1L322.0 106.4L326.0 105.7L318.6 104.0L313.6 99.5L307.5 96.4L300.8 88.5L297.9 91.1L292.1 104.4L287.9 102.2L282.9 107.5L283.4 114.0L281.0 115.2L278.6 121.8L279.8 125.7L285.0 134.4L293.3 137.2L296.0 140.2L300.2 136.4L302.4 137.0L314.4 124.2L320.2 117.8Z"},{"id":"2303808","n":"Cedro","ri":"Iguatu","rm":"Iguatu","p":22344,"d":"M266.0 455.4L270.6 454.2L273.0 450.7L278.2 448.7L282.1 448.9L287.2 443.3L287.5 438.1L288.0 436.2L283.3 433.5L271.5 424.1L264.3 426.5L261.8 423.6L254.8 426.1L252.0 429.4L251.3 433.1L246.0 433.4L244.1 437.6L250.9 440.1L254.3 442.9L257.9 443.5L258.6 450.4L262.0 450.8L263.5 454.8L266.0 455.4Z"},{"id":"2303907","n":"Chaval","ri":"Sobral","rm":"Camocim","p":12462,"d":"M17.7 31.2L18.3 35.1L11.9 40.7L10.6 45.8L20.4 45.8L30.4 39.5L28.0 34.9L29.6 33.2L26.3 28.5L25.5 24.8L19.2 21.8L16.5 21.6L18.7 29.0L17.7 31.2Z"},{"id":"2303931","n":"Choró","ri":"Quixadá","rm":"Quixadá","p":12113,"d":"M263.5 213.6L257.7 216.7L245.9 216.3L243.3 222.8L236.1 224.8L238.5 227.4L241.7 224.6L243.5 227.7L238.9 230.2L239.2 232.6L240.2 237.6L243.5 238.6L243.9 242.8L249.2 247.3L252.5 252.2L255.6 252.7L262.3 242.8L270.9 234.9L273.0 230.1L266.5 229.1L270.1 224.9L273.8 223.2L274.4 218.2L281.0 218.2L279.2 215.7L269.5 214.8L265.5 215.3L263.5 213.6Z"},{"id":"2303956","n":"Chorozinho","ri":"Fortaleza","rm":"Fortaleza","p":20163,"d":"M328.0 168.1L330.6 172.3L330.6 178.2L332.2 183.6L342.7 188.2L343.4 185.3L349.4 180.0L348.5 166.7L340.1 169.2L333.2 167.0L328.0 168.1Z"},{"id":"2304004","n":"Coreaú","ri":"Sobral","rm":"Sobral","p":20953,"d":"M99.2 87.3L98.7 86.4L85.8 86.4L75.3 83.5L64.3 87.1L58.9 91.6L60.4 102.4L67.6 98.4L74.8 100.1L78.5 104.8L72.8 111.0L73.2 116.1L72.1 122.0L74.8 125.0L79.7 120.1L80.6 118.3L87.5 117.3L92.7 100.3L99.8 100.7L95.3 99.0L93.1 94.0L99.2 87.3Z"},{"id":"2304103","n":"Crateús","ri":"Crateús","rm":"Crateús","p":76390,"d":"M115.4 283.1L119.9 270.4L111.5 260.5L105.9 260.9L100.9 258.1L97.8 259.0L94.3 251.7L89.8 247.9L88.0 255.1L80.6 250.4L67.7 254.1L42.0 259.7L33.8 259.4L38.3 266.8L44.8 269.4L56.0 276.5L58.0 287.6L56.2 291.1L57.2 295.8L55.2 299.1L58.0 303.8L55.1 307.5L57.5 310.9L56.0 313.8L59.1 311.9L63.6 313.8L65.6 312.2L73.8 313.8L77.9 312.8L79.8 310.3L83.8 311.4L88.6 306.1L99.1 306.1L102.7 301.8L107.9 288.4L115.4 283.1Z"},{"id":"2304202","n":"Crato","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":131050,"d":"M238.5 519.1L236.5 513.0L236.2 507.3L238.8 504.7L239.2 500.9L236.8 495.0L226.0 494.9L226.3 489.4L218.8 488.6L211.4 491.0L211.6 493.4L209.3 497.6L209.3 512.6L209.4 538.0L212.5 538.1L215.5 544.4L220.5 542.1L225.3 542.9L225.9 546.5L222.6 550.0L223.9 554.7L226.8 554.6L227.0 527.2L232.2 523.9L235.2 523.7L238.5 519.1Z"},{"id":"2304236","n":"Croatá","ri":"Sobral","rm":"São Benedito - Ipu - Guaraciaba do Norte - Tianguá","p":17481,"d":"M27.3 195.0L34.2 196.2L40.7 195.7L44.9 193.5L60.6 195.5L67.8 194.0L71.6 189.9L73.5 182.7L70.6 180.8L65.4 178.1L62.8 178.2L56.2 174.4L46.9 172.4L31.6 183.7L30.6 183.4L27.3 195.0Z"},{"id":"2304251","n":"Cruz","ri":"Sobral","rm":"Acaraú","p":29761,"d":"M143.5 18.5L145.7 11.6L140.5 10.3L125.7 8.9L121.5 9.6L120.2 3.3L110.7 2.2L111.0 12.2L113.3 13.5L113.2 18.2L115.8 19.3L120.2 20.9L124.9 20.8L126.2 18.5L132.7 18.0L135.8 19.4L143.5 18.5Z"},{"id":"2304269","n":"Deputado Irapuan Pinheiro","ri":"Quixadá","rm":"Quixadá","p":8932,"d":"M259.6 349.2L254.3 348.0L252.3 345.2L247.0 344.9L240.7 347.3L239.1 350.3L239.1 355.3L236.0 361.1L237.6 366.9L236.6 370.3L241.5 373.3L243.1 371.8L254.0 371.5L255.6 367.6L258.9 367.9L257.5 356.3L259.6 349.2Z"},{"id":"2304277","n":"Ereré","ri":"Quixadá","rm":"Russas - Limoeiro do Norte","p":6474,"d":"M347.1 379.1L349.8 378.7L351.4 382.6L354.6 381.5L358.5 382.6L362.1 380.1L364.7 377.5L364.7 373.7L370.5 368.1L375.0 365.4L375.4 363.8L363.9 363.3L362.1 360.0L355.3 363.1L347.4 362.9L346.3 360.7L348.0 371.9L345.1 373.9L347.1 379.1Z"},{"id":"2304285","n":"Eusébio","ri":"Fortaleza","rm":"Fortaleza","p":74170,"d":"M346.6 119.9L342.7 117.8L341.9 122.0L335.9 127.9L335.1 133.5L342.1 132.0L346.6 119.9Z"},{"id":"2304301","n":"Farias Brito","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":18217,"d":"M232.9 479.3L230.2 476.2L222.7 476.5L223.3 470.6L220.5 470.2L218.9 466.3L219.6 462.5L214.3 462.5L207.4 463.8L203.1 467.6L203.9 475.9L208.4 478.8L204.7 482.0L205.4 484.7L202.4 489.2L200.0 490.2L205.5 491.0L211.6 493.4L211.4 491.0L218.8 488.6L226.3 489.4L228.2 484.1L232.9 479.3Z"},{"id":"2304350","n":"Forquilha","ri":"Sobral","rm":"Sobral","p":24173,"d":"M128.0 133.1L141.4 136.0L147.2 128.8L149.9 116.0L148.6 106.2L135.9 105.8L127.9 111.7L127.7 116.1L123.9 115.7L120.4 124.8L126.3 125.1L128.0 133.1Z"},{"id":"2304400","n":"Fortaleza","ri":"Fortaleza","rm":"Fortaleza","p":2428708,"d":"M331.3 124.5L335.9 127.9L341.9 122.0L342.7 117.8L346.6 119.9L347.5 120.4L340.3 107.6L336.6 109.0L326.0 105.7L322.0 106.4L324.5 110.1L320.2 117.8L322.9 120.4L331.3 124.5Z"},{"id":"2304459","n":"Fortim","ri":"Quixadá","rm":"Aracati","p":17294,"d":"M420.4 190.2L420.3 187.3L411.7 185.0L410.2 187.3L404.8 188.8L399.5 187.6L396.5 190.9L399.1 196.4L398.0 202.2L409.1 203.7L414.1 199.2L418.2 199.6L420.3 195.9L418.6 192.1L420.4 190.2Z"},{"id":"2304509","n":"Frecheirinha","ri":"Sobral","rm":"Sobral","p":15657,"d":"M73.2 116.1L72.8 111.0L78.5 104.8L74.8 100.1L67.6 98.4L60.4 102.4L62.3 108.7L59.9 115.5L65.8 116.3L73.2 116.1Z"},{"id":"2304608","n":"General Sampaio","ri":"Fortaleza","rm":"Itapagé","p":6734,"d":"M241.1 151.3L227.2 137.3L226.0 140.8L222.5 141.4L220.5 141.0L217.0 150.6L215.4 153.6L216.1 159.4L218.4 154.6L221.7 153.7L226.6 156.0L227.0 152.8L231.5 151.9L235.7 153.6L241.1 151.3Z"},{"id":"2304657","n":"Graça","ri":"Sobral","rm":"Sobral","p":13801,"d":"M69.7 154.5L71.2 156.1L77.4 155.0L80.9 155.7L84.4 147.5L80.9 147.8L78.8 137.0L75.7 135.3L68.2 135.8L66.5 139.2L66.8 146.8L65.4 152.8L69.7 154.5Z"},{"id":"2304707","n":"Granja","ri":"Sobral","rm":"Camocim","p":53344,"d":"M79.2 52.1L81.2 49.7L76.5 30.9L96.9 40.7L104.4 37.7L106.0 32.2L98.1 26.9L83.3 26.0L66.4 29.2L61.6 26.2L48.7 28.5L36.1 35.9L30.4 39.5L20.4 45.8L10.6 45.8L2.1 60.2L0.0 65.5L1.7 69.5L4.5 71.2L10.4 69.7L10.1 76.7L12.8 82.0L17.9 79.5L22.4 75.8L27.3 68.9L33.2 66.5L42.2 70.3L47.4 74.0L60.9 85.3L61.1 81.6L65.2 73.3L67.5 67.6L64.8 61.6L68.4 59.3L66.9 49.1L79.2 52.1Z"},{"id":"2304806","n":"Granjeiro","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":4841,"d":"M257.0 472.5L254.6 474.1L247.8 474.6L239.4 477.4L238.5 480.9L250.0 480.8L251.3 480.0L259.3 480.9L259.3 477.4L257.0 472.5Z"},{"id":"2304905","n":"Groaíras","ri":"Sobral","rm":"Sobral","p":10910,"d":"M115.2 118.4L117.6 137.0L121.6 144.5L124.2 137.4L128.0 133.1L126.3 125.1L120.4 124.8L118.2 117.6L115.2 118.4Z"},{"id":"2304954","n":"Guaiúba","ri":"Fortaleza","rm":"Fortaleza","p":24325,"d":"M328.5 155.0L323.1 152.9L324.1 147.6L327.5 147.1L323.9 142.5L316.8 143.0L316.2 145.4L307.5 151.6L306.7 155.7L302.8 157.3L310.9 160.3L311.1 162.5L318.4 159.1L322.4 159.8L328.0 155.7L328.5 155.0Z"},{"id":"2305001","n":"Guaraciaba do Norte","ri":"Sobral","rm":"São Benedito - Ipu - Guaraciaba do Norte - Tianguá","p":42053,"d":"M80.9 155.7L77.4 155.0L71.2 156.1L69.7 154.5L67.0 154.5L64.8 158.6L59.2 159.2L50.6 167.5L47.7 163.4L39.2 164.0L36.4 161.9L32.1 167.9L34.0 178.4L30.6 183.4L31.6 183.7L46.9 172.4L56.2 174.4L62.8 178.2L65.4 178.1L70.6 180.8L72.2 177.8L70.5 171.7L73.4 168.1L79.3 164.5L81.1 160.3L80.9 155.7Z"},{"id":"2305100","n":"Guaramiranga","ri":"Fortaleza","rm":"Redenção-Acarape","p":5654,"d":"M278.1 171.1L285.3 176.0L286.1 178.2L291.0 172.9L289.7 169.6L285.3 168.1L284.2 161.9L277.8 165.4L278.1 171.1Z"},{"id":"2305209","n":"Hidrolândia","ri":"Sobral","rm":"Sobral","p":17855,"d":"M95.3 205.4L104.4 199.6L110.0 202.0L119.2 204.4L123.2 208.1L126.0 207.6L129.3 210.4L134.6 210.9L136.3 206.0L135.4 202.2L132.2 199.7L133.8 195.5L126.2 182.0L125.9 177.1L128.3 171.9L111.1 171.0L108.0 174.7L100.4 183.6L97.9 189.4L99.2 191.8L95.8 195.5L94.1 202.3L95.3 205.4Z"},{"id":"2305233","n":"Horizonte","ri":"Fortaleza","rm":"Fortaleza","p":74755,"d":"M349.8 157.6L350.8 149.9L335.7 147.8L332.0 145.6L332.0 150.0L328.5 155.0L328.0 155.7L349.8 157.6Z"},{"id":"2305266","n":"Ibaretama","ri":"Quixadá","rm":"Quixadá","p":11956,"d":"M293.0 219.5L301.3 226.7L292.9 239.5L287.9 239.5L291.0 244.3L292.0 249.2L312.9 245.4L319.1 249.4L320.1 247.1L316.9 241.5L323.2 237.7L326.8 233.7L327.8 229.4L333.6 226.3L332.8 219.7L327.7 218.4L321.0 222.0L317.4 217.5L314.3 216.3L313.0 211.7L305.5 213.0L299.7 218.7L294.8 218.1L293.0 219.5Z"},{"id":"2305308","n":"Ibiapina","ri":"Sobral","rm":"São Benedito - Ipu - Guaraciaba do Norte - Tianguá","p":23965,"d":"M66.5 139.2L68.2 135.8L67.4 131.6L71.2 130.8L73.5 127.3L64.6 128.7L62.5 125.6L55.7 130.0L50.3 128.4L32.4 134.1L28.4 134.5L23.4 137.6L21.4 137.1L19.1 139.7L20.2 142.8L26.7 142.9L28.7 140.8L34.2 139.3L39.2 140.3L51.9 138.7L59.4 140.0L64.3 137.9L66.5 139.2Z"},{"id":"2305332","n":"Ibicuitinga","ri":"Quixadá","rm":"Quixadá","p":11611,"d":"M321.7 264.4L337.8 266.8L336.3 263.4L338.3 259.3L335.5 254.7L335.3 251.6L344.8 248.7L343.3 242.2L334.1 243.9L325.5 242.1L321.0 245.4L319.1 249.4L319.1 254.3L315.6 257.3L315.8 259.9L321.7 264.4Z"},{"id":"2305357","n":"Icapuí","ri":"Quixadá","rm":"Aracati","p":21433,"d":"M446.8 215.5L444.9 224.5L451.0 232.6L463.1 230.7L468.1 232.8L468.0 240.2L480.0 237.1L475.1 225.4L469.4 220.8L462.1 219.0L453.9 215.7L452.1 213.6L446.8 215.5Z"},{"id":"2305407","n":"Icó","ri":"Iguatu","rm":"Icó","p":62642,"d":"M292.7 439.9L295.2 441.6L302.6 442.1L304.4 443.4L309.0 438.6L312.8 436.9L315.5 437.7L321.5 434.1L323.4 434.2L323.2 431.9L328.0 427.0L331.7 421.3L325.5 416.3L328.9 413.7L326.7 409.5L328.0 406.4L333.9 398.3L330.2 399.6L324.6 393.1L323.1 392.2L315.5 396.3L310.0 395.6L308.9 391.6L310.3 386.6L306.8 385.4L301.4 386.6L298.5 397.7L297.4 406.3L292.5 410.4L288.1 408.4L285.9 411.9L283.1 411.3L280.4 416.4L274.3 416.0L271.7 417.3L269.0 414.7L263.5 419.8L261.8 423.6L264.3 426.5L271.5 424.1L283.3 433.5L288.0 436.2L287.5 438.1L292.7 439.9Z"},{"id":"2305506","n":"Iguatu","ri":"Iguatu","rm":"Iguatu","p":98064,"d":"M272.0 402.5L267.3 400.5L262.9 406.0L259.7 407.8L253.4 406.0L253.4 403.8L246.3 404.8L247.1 400.3L246.5 392.4L243.0 392.7L237.3 398.6L233.4 398.2L230.4 402.7L225.0 405.0L225.5 410.1L223.9 415.9L231.4 419.8L232.5 426.3L238.3 428.7L237.1 431.4L239.2 434.5L246.0 433.4L251.3 433.1L252.0 429.4L254.8 426.1L261.8 423.6L263.5 419.8L267.6 411.3L272.4 406.8L272.0 402.5Z"},{"id":"2305605","n":"Independência","ri":"Crateús","rm":"Crateús","p":24024,"d":"M97.9 354.0L102.0 351.3L107.0 353.4L115.7 350.6L121.3 342.8L126.0 342.6L129.6 344.2L138.8 336.7L136.0 330.0L136.8 325.2L143.2 321.5L148.8 320.8L150.4 318.6L150.9 309.1L156.4 302.7L156.8 298.7L160.7 294.7L157.5 289.0L157.7 284.4L160.4 280.7L157.0 277.6L152.0 275.1L144.7 275.7L141.1 276.5L136.7 274.4L128.1 276.2L127.0 274.7L115.4 283.1L107.9 288.4L102.7 301.8L99.1 306.1L97.4 307.5L91.6 319.0L93.0 321.4L89.7 327.8L90.5 330.3L87.8 334.8L91.5 339.3L92.0 341.8L97.4 344.4L97.9 354.0Z"},{"id":"2305654","n":"Ipaporanga","ri":"Crateús","rm":"Crateús","p":11575,"d":"M90.7 232.4L86.4 238.6L82.5 240.7L79.7 238.3L75.2 241.2L74.4 237.9L68.0 234.7L65.9 231.8L61.4 231.7L62.1 239.8L56.1 243.5L54.5 243.0L48.7 246.8L44.0 252.6L42.0 259.7L67.7 254.1L80.6 250.4L88.0 255.1L89.8 247.9L100.7 246.8L90.7 232.4Z"},{"id":"2305704","n":"Ipaumirim","ri":"Iguatu","rm":"Icó","p":12083,"d":"M318.6 460.2L310.8 461.4L307.5 460.0L303.9 456.1L296.2 454.6L298.2 458.8L300.3 470.6L295.1 472.0L299.3 471.7L304.5 473.1L305.6 478.0L315.9 472.3L316.3 470.6L318.6 466.5L323.0 463.1L318.6 460.2Z"},{"id":"2305803","n":"Ipu","ri":"Sobral","rm":"São Benedito - Ipu - Guaraciaba do Norte - Tianguá","p":41081,"d":"M71.6 189.9L81.6 196.8L82.9 193.0L86.0 192.8L89.1 200.0L92.4 204.8L95.3 205.4L94.1 202.3L95.8 195.5L99.2 191.8L97.9 189.4L100.4 183.6L108.0 174.7L97.6 177.3L88.3 174.9L86.5 176.6L82.0 173.6L83.9 165.1L79.3 164.5L73.4 168.1L70.5 171.7L72.2 177.8L70.6 180.8L73.5 182.7L71.6 189.9Z"},{"id":"2305902","n":"Ipueiras","ri":"Sobral","rm":"São Benedito - Ipu - Guaraciaba do Norte - Tianguá","p":36798,"d":"M87.0 220.3L90.9 212.8L94.3 211.7L95.3 205.4L92.4 204.8L89.1 200.0L86.0 192.8L82.9 193.0L81.6 196.8L71.6 189.9L67.8 194.0L60.6 195.5L44.9 193.5L40.7 195.7L34.2 196.2L27.3 195.0L25.8 200.5L22.2 206.6L20.1 207.3L30.8 210.3L36.4 210.6L49.3 217.3L53.0 223.8L62.5 223.3L65.8 224.1L70.1 222.6L78.7 223.7L85.9 222.5L87.0 220.3Z"},{"id":"2306009","n":"Iracema","ri":"Quixadá","rm":"Russas - Limoeiro do Norte","p":14001,"d":"M346.3 360.7L347.4 362.9L355.3 363.1L362.1 360.0L363.9 363.3L375.4 363.8L376.9 360.0L376.4 356.3L367.7 353.2L365.0 345.9L365.1 341.3L363.0 335.2L365.1 331.4L363.0 326.3L343.9 329.3L340.9 335.3L341.7 339.0L338.5 342.7L339.1 346.9L341.1 357.6L346.3 360.7Z"},{"id":"2306108","n":"Irauçuba","ri":"Fortaleza","rm":"Itapagé","p":23915,"d":"M161.4 107.5L161.8 113.0L165.9 115.0L171.8 134.6L162.3 129.1L163.2 132.8L172.1 139.9L172.7 144.8L177.9 146.2L181.5 154.0L184.1 154.5L186.8 159.5L189.2 160.9L193.1 153.6L201.8 150.3L198.6 143.3L196.9 142.9L197.1 134.3L195.7 126.6L200.2 121.4L204.7 120.2L202.5 113.6L199.4 111.5L196.9 104.8L197.5 96.5L196.2 100.9L188.3 99.4L184.8 95.0L182.6 94.9L174.7 101.8L173.2 108.5L161.4 107.5Z"},{"id":"2306207","n":"Itaiçaba","ri":"Quixadá","rm":"Aracati","p":7536,"d":"M438.1 224.0L423.3 224.2L416.8 221.6L413.5 218.0L411.7 220.0L404.3 217.7L399.5 217.5L398.9 225.3L401.4 229.3L413.4 229.2L438.1 224.0Z"},{"id":"2306256","n":"Itaitinga","ri":"Fortaleza","rm":"Fortaleza","p":64650,"d":"M335.1 133.5L335.9 127.9L331.3 124.5L327.6 140.4L327.5 147.1L324.1 147.6L323.1 152.9L328.5 155.0L332.0 150.0L332.0 145.6L334.0 142.9L335.1 133.5Z"},{"id":"2306306","n":"Itapajé","ri":"Fortaleza","rm":"Itapagé","p":46426,"d":"M204.7 120.2L210.6 120.6L219.0 111.4L222.0 113.0L221.6 119.9L223.5 124.3L228.8 124.1L230.6 121.1L228.6 115.9L227.4 111.4L221.3 108.6L219.1 102.5L209.7 97.6L200.3 99.8L197.5 96.5L196.9 104.8L199.4 111.5L202.5 113.6L204.7 120.2Z"},{"id":"2306405","n":"Itapipoca","ri":"Fortaleza","rm":"Itapipoca","p":131123,"d":"M220.3 91.5L226.1 92.8L232.2 88.7L229.3 79.6L224.5 71.5L223.0 70.9L220.2 64.5L220.3 59.4L218.2 56.8L220.3 52.9L219.9 48.4L223.6 47.8L228.7 49.1L234.7 46.2L215.0 34.2L213.2 40.2L208.2 42.8L206.3 42.2L200.1 46.2L197.3 53.5L194.4 53.3L197.4 62.4L193.3 66.4L193.7 71.4L188.1 78.8L187.8 81.9L191.6 90.0L189.8 93.9L196.2 100.9L197.5 96.5L200.3 99.8L209.7 97.6L215.6 91.6L220.3 91.5Z"},{"id":"2306504","n":"Itapiúna","ri":"Fortaleza","rm":"Redenção-Acarape","p":17841,"d":"M281.0 218.2L284.9 226.6L287.3 226.4L292.0 222.9L293.0 219.5L294.8 218.1L299.7 218.7L305.5 213.0L301.5 208.3L297.0 207.9L296.7 204.5L293.1 201.8L289.9 202.0L284.2 197.3L280.8 198.3L278.6 196.5L275.2 194.1L268.7 195.4L268.8 202.9L270.9 205.8L263.5 213.6L265.5 215.3L269.5 214.8L279.2 215.7L281.0 218.2Z"},{"id":"2306553","n":"Itarema","ri":"Sobral","rm":"Acaraú","p":42957,"d":"M195.3 24.6L186.8 19.4L179.1 13.4L172.5 9.7L169.8 9.5L167.0 17.0L166.1 25.1L165.0 27.0L166.2 33.6L164.2 36.0L164.4 43.6L163.5 48.0L167.1 52.7L173.8 56.7L175.9 50.9L174.4 49.1L178.3 44.6L178.4 39.4L196.7 26.7L195.3 24.6Z"},{"id":"2306603","n":"Itatira","ri":"Fortaleza","rm":"Canindé","p":20424,"d":"M235.6 223.9L232.2 220.4L229.4 219.5L229.9 215.5L226.3 210.3L221.5 196.6L217.4 197.4L213.6 195.3L208.4 199.0L204.3 199.5L197.2 203.8L199.3 207.5L189.7 213.9L195.7 219.3L194.3 221.4L194.7 227.6L201.7 225.6L205.9 225.5L212.1 227.6L219.6 224.8L233.5 224.8L235.6 223.9Z"},{"id":"2306702","n":"Jaguaretama","ri":"Quixadá","rm":"Russas - Limoeiro do Norte","p":17232,"d":"M288.7 309.4L289.6 311.1L288.9 325.6L292.2 332.6L301.0 347.8L307.1 345.4L313.7 344.6L315.8 343.0L317.2 337.2L322.1 332.7L323.6 326.7L326.6 322.7L329.2 322.2L328.2 317.0L332.8 313.5L330.1 311.0L334.2 307.9L324.8 299.1L311.3 287.7L314.0 283.0L312.1 279.9L304.4 280.3L300.5 282.3L295.8 290.2L287.4 294.8L287.7 305.2L288.7 309.4Z"},{"id":"2306801","n":"Jaguaribara","ri":"Quixadá","rm":"Russas - Limoeiro do Norte","p":10356,"d":"M343.9 329.3L343.3 319.8L340.8 316.0L344.2 310.9L343.1 306.0L346.2 300.0L334.2 307.9L330.1 311.0L332.8 313.5L328.2 317.0L329.2 322.2L326.6 322.7L323.6 326.7L322.1 332.7L317.2 337.2L315.8 343.0L329.1 343.0L336.5 347.3L339.1 346.9L338.5 342.7L341.7 339.0L340.9 335.3L343.9 329.3Z"},{"id":"2306900","n":"Jaguaribe","ri":"Quixadá","rm":"Russas - Limoeiro do Norte","p":33726,"d":"M324.6 393.1L325.9 391.5L331.5 377.4L333.8 375.6L334.3 371.0L337.2 363.9L334.8 358.3L338.1 355.1L337.8 348.5L339.1 346.9L336.5 347.3L329.1 343.0L315.8 343.0L313.7 344.6L307.1 345.4L301.0 347.8L297.3 350.8L296.9 353.1L292.4 357.0L287.8 366.6L285.6 367.4L282.8 374.9L281.2 384.4L284.2 381.8L289.2 382.8L289.8 388.8L299.2 388.3L301.4 386.6L306.8 385.4L310.3 386.6L308.9 391.6L310.0 395.6L315.5 396.3L323.1 392.2L324.6 393.1Z"},{"id":"2307007","n":"Jaguaruana","ri":"Quixadá","rm":"Aracati","p":31701,"d":"M414.6 254.8L431.1 262.7L435.3 248.1L441.2 234.5L438.6 229.8L438.1 224.0L413.4 229.2L401.4 229.3L405.3 235.9L407.2 239.8L406.9 245.7L408.3 249.6L414.6 254.8Z"},{"id":"2307106","n":"Jardim","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":27411,"d":"M235.8 560.1L243.1 565.4L247.7 565.3L249.3 570.0L254.4 568.2L261.6 571.5L264.9 567.5L266.2 559.7L270.1 560.9L258.8 553.5L256.0 546.7L249.2 544.8L235.6 541.4L235.8 560.1Z"},{"id":"2307205","n":"Jati","ri":"Juazeiro do Norte","rm":"Brejo Santo","p":7861,"d":"M264.9 567.5L271.6 575.3L277.5 578.5L281.9 578.4L283.2 583.0L282.4 586.3L282.8 586.1L285.4 580.0L285.4 576.2L290.6 575.3L290.9 559.1L282.2 558.6L275.3 561.8L270.1 560.9L266.2 559.7L264.9 567.5Z"},{"id":"2307254","n":"Jijoca de Jericoacoara","ri":"Sobral","rm":"Acaraú","p":25555,"d":"M104.1 19.7L115.9 21.1L115.8 19.3L113.2 18.2L113.3 13.5L111.0 12.2L110.7 2.2L105.7 0.0L100.6 4.4L95.1 7.2L98.4 11.4L102.2 12.2L102.0 18.3L104.1 19.7Z"},{"id":"2307304","n":"Juazeiro do Norte","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":286120,"d":"M256.2 505.8L246.0 499.1L244.7 501.1L239.2 500.9L238.8 504.7L236.2 507.3L236.5 513.0L238.5 519.1L248.7 518.8L253.6 514.0L256.2 505.8Z"},{"id":"2307403","n":"Jucás","ri":"Iguatu","rm":"Iguatu","p":23922,"d":"M232.5 426.3L231.4 419.8L223.9 415.9L225.5 410.1L218.2 411.8L213.9 411.0L210.0 408.4L203.3 411.6L196.7 411.9L194.6 415.4L189.0 420.1L189.5 425.7L194.9 430.0L191.9 432.8L194.4 435.4L189.3 442.7L193.5 443.5L193.4 445.8L200.3 444.6L216.6 437.1L219.4 433.3L225.2 431.6L229.9 426.1L232.5 426.3Z"},{"id":"2307502","n":"Lavras da Mangabeira","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":30802,"d":"M287.5 438.1L287.2 443.3L282.1 448.9L278.2 448.7L273.0 450.7L270.6 454.2L266.0 455.4L264.1 456.0L257.5 468.3L257.0 472.5L259.3 477.4L259.3 480.9L265.1 481.7L266.1 484.1L268.5 481.1L276.7 474.2L282.5 472.3L295.1 472.0L300.3 470.6L298.2 458.8L296.2 454.6L296.5 449.8L293.1 443.4L292.7 439.9L287.5 438.1Z"},{"id":"2307601","n":"Limoeiro do Norte","ri":"Quixadá","rm":"Russas - Limoeiro do Norte","p":59560,"d":"M366.9 281.8L369.8 279.1L378.3 281.4L385.6 277.8L394.5 285.1L397.6 286.1L401.9 291.1L418.4 291.1L418.6 284.5L414.1 283.0L402.3 276.7L397.3 268.5L393.5 266.0L386.8 266.0L372.1 253.8L369.2 253.7L369.1 262.0L365.1 277.6L366.3 281.1L366.9 281.8Z"},{"id":"2307635","n":"Madalena","ri":"Fortaleza","rm":"Canindé","p":16896,"d":"M205.9 261.6L220.5 262.7L224.0 257.7L223.0 254.0L233.0 248.2L235.3 253.6L238.3 252.1L236.3 248.9L238.5 244.6L236.4 238.9L239.2 232.6L238.9 230.2L243.5 227.7L241.7 224.6L238.5 227.4L236.1 224.8L235.6 223.9L233.5 224.8L219.6 224.8L212.1 227.6L205.9 225.5L201.7 225.6L194.7 227.6L195.1 230.9L200.3 232.3L202.0 234.4L203.5 241.6L207.1 246.0L209.6 256.5L205.9 261.6Z"},{"id":"2307650","n":"Maracanaú","ri":"Fortaleza","rm":"Fortaleza","p":234509,"d":"M320.0 137.2L323.3 131.8L323.1 127.4L331.3 124.5L322.9 120.4L320.2 117.8L314.4 124.2L318.6 126.1L317.8 135.5L320.0 137.2Z"},{"id":"2307700","n":"Maranguape","ri":"Fortaleza","rm":"Fortaleza","p":105093,"d":"M314.4 124.2L302.4 137.0L300.2 136.4L296.0 140.2L293.3 137.2L285.0 134.4L278.1 139.9L280.3 146.0L285.0 152.8L294.4 153.8L297.6 149.2L303.3 151.7L307.5 151.6L316.2 145.4L316.8 143.0L320.0 137.2L317.8 135.5L318.6 126.1L314.4 124.2Z"},{"id":"2307809","n":"Marco","ri":"Sobral","rm":"Acaraú","p":25799,"d":"M153.5 38.4L147.0 33.5L146.1 37.4L135.9 44.5L132.2 42.4L128.9 48.7L126.2 47.3L122.4 48.5L121.1 42.9L119.1 40.5L114.6 39.1L106.0 32.2L104.4 37.7L110.8 42.4L111.2 45.9L118.6 56.6L123.8 58.6L131.5 60.4L131.0 55.5L135.7 58.1L149.2 48.1L152.1 47.8L162.8 50.5L153.5 38.4Z"},{"id":"2307908","n":"Martinópole","ri":"Sobral","rm":"Sobral","p":10846,"d":"M79.2 52.1L86.0 53.7L101.7 52.8L100.0 46.8L96.8 44.2L96.9 40.7L76.5 30.9L81.2 49.7L79.2 52.1Z"},{"id":"2308005","n":"Massapê","ri":"Sobral","rm":"Sobral","p":37697,"d":"M132.1 91.3L133.5 89.8L134.0 83.1L131.9 80.8L127.7 72.5L124.3 71.8L123.7 65.6L122.2 68.0L117.8 69.2L114.4 67.8L103.7 70.5L101.2 76.9L98.8 81.0L100.8 85.5L103.1 84.5L108.2 82.3L109.7 85.2L115.5 87.4L115.2 90.7L121.4 96.3L127.3 97.0L128.9 93.4L132.1 91.3Z"},{"id":"2308104","n":"Mauriti","ri":"Juazeiro do Norte","rm":"Brejo Santo","p":45561,"d":"M315.0 555.4L318.5 552.3L319.4 541.6L324.2 541.3L325.1 536.5L330.4 527.1L332.1 522.0L329.9 517.5L325.4 517.0L322.3 513.8L308.6 515.9L303.5 514.6L294.6 529.4L292.0 541.3L304.3 558.3L311.0 560.9L311.3 560.4L312.6 555.6L315.0 555.4Z"},{"id":"2308203","n":"Meruoca","ri":"Sobral","rm":"Sobral","p":15157,"d":"M105.6 97.9L116.2 99.7L117.0 97.6L121.4 96.3L115.2 90.7L115.5 87.4L109.7 85.2L108.2 82.3L103.1 84.5L103.0 88.1L105.6 91.9L105.6 97.9Z"},{"id":"2308302","n":"Milagres","ri":"Juazeiro do Norte","rm":"Brejo Santo","p":25900,"d":"M281.9 537.8L285.3 537.9L292.0 541.3L294.6 529.4L303.5 514.6L301.7 513.7L296.7 516.1L288.3 516.5L284.5 504.8L289.0 497.9L283.3 497.8L275.5 505.7L275.6 510.8L268.5 515.5L267.9 518.4L272.8 522.1L278.4 524.1L282.9 534.2L281.9 537.8Z"},{"id":"2308351","n":"Milhã","ri":"Quixadá","rm":"Quixadá","p":14123,"d":"M247.0 344.9L252.3 345.2L254.3 348.0L259.6 349.2L275.4 313.4L271.5 315.9L265.1 315.4L256.4 317.5L250.0 325.3L247.4 330.1L248.4 339.6L247.0 344.9Z"},{"id":"2308377","n":"Miraíma","ri":"Fortaleza","rm":"Itapipoca","p":14196,"d":"M161.4 107.5L173.2 108.5L174.7 101.8L182.6 94.9L184.8 95.0L188.3 99.4L196.2 100.9L189.8 93.9L191.6 90.0L187.8 81.9L188.1 78.8L168.8 75.2L160.0 75.6L157.5 86.6L158.2 90.4L155.1 93.8L158.0 92.3L165.0 91.8L163.9 97.5L162.0 100.0L161.4 107.5Z"},{"id":"2308401","n":"Missão Velha","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":36822,"d":"M256.2 505.8L253.6 514.0L248.7 518.8L254.6 523.3L250.7 530.4L252.8 534.3L249.1 540.2L249.2 544.8L256.0 546.7L256.9 543.2L260.8 540.6L267.6 542.1L269.5 537.2L266.7 527.8L269.1 523.2L267.9 518.4L268.5 515.5L275.6 510.8L275.5 505.7L272.7 504.3L269.4 506.4L265.2 506.3L262.8 503.5L256.2 505.8Z"},{"id":"2308500","n":"Mombaça","ri":"Iguatu","rm":"Iguatu","p":37735,"d":"M223.7 337.9L227.8 333.8L222.8 330.4L215.5 327.7L210.8 326.9L209.1 329.1L205.6 326.9L200.6 328.6L198.7 326.1L189.7 324.8L184.1 322.5L180.2 329.2L171.0 330.0L161.7 329.0L157.7 334.7L160.5 338.9L162.4 340.1L162.4 346.7L166.0 351.9L171.9 353.8L169.9 358.5L173.1 360.8L178.0 359.0L178.0 362.1L182.3 365.7L182.0 369.8L179.8 371.0L173.6 379.2L167.8 382.4L168.2 384.1L172.6 382.0L176.0 383.8L183.3 377.3L184.6 374.0L197.4 373.1L200.7 375.1L203.2 368.6L208.0 370.4L213.2 368.2L215.5 356.6L214.3 355.0L220.4 341.2L223.7 337.9Z"},{"id":"2308609","n":"Monsenhor Tabosa","ri":"Crateús","rm":"Crateús","p":17149,"d":"M144.7 275.7L163.4 266.4L168.0 259.6L166.8 250.6L168.1 248.0L174.5 245.6L175.3 243.4L169.4 238.0L169.0 235.5L171.4 230.5L171.6 225.9L156.3 223.9L149.3 227.5L147.4 235.0L150.4 239.3L150.0 243.1L140.6 245.8L143.7 249.1L144.0 252.5L147.0 253.3L150.9 259.4L145.9 260.6L147.3 265.1L147.6 271.6L144.7 275.7Z"},{"id":"2308708","n":"Morada Nova","ri":"Quixadá","rm":"Russas - Limoeiro do Norte","p":61443,"d":"M366.3 281.1L365.1 277.6L369.1 262.0L369.2 253.7L363.6 243.2L358.0 240.2L352.6 239.0L345.9 240.8L343.5 237.4L339.8 235.4L350.6 225.3L355.7 219.0L358.8 219.7L369.1 209.2L366.7 207.3L352.2 198.9L349.9 207.8L346.7 210.1L343.7 214.8L341.0 216.5L336.3 216.3L332.8 219.7L333.6 226.3L327.8 229.4L326.8 233.7L323.2 237.7L316.9 241.5L320.1 247.1L319.1 249.4L321.0 245.4L325.5 242.1L334.1 243.9L343.3 242.2L344.8 248.7L335.3 251.6L335.5 254.7L338.3 259.3L336.3 263.4L337.8 266.8L321.7 264.4L322.5 270.4L323.2 274.1L315.7 283.0L314.0 283.0L311.3 287.7L324.8 299.1L334.2 307.9L346.2 300.0L348.3 298.7L352.0 297.1L356.0 293.1L355.8 288.5L366.3 281.1Z"},{"id":"2308807","n":"Moraújo","ri":"Sobral","rm":"Sobral","p":8254,"d":"M64.3 87.1L75.3 83.5L85.8 86.4L98.7 86.4L99.2 87.3L100.8 85.5L98.8 81.0L101.2 76.9L97.4 75.8L98.3 72.1L93.3 72.6L89.6 66.4L86.5 66.8L83.0 71.5L79.8 71.8L78.1 75.7L74.1 73.9L65.2 73.3L68.4 79.5L64.3 87.1Z"},{"id":"2308906","n":"Morrinhos","ri":"Sobral","rm":"Sobral","p":22753,"d":"M123.8 61.6L139.9 60.6L141.8 61.9L146.3 60.2L150.8 61.9L152.5 66.0L155.0 67.5L164.6 67.3L170.1 63.8L170.7 61.6L162.8 50.5L152.1 47.8L149.2 48.1L135.7 58.1L131.0 55.5L131.5 60.4L123.8 58.6L123.8 61.6Z"},{"id":"2309003","n":"Mucambo","ri":"Sobral","rm":"Sobral","p":13666,"d":"M68.2 135.8L75.7 135.3L78.8 137.0L85.1 135.5L86.4 133.8L80.9 131.3L80.9 127.7L84.8 122.5L79.7 120.1L74.8 125.0L72.1 122.0L67.9 125.6L62.5 125.6L64.6 128.7L73.5 127.3L71.2 130.8L67.4 131.6L68.2 135.8Z"},{"id":"2309102","n":"Mulungu","ri":"Fortaleza","rm":"Redenção-Acarape","p":10569,"d":"M278.1 171.1L273.2 175.6L275.5 177.8L272.3 181.6L276.9 184.1L281.9 183.5L283.2 182.2L286.1 178.2L285.3 176.0L278.1 171.1Z"},{"id":"2309201","n":"Nova Olinda","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":15399,"d":"M192.3 490.9L191.1 493.5L192.9 499.1L198.5 508.1L209.3 512.6L209.3 497.6L211.6 493.4L205.5 491.0L200.0 490.2L195.8 488.6L192.3 490.9Z"},{"id":"2309300","n":"Nova Russas","ri":"Crateús","rm":"Crateús","p":30699,"d":"M100.7 246.8L100.9 238.5L102.7 239.0L111.7 225.7L119.2 204.4L110.0 202.0L104.4 199.6L95.3 205.4L94.3 211.7L90.9 212.8L87.0 220.3L88.5 227.4L90.7 232.4L100.7 246.8Z"},{"id":"2309409","n":"Novo Oriente","ri":"Crateús","rm":"Crateús","p":27545,"d":"M99.1 306.1L88.6 306.1L83.8 311.4L79.8 310.3L77.9 312.8L73.8 313.8L65.6 312.2L63.6 313.8L59.1 311.9L56.0 313.8L55.6 320.2L59.1 327.1L58.4 331.1L54.9 334.6L57.7 340.6L58.2 345.4L65.8 345.9L71.8 341.6L76.7 340.0L83.0 331.2L86.0 333.8L87.7 337.7L92.0 341.8L91.5 339.3L87.8 334.8L90.5 330.3L89.7 327.8L93.0 321.4L91.6 319.0L97.4 307.5L99.1 306.1Z"},{"id":"2309458","n":"Ocara","ri":"Fortaleza","rm":"Redenção-Acarape","p":24493,"d":"M332.8 219.7L336.3 216.3L341.0 216.5L343.7 214.8L346.7 210.1L349.9 207.8L352.2 198.9L351.4 194.6L343.4 185.3L342.7 188.2L332.2 183.6L328.3 188.7L324.4 189.5L321.1 193.1L320.5 197.1L322.1 202.9L318.9 205.2L323.2 216.4L327.7 218.4L332.8 219.7Z"},{"id":"2309508","n":"Orós","ri":"Iguatu","rm":"Icó","p":19675,"d":"M263.5 419.8L269.0 414.7L271.7 417.3L274.3 416.0L280.4 416.4L283.1 411.3L285.9 411.9L288.1 408.4L292.5 410.4L297.4 406.3L298.5 397.7L301.4 386.6L299.2 388.3L289.8 388.8L289.2 382.8L284.2 381.8L281.2 384.4L282.1 386.7L280.1 390.6L278.1 398.0L272.0 402.5L272.4 406.8L267.6 411.3L263.5 419.8Z"},{"id":"2309607","n":"Pacajus","ri":"Fortaleza","rm":"Fortaleza","p":70983,"d":"M328.0 168.1L333.2 167.0L340.1 169.2L348.5 166.7L349.8 157.6L328.0 155.7L322.4 159.8L322.9 162.0L328.0 168.1Z"},{"id":"2309706","n":"Pacatuba","ri":"Fortaleza","rm":"Fortaleza","p":81524,"d":"M316.8 143.0L323.9 142.5L327.5 147.1L327.6 140.4L331.3 124.5L323.1 127.4L323.3 131.8L320.0 137.2L316.8 143.0Z"},{"id":"2309805","n":"Pacoti","ri":"Fortaleza","rm":"Redenção-Acarape","p":11186,"d":"M284.2 161.9L285.3 168.1L289.7 169.6L291.0 172.9L295.9 167.4L295.3 161.3L290.6 157.9L286.5 156.9L283.7 156.7L284.2 161.9Z"},{"id":"2309904","n":"Pacujá","ri":"Sobral","rm":"Sobral","p":6175,"d":"M78.8 137.0L80.9 147.8L84.4 147.5L89.4 142.7L86.2 139.2L86.4 133.8L85.1 135.5L78.8 137.0Z"},{"id":"2310001","n":"Palhano","ri":"Quixadá","rm":"Russas - Limoeiro do Norte","p":9346,"d":"M401.4 229.3L398.9 225.3L399.5 217.5L394.6 217.4L396.9 212.1L395.4 208.4L393.7 210.1L384.2 208.9L379.5 212.6L372.8 213.0L376.9 217.8L382.9 222.3L388.2 231.0L386.9 235.0L388.9 238.7L405.3 235.9L401.4 229.3Z"},{"id":"2310100","n":"Palmácia","ri":"Fortaleza","rm":"Fortaleza","p":10242,"d":"M295.3 161.3L301.2 159.5L302.8 157.3L306.7 155.7L307.5 151.6L303.3 151.7L297.6 149.2L294.4 153.8L285.0 152.8L286.5 156.9L290.6 157.9L295.3 161.3Z"},{"id":"2310209","n":"Paracuru","ri":"Fortaleza","rm":"Fortaleza","p":38980,"d":"M259.3 85.6L266.9 86.6L272.8 89.2L278.9 89.2L283.3 87.8L282.2 84.2L286.3 78.9L281.5 72.6L277.6 71.0L271.0 72.1L265.8 74.2L264.8 81.2L262.2 80.6L259.3 85.6Z"},{"id":"2310258","n":"Paraipaba","ri":"Fortaleza","rm":"Fortaleza","p":32216,"d":"M259.3 85.6L262.2 80.6L264.8 81.2L265.8 74.2L271.0 72.1L265.5 65.2L259.5 62.8L254.7 66.3L251.0 66.6L249.2 70.9L248.2 81.8L259.3 85.6Z"},{"id":"2310308","n":"Parambu","ri":"Crateús","rm":"Tauá","p":31445,"d":"M116.4 408.7L112.9 411.2L102.3 412.8L92.7 411.6L97.8 406.3L105.5 401.5L106.8 396.0L101.8 391.0L104.5 389.2L106.2 382.2L109.4 374.5L106.3 370.4L100.5 373.0L92.6 371.3L83.7 373.8L80.8 377.1L78.0 379.2L76.9 383.0L72.0 382.8L70.1 384.7L64.2 384.7L64.8 398.5L72.4 407.9L73.3 412.0L70.3 418.0L72.0 430.5L72.3 433.2L76.1 436.7L78.2 442.0L92.8 442.4L96.4 436.1L110.9 433.2L112.1 429.2L118.0 427.5L120.9 422.3L125.4 419.0L116.4 408.7Z"},{"id":"2310407","n":"Paramoti","ri":"Fortaleza","rm":"Canindé","p":10384,"d":"M255.0 146.2L252.2 149.2L247.3 150.8L241.1 151.3L235.7 153.6L231.5 151.9L227.0 152.8L226.6 156.0L221.7 153.7L218.4 154.6L216.1 159.4L212.7 166.2L220.0 168.9L221.8 174.5L239.9 163.3L242.8 161.5L254.8 161.2L254.7 156.0L259.9 155.5L260.6 152.2L255.0 146.2Z"},{"id":"2310506","n":"Pedra Branca","ri":"Quixadá","rm":"Quixadá","p":40187,"d":"M205.6 326.9L209.7 323.9L211.6 315.0L204.8 311.4L201.4 304.5L202.8 299.9L201.7 298.6L199.2 298.2L188.2 300.6L186.3 302.9L181.3 299.4L177.4 300.0L175.0 302.6L172.1 301.8L168.0 297.0L163.9 297.2L160.7 294.7L156.8 298.7L156.4 302.7L156.9 313.1L159.9 313.5L161.5 316.7L156.5 326.0L156.9 331.0L154.6 333.7L158.2 339.1L160.5 338.9L157.7 334.7L161.7 329.0L171.0 330.0L180.2 329.2L184.1 322.5L189.7 324.8L198.7 326.1L200.6 328.6L205.6 326.9Z"},{"id":"2310605","n":"Penaforte","ri":"Juazeiro do Norte","rm":"Brejo Santo","p":8972,"d":"M266.6 577.6L268.3 584.8L276.4 582.5L278.3 585.6L282.4 586.3L283.2 583.0L281.9 578.4L277.5 578.5L271.6 575.3L264.9 567.5L261.6 571.5L266.6 577.6Z"},{"id":"2310704","n":"Pentecoste","ri":"Fortaleza","rm":"Itapagé","p":37813,"d":"M230.6 121.1L237.6 122.8L239.2 124.7L242.9 133.5L244.6 131.5L250.8 129.3L253.7 134.5L257.4 138.3L255.0 146.2L271.1 148.5L275.3 148.1L278.1 139.9L285.0 134.4L279.8 125.7L278.6 121.8L281.0 115.2L283.4 114.0L282.9 107.5L278.3 104.3L261.9 106.5L253.8 105.2L246.6 110.4L237.6 110.6L236.1 113.9L228.6 115.9L230.6 121.1Z"},{"id":"2310803","n":"Pereiro","ri":"Quixadá","rm":"Russas - Limoeiro do Norte","p":15274,"d":"M347.1 379.1L345.1 373.9L348.0 371.9L346.3 360.7L341.1 357.6L339.1 346.9L337.8 348.5L338.1 355.1L334.8 358.3L337.2 363.9L334.3 371.0L333.8 375.6L331.5 377.4L325.9 391.5L324.6 393.1L330.2 399.6L333.9 398.3L333.0 394.9L339.0 390.7L340.1 386.6L343.9 381.5L347.1 379.1Z"},{"id":"2310852","n":"Pindoretama","ri":"Fortaleza","rm":"Fortaleza","p":23391,"d":"M351.1 148.4L353.6 151.0L360.2 152.0L363.5 149.3L366.5 143.5L364.6 144.1L357.7 142.1L351.1 148.4Z"},{"id":"2310902","n":"Piquet Carneiro","ri":"Iguatu","rm":"Iguatu","p":16616,"d":"M236.6 370.3L237.6 366.9L236.0 361.1L239.1 355.3L239.1 350.3L240.7 347.3L228.4 341.0L226.3 342.1L223.7 337.9L220.4 341.2L214.3 355.0L215.5 356.6L213.2 368.2L216.7 370.2L223.0 371.1L236.6 370.3Z"},{"id":"2310951","n":"Pires Ferreira","ri":"Sobral","rm":"São Benedito - Ipu - Guaraciaba do Norte - Tianguá","p":10606,"d":"M83.9 165.1L82.0 173.6L86.5 176.6L88.3 174.9L97.6 177.3L108.0 174.7L111.1 171.0L111.1 165.0L103.5 170.5L99.7 165.7L94.1 164.3L83.9 165.1Z"},{"id":"2311009","n":"Poranga","ri":"Crateús","rm":"Crateús","p":12065,"d":"M61.4 231.7L62.5 223.3L53.0 223.8L49.3 217.3L36.4 210.6L30.8 210.3L20.1 207.3L20.9 211.5L26.9 218.8L18.9 228.5L23.3 230.2L20.9 234.7L19.0 241.6L21.5 244.0L22.4 249.6L26.0 249.8L33.8 259.4L42.0 259.7L44.0 252.6L48.7 246.8L54.5 243.0L56.1 243.5L62.1 239.8L61.4 231.7Z"},{"id":"2311108","n":"Porteiras","ri":"Juazeiro do Norte","rm":"Brejo Santo","p":17050,"d":"M275.3 561.8L275.0 550.1L268.3 544.6L260.8 540.6L256.9 543.2L256.0 546.7L258.8 553.5L270.1 560.9L275.3 561.8Z"},{"id":"2311207","n":"Potengi","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":8833,"d":"M144.1 493.8L147.4 501.3L154.8 505.2L163.1 505.8L165.3 505.1L172.6 499.3L175.0 499.6L175.8 494.5L169.7 497.2L169.0 489.6L154.7 488.9L153.7 486.3L149.0 490.9L144.1 493.8Z"},{"id":"2311231","n":"Potiretama","ri":"Quixadá","rm":"Russas - Limoeiro do Norte","p":5974,"d":"M365.1 331.4L363.0 335.2L365.1 341.3L365.0 345.9L367.7 353.2L376.4 356.3L376.9 360.0L375.4 363.8L379.7 358.8L380.1 353.1L387.0 344.1L388.4 341.6L383.5 339.5L384.3 334.5L377.9 334.9L371.4 330.0L365.1 331.4Z"},{"id":"2311264","n":"Quiterianópolis","ri":"Crateús","rm":"Crateús","p":20213,"d":"M92.0 341.8L87.7 337.7L86.0 333.8L83.0 331.2L76.7 340.0L71.8 341.6L65.8 345.9L58.2 345.4L58.7 355.0L61.6 363.0L62.4 369.4L58.9 374.9L58.6 377.9L62.5 379.0L64.2 384.7L70.1 384.7L72.0 382.8L76.9 383.0L78.0 379.2L80.8 377.1L78.5 375.9L77.4 370.1L80.9 368.6L84.5 357.8L89.0 354.0L97.9 354.0L97.4 344.4L92.0 341.8Z"},{"id":"2311306","n":"Quixadá","ri":"Quixadá","rm":"Quixadá","p":84168,"d":"M319.1 249.4L312.9 245.4L292.0 249.2L291.0 244.3L287.9 239.5L292.9 239.5L301.3 226.7L293.0 219.5L292.0 222.9L287.3 226.4L284.9 226.6L281.0 218.2L274.4 218.2L273.8 223.2L270.1 224.9L266.5 229.1L273.0 230.1L270.9 234.9L262.3 242.8L255.6 252.7L252.5 252.2L253.5 257.8L258.8 262.7L261.4 263.8L259.9 270.4L261.3 273.3L268.9 274.2L274.8 275.7L283.4 274.3L290.0 275.6L300.0 264.4L306.0 265.8L308.0 267.6L313.2 267.5L318.8 270.8L322.5 270.4L321.7 264.4L315.8 259.9L315.6 257.3L319.1 254.3L319.1 249.4Z"},{"id":"2311355","n":"Quixelô","ri":"Iguatu","rm":"Iguatu","p":15910,"d":"M243.0 392.7L246.5 392.4L247.1 400.3L246.3 404.8L253.4 403.8L253.4 406.0L259.7 407.8L262.9 406.0L267.3 400.5L272.0 402.5L278.1 398.0L280.1 390.6L282.1 386.7L281.2 384.4L279.7 381.3L280.0 375.8L276.3 373.1L272.6 375.4L268.1 383.3L262.1 390.4L248.5 387.4L243.0 392.7Z"},{"id":"2311405","n":"Quixeramobim","ri":"Quixadá","rm":"Quixadá","p":82177,"d":"M202.8 299.9L205.7 302.9L211.7 303.7L224.9 311.8L236.1 317.6L242.8 315.7L246.2 317.6L250.0 325.3L256.4 317.5L265.1 315.4L271.5 315.9L270.2 313.0L272.1 306.4L268.7 303.3L272.2 291.4L274.6 287.5L273.1 282.9L268.2 276.7L268.9 274.2L261.3 273.3L259.9 270.4L261.4 263.8L258.8 262.7L253.5 257.8L252.5 252.2L249.2 247.3L243.9 242.8L243.5 238.6L240.2 237.6L239.2 232.6L236.4 238.9L238.5 244.6L236.3 248.9L238.3 252.1L235.3 253.6L233.0 248.2L223.0 254.0L224.0 257.7L220.5 262.7L205.9 261.6L207.7 266.4L216.6 270.4L206.5 286.2L206.2 292.2L201.7 298.6L202.8 299.9Z"},{"id":"2311504","n":"Quixeré","ri":"Quixadá","rm":"Russas - Limoeiro do Norte","p":20874,"d":"M386.8 266.0L393.5 266.0L397.3 268.5L402.3 276.7L414.1 283.0L418.6 284.5L418.2 282.0L420.9 272.8L424.6 268.3L425.5 264.8L431.1 262.7L414.6 254.8L405.1 254.5L401.5 257.0L391.7 259.5L386.8 266.0Z"},{"id":"2311603","n":"Redenção","ri":"Fortaleza","rm":"Redenção-Acarape","p":27214,"d":"M305.5 176.2L307.8 181.6L311.8 185.3L313.8 184.8L313.1 179.1L314.6 174.1L310.7 173.2L312.3 169.5L311.1 162.5L310.9 160.3L302.8 157.3L301.2 159.5L295.3 161.3L295.9 167.4L300.4 169.8L302.0 175.1L305.5 176.2Z"},{"id":"2311702","n":"Reriutaba","ri":"Sobral","rm":"Sobral","p":18606,"d":"M108.6 150.8L104.0 146.2L97.6 146.3L89.4 142.7L84.4 147.5L80.9 155.7L81.1 160.3L79.3 164.5L83.9 165.1L94.1 164.3L103.3 160.0L103.8 156.3L101.7 152.1L108.6 150.8Z"},{"id":"2311801","n":"Russas","ri":"Quixadá","rm":"Russas - Limoeiro do Norte","p":72928,"d":"M414.6 254.8L408.3 249.6L406.9 245.7L407.2 239.8L405.3 235.9L388.9 238.7L386.9 235.0L388.2 231.0L382.9 222.3L376.9 217.8L372.8 213.0L369.1 209.2L358.8 219.7L355.7 219.0L350.6 225.3L339.8 235.4L343.5 237.4L345.9 240.8L352.6 239.0L358.0 240.2L363.6 243.2L369.2 253.7L372.1 253.8L386.8 266.0L391.7 259.5L401.5 257.0L405.1 254.5L414.6 254.8Z"},{"id":"2311900","n":"Saboeiro","ri":"Iguatu","rm":"Iguatu","p":13854,"d":"M187.4 396.4L186.5 400.6L180.7 413.3L175.3 415.1L171.9 412.1L159.7 410.8L156.1 415.0L153.4 415.1L154.3 418.8L159.3 422.5L156.3 430.5L159.4 435.1L160.1 440.0L156.8 443.3L162.5 452.0L164.7 451.3L170.1 455.0L173.1 452.3L181.8 451.2L182.4 453.6L189.1 448.6L189.9 445.1L193.5 443.5L189.3 442.7L194.4 435.4L191.9 432.8L194.9 430.0L189.5 425.7L189.0 420.1L194.6 415.4L196.7 411.9L195.4 404.1L189.6 396.2L187.4 396.4Z"},{"id":"2311959","n":"Salitre","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":16633,"d":"M149.0 490.9L147.6 488.5L138.6 491.7L134.1 495.3L125.8 497.8L124.5 503.1L111.6 498.7L110.1 497.4L106.7 502.1L107.3 503.8L104.8 512.8L102.7 525.2L111.3 530.2L117.7 531.0L121.5 529.5L123.3 526.5L127.3 523.2L132.8 523.2L135.2 525.2L132.4 517.1L134.1 511.7L132.2 508.6L135.4 501.6L142.0 498.2L144.1 493.8L149.0 490.9Z"},{"id":"2312007","n":"Santana do Acaraú","ri":"Sobral","rm":"Sobral","p":30628,"d":"M132.1 91.3L139.8 95.0L138.6 97.5L143.1 103.1L146.2 102.5L150.3 104.9L150.3 99.6L155.1 93.8L158.2 90.4L157.5 86.6L160.0 75.6L163.5 72.3L164.6 67.3L155.0 67.5L152.5 66.0L150.8 61.9L146.3 60.2L141.8 61.9L139.9 60.6L123.8 61.6L123.7 65.6L124.3 71.8L127.7 72.5L131.9 80.8L134.0 83.1L133.5 89.8L132.1 91.3Z"},{"id":"2312106","n":"Santana do Cariri","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":16954,"d":"M175.8 527.7L179.5 526.0L182.9 526.8L193.0 526.2L197.0 527.5L204.0 532.4L206.2 537.8L209.4 538.0L209.3 512.6L198.5 508.1L192.9 499.1L191.1 493.5L192.3 490.9L189.4 495.4L185.3 492.6L175.8 494.5L175.0 499.6L175.9 504.8L175.8 527.7Z"},{"id":"2312205","n":"Santa Quitéria","ri":"Sobral","rm":"Sobral","p":40183,"d":"M133.8 195.5L139.2 194.7L142.3 199.6L150.1 200.0L155.9 194.8L160.5 194.3L163.0 197.4L162.1 201.4L158.7 207.8L150.7 209.4L151.3 217.5L156.3 223.9L171.6 225.9L171.4 230.5L176.4 232.4L179.8 226.1L183.5 225.4L185.4 222.8L192.8 224.2L194.3 221.4L195.7 219.3L189.7 213.9L199.3 207.5L197.2 203.8L192.5 203.9L189.9 201.5L195.1 196.9L194.3 192.7L191.7 188.0L196.4 184.9L193.8 179.4L194.3 172.7L190.1 169.5L187.6 162.7L189.2 160.9L186.8 159.5L184.1 154.5L181.5 154.0L179.3 156.9L175.5 157.4L167.4 154.9L164.2 150.8L161.5 151.0L147.2 144.4L141.4 136.0L128.0 133.1L124.2 137.4L121.6 144.5L120.1 151.5L113.4 151.4L113.4 159.2L111.1 165.0L111.1 171.0L128.3 171.9L125.9 177.1L126.2 182.0L133.8 195.5Z"},{"id":"2312304","n":"São Benedito","ri":"Sobral","rm":"São Benedito - Ipu - Guaraciaba do Norte - Tianguá","p":47640,"d":"M69.7 154.5L65.4 152.8L66.8 146.8L66.5 139.2L64.3 137.9L59.4 140.0L51.9 138.7L39.2 140.3L34.2 139.3L28.7 140.8L26.7 142.9L28.3 144.7L33.9 145.0L34.7 146.6L31.7 154.8L36.7 148.4L39.9 146.6L43.9 148.6L50.1 147.2L54.6 147.5L60.3 153.5L59.2 159.2L64.8 158.6L67.0 154.5L69.7 154.5Z"},{"id":"2312403","n":"São Gonçalo do Amarante","ri":"Fortaleza","rm":"Fortaleza","p":54143,"d":"M300.8 88.5L295.5 87.6L287.9 82.2L286.3 78.9L282.2 84.2L283.3 87.8L278.9 89.2L272.8 89.2L266.9 86.6L259.3 85.6L248.2 81.8L243.5 86.9L242.2 92.2L248.2 92.8L253.6 95.5L252.3 102.0L253.8 105.2L261.9 106.5L278.3 104.3L282.9 107.5L287.9 102.2L292.1 104.4L297.9 91.1L300.8 88.5Z"},{"id":"2312502","n":"São João do Jaguaribe","ri":"Quixadá","rm":"Russas - Limoeiro do Norte","p":5855,"d":"M348.3 298.7L354.4 303.4L357.6 301.1L363.7 304.2L375.5 298.1L369.9 293.8L367.8 290.2L369.5 285.1L366.9 281.8L366.3 281.1L355.8 288.5L356.0 293.1L352.0 297.1L348.3 298.7Z"},{"id":"2312601","n":"São Luís do Curu","ri":"Fortaleza","rm":"Fortaleza","p":10822,"d":"M253.8 105.2L252.3 102.0L253.6 95.5L248.2 92.8L242.2 92.2L243.1 101.9L246.4 103.1L246.6 110.4L253.8 105.2Z"},{"id":"2312700","n":"Senador Pompeu","ri":"Quixadá","rm":"Quixadá","p":24266,"d":"M223.7 337.9L226.3 342.1L228.4 341.0L240.7 347.3L247.0 344.9L248.4 339.6L247.4 330.1L250.0 325.3L246.2 317.6L242.8 315.7L236.1 317.6L224.9 311.8L211.7 303.7L205.7 302.9L202.8 299.9L201.4 304.5L204.8 311.4L211.6 315.0L209.7 323.9L205.6 326.9L209.1 329.1L210.8 326.9L215.5 327.7L222.8 330.4L227.8 333.8L223.7 337.9Z"},{"id":"2312809","n":"Senador Sá","ri":"Sobral","rm":"Sobral","p":7262,"d":"M101.7 52.8L106.2 55.1L107.7 59.7L107.0 63.8L100.7 72.5L98.3 72.1L97.4 75.8L101.2 76.9L103.7 70.5L114.4 67.8L117.8 69.2L122.2 68.0L123.7 65.6L123.8 61.6L123.8 58.6L118.6 56.6L111.2 45.9L110.8 42.4L104.4 37.7L96.9 40.7L96.8 44.2L100.0 46.8L101.7 52.8Z"},{"id":"2312908","n":"Sobral","ri":"Sobral","rm":"Sobral","p":203023,"d":"M120.4 124.8L123.9 115.7L127.7 116.1L127.9 111.7L135.9 105.8L148.6 106.2L149.9 116.0L147.2 128.8L141.4 136.0L147.2 144.4L161.5 151.0L164.2 150.8L167.4 154.9L175.5 157.4L179.3 156.9L181.5 154.0L177.9 146.2L172.7 144.8L172.1 139.9L163.2 132.8L162.3 129.1L171.8 134.6L165.9 115.0L161.8 113.0L161.4 107.5L162.0 100.0L163.9 97.5L165.0 91.8L158.0 92.3L155.1 93.8L150.3 99.6L150.3 104.9L146.2 102.5L143.1 103.1L138.6 97.5L139.8 95.0L132.1 91.3L128.9 93.4L127.3 97.0L121.4 96.3L117.0 97.6L116.2 99.7L105.6 97.9L103.8 100.2L99.8 100.7L92.7 100.3L87.5 117.3L80.6 118.3L79.7 120.1L84.8 122.5L91.3 120.6L96.1 124.7L105.4 123.7L111.8 121.7L115.2 118.4L118.2 117.6L120.4 124.8Z"},{"id":"2313005","n":"Solonópole","ri":"Quixadá","rm":"Quixadá","p":18179,"d":"M272.6 375.4L276.3 373.1L280.0 375.8L279.7 381.3L281.2 384.4L282.8 374.9L285.6 367.4L287.8 366.6L292.4 357.0L296.9 353.1L297.3 350.8L301.0 347.8L292.2 332.6L288.9 325.6L289.6 311.1L288.7 309.4L286.7 312.9L281.3 317.0L275.4 313.4L259.6 349.2L257.5 356.3L258.9 367.9L263.4 370.6L265.5 369.8L271.5 372.9L272.6 375.4Z"},{"id":"2313104","n":"Tabuleiro do Norte","ri":"Quixadá","rm":"Russas - Limoeiro do Norte","p":30652,"d":"M375.5 298.1L384.8 308.2L389.7 322.4L387.2 327.3L390.6 328.9L394.0 324.5L395.0 321.0L399.5 318.8L401.3 315.2L405.1 314.7L406.6 309.0L409.9 303.8L409.5 300.0L411.4 296.0L415.4 293.3L418.4 291.1L401.9 291.1L397.6 286.1L394.5 285.1L385.6 277.8L378.3 281.4L369.8 279.1L366.9 281.8L369.5 285.1L367.8 290.2L369.9 293.8L375.5 298.1Z"},{"id":"2313203","n":"Tamboril","ri":"Crateús","rm":"Crateús","p":24815,"d":"M147.4 235.0L141.9 231.7L138.9 232.6L131.6 230.0L128.0 225.7L127.5 220.9L124.2 217.9L126.4 212.9L129.3 210.4L126.0 207.6L123.2 208.1L119.2 204.4L111.7 225.7L102.7 239.0L100.9 238.5L100.7 246.8L89.8 247.9L94.3 251.7L97.8 259.0L100.9 258.1L105.9 260.9L111.5 260.5L119.9 270.4L115.4 283.1L127.0 274.7L128.1 276.2L136.7 274.4L141.1 276.5L144.7 275.7L147.6 271.6L147.3 265.1L145.9 260.6L150.9 259.4L147.0 253.3L144.0 252.5L143.7 249.1L140.6 245.8L150.0 243.1L150.4 239.3L147.4 235.0Z"},{"id":"2313252","n":"Tarrafas","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":7529,"d":"M173.6 460.9L177.1 461.4L187.3 465.4L193.0 465.8L196.7 463.5L198.7 468.0L203.1 467.6L207.4 463.8L209.3 460.4L204.5 458.1L203.8 451.8L201.7 446.3L193.4 445.8L193.5 443.5L189.9 445.1L189.1 448.6L182.4 453.6L173.6 460.9Z"},{"id":"2313302","n":"Tauá","ri":"Crateús","rm":"Tauá","p":61227,"d":"M168.2 384.1L167.8 382.4L173.6 379.2L179.8 371.0L182.0 369.8L182.3 365.7L178.0 362.1L178.0 359.0L173.1 360.8L169.9 358.5L171.9 353.8L166.0 351.9L162.4 346.7L162.4 340.1L160.5 338.9L158.2 339.1L154.6 333.7L156.9 331.0L156.5 326.0L161.5 316.7L159.9 313.5L156.9 313.1L156.4 302.7L150.9 309.1L150.4 318.6L148.8 320.8L143.2 321.5L136.8 325.2L136.0 330.0L138.8 336.7L129.6 344.2L126.0 342.6L121.3 342.8L115.7 350.6L107.0 353.4L102.0 351.3L97.9 354.0L89.0 354.0L84.5 357.8L80.9 368.6L77.4 370.1L78.5 375.9L80.8 377.1L83.7 373.8L92.6 371.3L100.5 373.0L106.3 370.4L109.4 374.5L106.2 382.2L104.5 389.2L101.8 391.0L106.8 396.0L105.5 401.5L97.8 406.3L92.7 411.6L102.3 412.8L112.9 411.2L116.4 408.7L137.1 387.7L140.6 389.0L146.3 385.5L155.1 385.4L157.7 383.9L168.2 384.1Z"},{"id":"2313351","n":"Tejuçuoca","ri":"Fortaleza","rm":"Itapagé","p":17154,"d":"M228.8 124.1L223.5 124.3L221.6 119.9L222.0 113.0L219.0 111.4L210.6 120.6L204.7 120.2L200.2 121.4L195.7 126.6L197.1 134.3L196.9 142.9L198.6 143.3L201.8 150.3L206.0 148.9L209.5 151.8L214.2 152.6L217.0 150.6L220.5 141.0L222.5 141.4L222.6 137.8L225.7 132.6L228.8 124.1Z"},{"id":"2313401","n":"Tianguá","ri":"Sobral","rm":"São Benedito - Ipu - Guaraciaba do Norte - Tianguá","p":81506,"d":"M60.4 102.4L58.9 91.6L64.3 87.1L68.4 79.5L65.2 73.3L61.1 81.6L60.9 85.3L62.0 86.7L53.1 94.6L46.6 98.3L42.5 102.0L33.9 107.4L30.9 105.6L20.2 107.6L17.7 111.4L18.5 114.8L14.6 120.3L19.5 128.8L24.2 129.2L32.6 122.8L41.5 122.3L43.7 123.4L50.9 122.5L53.2 118.2L59.9 115.5L62.3 108.7L60.4 102.4Z"},{"id":"2313500","n":"Trairi","ri":"Fortaleza","rm":"Itapipoca","p":58415,"d":"M248.2 81.8L249.2 70.9L251.0 66.6L254.7 66.3L259.5 62.8L252.2 52.9L248.8 50.4L241.3 48.2L239.1 45.9L234.7 46.2L228.7 49.1L223.6 47.8L219.9 48.4L220.3 52.9L218.2 56.8L220.3 59.4L220.2 64.5L223.0 70.9L224.5 71.5L240.3 83.1L238.8 87.7L235.3 91.9L242.2 92.2L243.5 86.9L248.2 81.8Z"},{"id":"2313559","n":"Tururu","ri":"Fortaleza","rm":"Itapipoca","p":15412,"d":"M225.9 99.5L229.3 101.0L237.6 101.7L233.5 95.4L235.3 91.9L238.8 87.7L240.3 83.1L224.5 71.5L229.3 79.6L232.2 88.7L226.1 92.8L220.3 91.5L221.8 94.7L230.0 97.5L225.9 99.5Z"},{"id":"2313609","n":"Ubajara","ri":"Sobral","rm":"São Benedito - Ipu - Guaraciaba do Norte - Tianguá","p":32767,"d":"M73.2 116.1L65.8 116.3L59.9 115.5L53.2 118.2L50.9 122.5L43.7 123.4L41.5 122.3L32.6 122.8L24.2 129.2L19.5 128.8L22.4 134.0L21.4 137.1L23.4 137.6L28.4 134.5L32.4 134.1L50.3 128.4L55.7 130.0L62.5 125.6L67.9 125.6L72.1 122.0L73.2 116.1Z"},{"id":"2313708","n":"Umari","ri":"Iguatu","rm":"Icó","p":6871,"d":"M296.5 449.8L301.4 448.8L316.2 454.3L319.2 448.3L318.9 445.2L321.2 442.5L319.6 439.9L323.8 433.8L323.4 434.2L321.5 434.1L315.5 437.7L312.8 436.9L309.0 438.6L304.4 443.4L302.6 442.1L295.2 441.6L292.7 439.9L293.1 443.4L296.5 449.8Z"},{"id":"2313757","n":"Umirim","ri":"Fortaleza","rm":"Itapipoca","p":17470,"d":"M246.6 110.4L246.4 103.1L243.1 101.9L242.2 92.2L235.3 91.9L233.5 95.4L237.6 101.7L229.3 101.0L225.9 99.5L219.1 102.5L221.3 108.6L227.4 111.4L228.6 115.9L236.1 113.9L237.6 110.6L246.6 110.4Z"},{"id":"2313807","n":"Uruburetama","ri":"Fortaleza","rm":"Itapipoca","p":20189,"d":"M209.7 97.6L219.1 102.5L225.9 99.5L230.0 97.5L221.8 94.7L220.3 91.5L215.6 91.6L209.7 97.6Z"},{"id":"2313906","n":"Uruoca","ri":"Sobral","rm":"Sobral","p":13746,"d":"M98.3 72.1L100.7 72.5L107.0 63.8L107.7 59.7L106.2 55.1L101.7 52.8L86.0 53.7L79.2 52.1L66.9 49.1L68.4 59.3L64.8 61.6L67.5 67.6L65.2 73.3L74.1 73.9L78.1 75.7L79.8 71.8L83.0 71.5L86.5 66.8L89.6 66.4L93.3 72.6L98.3 72.1Z"},{"id":"2313955","n":"Varjota","ri":"Sobral","rm":"Sobral","p":18105,"d":"M111.1 165.0L113.4 159.2L113.4 151.4L108.6 150.8L101.7 152.1L103.8 156.3L103.3 160.0L94.1 164.3L99.7 165.7L103.5 170.5L111.1 165.0Z"},{"id":"2314003","n":"Várzea Alegre","ri":"Juazeiro do Norte","rm":"Juazeiro do Norte","p":38984,"d":"M244.1 437.6L242.4 440.2L246.2 445.4L245.0 450.6L241.6 452.8L239.7 456.4L243.6 458.2L240.7 461.7L234.4 461.6L227.5 464.0L223.3 460.0L219.6 462.5L218.9 466.3L220.5 470.2L223.3 470.6L222.7 476.5L230.2 476.2L232.9 479.3L239.4 477.4L247.8 474.6L254.6 474.1L257.0 472.5L257.5 468.3L264.1 456.0L266.0 455.4L263.5 454.8L262.0 450.8L258.6 450.4L257.9 443.5L254.3 442.9L250.9 440.1L244.1 437.6Z"},{"id":"2314102","n":"Viçosa do Ceará","ri":"Sobral","rm":"São Benedito - Ipu - Guaraciaba do Norte - Tianguá","p":59712,"d":"M60.9 85.3L47.4 74.0L42.2 70.3L33.2 66.5L27.3 68.9L22.4 75.8L17.9 79.5L12.8 82.0L10.8 82.7L8.9 89.1L5.4 90.1L9.6 97.3L9.3 104.2L12.3 104.3L20.2 107.6L30.9 105.6L33.9 107.4L42.5 102.0L46.6 98.3L53.1 94.6L62.0 86.7L60.9 85.3Z"}]};
+
+const DIMS = [
+  {k:"eco", n:"Economia", ods:[1,8,9,10,12,17]},
+  {k:"sau", n:"Saúde", ods:[2,3,6]},
+  {k:"edu", n:"Educação", ods:[4]},
+  {k:"cul", n:"Cultura", ods:[5,16,18]},
+  {k:"mor", n:"Moradia", ods:[7,11,13,14,15], note:"cidade, energia e ambiente"}
+];
+const ODS = {1:"Erradicação da pobreza",2:"Fome zero e agricultura sustentável",3:"Saúde e bem-estar",4:"Educação de qualidade",5:"Igualdade de gênero",6:"Água potável e saneamento",7:"Energia limpa e acessível",8:"Trabalho decente e crescimento econômico",9:"Indústria, inovação e infraestrutura",10:"Redução das desigualdades",11:"Cidades e comunidades sustentáveis",12:"Consumo e produção responsáveis",13:"Ação contra a mudança global do clima",14:"Vida na água",15:"Vida terrestre",16:"Paz, justiça e instituições eficazes",17:"Parcerias e meios de implementação",18:"Igualdade étnico-racial"};
+const TYPES = ["Crédito","Doação","Cooperação técnica","Prêmio","Rede"];
+const WHO = ["Estado","Município","OSC"];
+
+const OPPS = [
+  {i:"Banco Interamericano de Desenvolvimento (BID)", t:"Crédito", w:["Estado","Município"], d:["mor","eco","sau"], c:"Alta", u:"https://www.iadb.org/pt-br",
+   x:"Empréstimos para saneamento, mobilidade, infraestrutura e modernização da gestão. Operações com estados e municípios passam pela COFIEX, pelo Tesouro Nacional e pelo Senado."},
+  {i:"Banco Mundial (BIRD)", t:"Crédito", w:["Estado","Município"], d:["edu","sau","mor","eco"], c:"Alta", u:"https://www.worldbank.org/pt/country/brazil",
+   x:"Financiamento de programas de educação, saúde, gestão fiscal e desenvolvimento urbano, com garantia da União para governos subnacionais."},
+  {i:"CAF, Banco de Desenvolvimento da América Latina e do Caribe", t:"Crédito", w:["Estado","Município"], d:["mor","eco"], c:"Alta", u:"https://www.caf.com/pt/",
+   x:"Crédito para infraestrutura, desenvolvimento urbano e projetos sociais em governos da região, inclusive estados e municípios."},
+  {i:"Agência Francesa de Desenvolvimento (AFD)", t:"Crédito", w:["Estado","Município"], d:["mor","eco"], c:"Alta", u:"https://www.afd.fr/en",
+   x:"Financiamento de projetos de clima, mobilidade e desenvolvimento urbano com estados e cidades brasileiras."},
+  {i:"Fonplata", t:"Crédito", w:["Estado","Município"], d:["mor","eco"], c:"Alta", u:"https://www.fonplata.org",
+   x:"Banco de desenvolvimento regional que passou a operar com entes públicos não soberanos no Brasil."},
+  {i:"KfW, banco alemão de desenvolvimento", t:"Crédito", w:["Estado"], d:["mor","eco"], c:"Alta", u:"https://www.kfw.de",
+   x:"Cooperação financeira alemã, com linhas para energia, clima e infraestrutura."},
+  {i:"Fundo Internacional de Desenvolvimento Agrícola (FIDA)", t:"Crédito", w:["Estado"], d:["eco","sau"], c:"Alta", u:"https://www.ifad.org",
+   x:"Projetos de desenvolvimento rural e combate à pobreza no campo, já executados com governos de estados do Nordeste."},
+  {i:"Fundo Verde para o Clima (GCF)", t:"Doação", w:["Estado","Município"], d:["mor"], c:"Alta", u:"https://www.greenclimate.fund",
+   x:"Recursos para mitigação e adaptação à mudança do clima, acessados por meio de entidades acreditadas pelo fundo."},
+  {i:"União Europeia, Parcerias Internacionais", t:"Doação", w:["Município","OSC"], d:["cul","edu","mor","eco"], c:"Média", u:"https://international-partnerships.ec.europa.eu",
+   x:"Chamadas de cooperação internacional abertas a autoridades locais e a organizações da sociedade civil."},
+  {i:"Fundação Ford no Brasil", t:"Doação", w:["OSC"], d:["cul"], c:"Média", u:"https://www.fordfoundation.org",
+   x:"Apoio a organizações da sociedade civil em temas como justiça social e igualdade racial."},
+  {i:"JICA, agência de cooperação do Japão", t:"Cooperação técnica", w:["Estado","Município"], d:["mor","eco","sau","edu"], c:"Média", u:"https://www.jica.go.jp/english/",
+   x:"Especialistas, capacitação de servidores e projetos conjuntos de cooperação técnica."},
+  {i:"GIZ, cooperação alemã", t:"Cooperação técnica", w:["Estado","Município","OSC"], d:["mor","eco"], c:"Média", u:"https://www.giz.de/en",
+   x:"Cooperação técnica em clima, energia, cidades e gestão pública."},
+  {i:"C40 Cities Finance Facility", t:"Cooperação técnica", w:["Município"], d:["mor"], c:"Média", u:"https://www.c40cff.org",
+   x:"Apoio para preparar projetos climáticos urbanos até ficarem prontos para receber financiamento."},
+  {i:"Bloomberg Philanthropies, Mayors Challenge", t:"Prêmio", w:["Município"], d:["eco","sau","edu","mor"], c:"Média", u:"https://www.bloomberg.org",
+   x:"Concurso de inovação para prefeituras, com edições periódicas e recursos para testar boas ideias."},
+  {i:"UNESCO, Rede de Cidades Criativas", t:"Rede", w:["Município"], d:["cul","eco"], c:"Baixa", u:"https://www.unesco.org/en/creative-cities",
+   x:"Rede de cidades que usam a cultura e a criatividade no desenvolvimento. As candidaturas abrem em ciclos."},
+  {i:"Mercocidades", t:"Rede", w:["Município"], d:["cul","eco","edu"], c:"Baixa", u:"https://mercociudades.org",
+   x:"Rede de cidades da América do Sul, com grupos de trabalho temáticos e projetos de cooperação."}
+];
+
+const STEPS = [
+  ["Conheça o seu retrato","Veja onde estão as forças da sua entidade e o que pode avançar."],
+  ["Escolha uma oportunidade","Comece pelas compatíveis com o seu perfil, na Janela."],
+  ["Confira a elegibilidade","Leia o edital: quem pode participar, contrapartidas, prazos e idioma."],
+  ["Reúna documentos e parceiros","Certidões, dados do município e cartas de apoio. Crédito externo passa pela COFIEX, pelo Tesouro Nacional e pelo Senado."],
+  ["Escreva e submeta a proposta","Use a língua do financiador: objetivos, ODS, indicadores e orçamento."],
+  ["Acompanhe e preste contas","Registre prazos, respostas e resultados. Isso vira histórico para a próxima candidatura."]
+];
+
+/* utilidades */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const fmt = n => n.toLocaleString("pt-BR");
+const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().trim();
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const avg = a => a.reduce((x,y)=>x+y,0)/a.length;
+const store = {
+  get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } },
+  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} },
+  del(k){ try{ localStorage.removeItem(k); }catch(e){} }
+};
+const byId = Object.fromEntries(CE.m.map(m => [m.id, m]));
+const byName = Object.fromEntries(CE.m.map(m => [norm(m.n), m]));
+const findMuni = s => byName[norm(s||"")] || null;
+const dimName = k => DIMS.find(d => d.k === k).n;
+
+/* perfil simulado, determinístico por código IBGE */
+function rng(seed){ return () => { seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const logP = CE.m.map(m => Math.log(m.p));
+const lmin = Math.min(...logP), lmax = Math.max(...logP);
+function perfilMuni(m){
+  const r = rng(+m.id), pz = (Math.log(m.p) - lmin) / (lmax - lmin), ods = {};
+  for(let i=1;i<=18;i++) ods[i] = Math.round(Math.min(96, 16 + r()*70 + pz*16));
+  return withDims(ods);
+}
+function withDims(ods){
+  const dims = DIMS.map(d => ({...d, v: Math.round(avg(d.ods.map(o => ods[o])))}));
+  return {ods, dims, total: Math.round(avg(dims.map(d => d.v)))};
+}
+let estadoCache = null;
+function perfilEstado(){
+  if(estadoCache) return estadoCache;
+  const ps = CE.m.map(perfilMuni), ods = {};
+  for(let i=1;i<=18;i++) ods[i] = Math.round(avg(ps.map(p => p.ods[i])));
+  return estadoCache = withDims(ods);
+}
+
+/* estado do app */
+const VIEWS = ["inicio","janela","entrar","retrato","travessia"];
+let session = store.get("ipes-teste-sessao");
+let selected = findMuni("Guaramiranga") || CE.m[0];
+const filters = {t:"Todos", w:"Todos", d:"Todas"};
+
+/* logotipo: flor de cinco pétalas */
+function petalPath(L, w){ return `M0 0C${L*.22} ${-w},${L*.8} ${-w*.62},${L} 0C${L*.8} ${w*.62},${L*.22} ${w},0 0Z`; }
+$("#logo-petals").innerHTML = [0,1,2,3,4].map(i => `<path d="${petalPath(46,17)}" transform="rotate(${-90+i*72})" fill="${i%2?'var(--rosa)':'var(--pink)'}"/>`).join("");
+
+/* datalist */
+$("#dl-munis").innerHTML = CE.m.map(m => `<option value="${esc(m.n)}"></option>`).join("");
+
+/* mapa */
+const map = $("#map");
+map.setAttribute("viewBox", `0 0 ${CE.w} ${CE.h}`);
+map.innerHTML = `<g id="munis">${CE.m.map(m => `<path d="${m.d}" data-id="${m.id}"><title>${esc(m.n)}</title></path>`).join("")}</g><text class="maplabel" id="mapLabel"></text>`;
+map.addEventListener("click", e => { const p = e.target.closest("path[data-id]"); if(p){ selectMuni(byId[p.dataset.id]); $("#q-muni").value = ""; } });
+
+function placeLabel(){
+  const p = map.querySelector(`path[data-id="${selected.id}"]`), lab = $("#mapLabel");
+  if(!p) return;
+  let b; try{ b = p.getBBox(); }catch(e){ return; }
+  if(!b.width) return;
+  const cx = b.x + b.width/2, right = cx > CE.w*0.62;
+  lab.textContent = selected.n;
+  lab.setAttribute("x", right ? b.x - 8 : b.x + b.width + 8);
+  lab.setAttribute("y", b.y + b.height/2 + 6);
+  lab.setAttribute("text-anchor", right ? "end" : "start");
+}
+
+function selectMuni(m){
+  selected = m;
+  $$("#munis path").forEach(p => p.classList.toggle("sel", p.dataset.id === m.id));
+  placeLabel();
+  renderSpread();
+}
+
+function eligibleCount(who){ return OPPS.filter(o => o.w.includes(who)).length; }
+function renderSpread(){
+  const m = selected, forMuni = OPPS.filter(o => o.w.includes("Município"));
+  const types = TYPES.map(t => [t, forMuni.filter(o => o.t === t).length]).filter(x => x[1]);
+  $("#spread").innerHTML = `
+    <div class="territory">
+      <p class="side">No território</p>
+      <h2>${esc(m.n)}</h2>
+      <dl>
+        <div><dt>População em 2022</dt><dd class="num">${fmt(m.p)} habitantes</dd></div>
+        <div><dt>Região imediata</dt><dd>${esc(m.rm)}</dd></div>
+        <div><dt>Região intermediária</dt><dd>${esc(m.ri)}</dd></div>
+      </dl>
+    </div>
+    <div class="world">
+      <p class="side">Para o mundo</p>
+      <h2 class="num">${forMuni.length}</h2>
+      <dl>
+        <div><dt>oportunidades abertas a municípios na Janela</dt><dd>${types.map(([t,n]) => `${t}: ${n}`).join("<br>")}</dd></div>
+      </dl>
+    </div>
+    <div class="foot">
+      <p>O retrato de potencial de ${esc(m.n)} fica disponível para a entidade cadastrada.</p>
+      <button class="btn btn-primary" type="button" id="spreadGo">Ver o retrato</button>
+    </div>`;
+  $("#spreadGo").onclick = () => { prefillLogin(m); go("entrar"); };
+}
+
+$("#q-muni").addEventListener("change", e => {
+  const m = findMuni(e.target.value), err = $("#q-err");
+  if(!e.target.value.trim()){ err.hidden = true; return; }
+  if(m){ err.hidden = true; selectMuni(m); }
+  else { err.textContent = "Não encontramos esse município no Ceará. Escolha um nome da lista."; err.hidden = false; }
+});
+
+/* entrada orquestrada: uma onda de ipês atravessa o estado a partir do município selecionado */
+function bloom(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches || !map.animate) return;
+  const cs = getComputedStyle(document.documentElement);
+  const land = cs.getPropertyValue("--land").trim(), ipe = cs.getPropertyValue("--ipe").trim(), rosa = cs.getPropertyValue("--rosa").trim();
+  const sp = map.querySelector(`path[data-id="${selected.id}"]`); if(!sp) return;
+  const sb = sp.getBBox(), sx = sb.x + sb.width/2, sy = sb.y + sb.height/2;
+  $$("#munis path").forEach(p => {
+    if(p === sp) return;
+    const b = p.getBBox(), dist = Math.hypot(b.x + b.width/2 - sx, b.y + b.height/2 - sy);
+    p.animate([{fill:land},{fill:ipe,offset:.35},{fill:rosa,offset:.6},{fill:land}], {duration:900, delay:dist*1.8, easing:"ease-out"});
+  });
+}
+
+/* Janela */
+function chipGroup(label, key, values, all){
+  return `<div class="fgroup" role="group" aria-label="${label}"><span>${label}</span>${[all, ...values].map(v =>
+    `<button type="button" class="chip" data-f="${key}" data-v="${esc(v)}" aria-pressed="${filters[key]===v}">${v === all ? all : (key==="d" ? dimName(v) : v)}</button>`).join("")}</div>`;
+}
+function renderFilters(){
+  $("#filters").innerHTML = chipGroup("Tipo","t",TYPES,"Todos") + chipGroup("Quem pode","w",WHO,"Todos") + chipGroup("Dimensão","d",DIMS.map(d=>d.k),"Todas");
+}
+$("#filters").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if(!b) return;
+  filters[b.dataset.f] = b.dataset.v; renderFilters(); renderOpps();
+});
+$("#clearFilters").onclick = () => { filters.t="Todos"; filters.w="Todos"; filters.d="Todas"; renderFilters(); renderOpps(); };
+function oppItem(o){
+  return `<li class="opp">
+    <div><h3>${esc(o.i)}</h3><p class="desc">${esc(o.x)}</p><p style="margin-top:var(--s2)"><a href="${o.u}" target="_blank" rel="noopener">Site oficial da instituição</a></p></div>
+    <dl class="meta">
+      <dt>Tipo</dt><dd><span class="tag type">${o.t}</span></dd>
+      <dt>Quem pode</dt><dd>${o.w.map(w => `<span class="tag">${w === "OSC" ? "Sociedade civil" : w}</span>`).join("")}</dd>
+      <dt>Dimensões</dt><dd>${o.d.map(dimName).join(", ")}</dd>
+      <dt>Complexidade</dt><dd>${o.c}</dd>
+    </dl></li>`;
+}
+function renderOpps(){
+  const list = OPPS.filter(o => (filters.t==="Todos"||o.t===filters.t) && (filters.w==="Todos"||o.w.includes(filters.w)) && (filters.d==="Todas"||o.d.includes(filters.d)));
+  $("#oppCount").textContent = list.length === 1 ? "1 oportunidade" : `${list.length} oportunidades`;
+  $("#oppList").innerHTML = list.map(oppItem).join("");
+  $("#oppEmpty").hidden = list.length > 0;
+}
+
+/* Entrar */
+let nameTouched = false;
+function defaultName(tipo, m){
+  if(tipo === "estado") return "Governo do Estado do Ceará";
+  if(!m) return "";
+  return tipo === "prefeitura" ? `Prefeitura Municipal de ${m.n}` : `Associação comunitária de ${m.n} (exemplo)`;
+}
+function syncLogin(){
+  const tipo = $('input[name="tipo"]:checked').value, m = findMuni($("#f-muni").value);
+  $("#muniWrap").hidden = tipo === "estado";
+  if(!nameTouched) $("#f-nome").value = defaultName(tipo, m);
+}
+function prefillLogin(m){ $("#f-muni").value = m.n; nameTouched = false; syncLogin(); }
+$$('input[name="tipo"]').forEach(r => r.addEventListener("change", syncLogin));
+$("#f-muni").addEventListener("input", () => { $("#f-err").hidden = true; syncLogin(); });
+$("#f-nome").addEventListener("input", () => { nameTouched = $("#f-nome").value.trim() !== ""; });
+$("#loginForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const tipo = $('input[name="tipo"]:checked').value, m = findMuni($("#f-muni").value);
+  if(tipo !== "estado" && !m){ const err = $("#f-err"); err.textContent = "Escolha um município do Ceará na lista."; err.hidden = false; $("#f-muni").focus(); return; }
+  const nome = $("#f-nome").value.trim() || defaultName(tipo, m);
+  session = {tipo, muni: tipo === "estado" ? null : m.id, nome};
+  store.set("ipes-teste-sessao", session);
+  renderSession(); go("retrato");
+});
+function renderSession(){
+  const b = $("#sessionBtn");
+  if(session){ b.textContent = "Sair do teste"; b.dataset.go = "sair"; }
+  else { b.textContent = "Entrar"; b.dataset.go = "entrar"; }
+}
+
+/* Retrato */
+function flowerSVG(dims){
+  const top2 = [...dims].sort((a,b) => b.v - a.v).slice(0,2).map(d => d.k);
+  const R0 = 24, RM = 150;
+  const petals = dims.map((d,i) => {
+    const a = -90 + i*72, L = R0 + (RM - R0) * d.v / 100;
+    return `<path class="petal${top2.includes(d.k) ? " strong" : ""}" d="${petalPath(L, 40)}" transform="rotate(${a})"><title>${d.n}: ${d.v}</title></path>`;
+  }).join("");
+  const refs = dims.map((d,i) => `<path class="ref" d="${petalPath(RM,40)}" transform="rotate(${-90+i*72})"/>`).join("");
+  const labels = dims.map((d,i) => {
+    const a = (-90 + i*72) * Math.PI/180, r = RM + 22, x = Math.cos(a)*r, y = Math.sin(a)*r;
+    const anchor = Math.abs(Math.cos(a)) < .2 ? "middle" : (Math.cos(a) > 0 ? "start" : "end");
+    return `<text x="${x.toFixed(1)}" y="${(y - 5).toFixed(1)}" text-anchor="${anchor}">${d.n}</text><text class="pv num" x="${x.toFixed(1)}" y="${(y + 15).toFixed(1)}" text-anchor="${anchor}">${d.v}</text>`;
+  }).join("");
+  return `<svg viewBox="-250 -205 500 405" role="img" aria-label="Flor do retrato: ${dims.map(d => `${d.n} ${d.v}`).join(", ")}">${refs}${petals}<circle class="core" r="20"/>${labels}</svg>`;
+}
+function stepsKey(){ return "ipes-teste-passos-" + (session.muni || "estado") + "-" + session.tipo; }
+function renderRetrato(){
+  const root = $("#retratoRoot");
+  if(!session){
+    root.innerHTML = `<div class="empty"><h1 style="font-size:clamp(2.2rem,1.5rem + 2.4vw,3.4rem)">Entre para ver o retrato</h1><p class="measure">O retrato de potencial é privado: cada entidade vê apenas o próprio. Entre como uma prefeitura, uma organização ou o governo do estado.</p><button class="btn btn-primary" type="button" data-go="entrar">Entrar no ambiente de teste</button></div>`;
+    return;
+  }
+  const isEstado = session.tipo === "estado", m = isEstado ? null : byId[session.muni];
+  const P = isEstado ? perfilEstado() : perfilMuni(m);
+  const sorted = [...P.dims].sort((a,b) => b.v - a.v), low = sorted[sorted.length-1];
+  const who = {prefeitura:"Município", osc:"OSC", estado:"Estado"}[session.tipo];
+  const top2 = sorted.slice(0,2).map(d => d.k);
+  const compat = OPPS.filter(o => o.w.includes(who))
+    .map(o => ({o, s: o.d.reduce((s,k) => s + (top2.includes(k) ? 2 : 1), 0)}))
+    .sort((a,b) => b.s - a.s).slice(0,5).map(x => x.o);
+  const nCompat = OPPS.filter(o => o.w.includes(who) && o.d.some(k => top2.includes(k))).length;
+  const place = isEstado ? "o Ceará" : m.n;
+  const done = store.get(stepsKey()) || [];
+  const facts = isEstado
+    ? `<div><span class="muted">Municípios</span><b class="num">184</b></div><div><span class="muted">População em 2022</span><b class="num">${fmt(CE.m.reduce((s,x)=>s+x.p,0))}</b></div>`
+    : `<div><span class="muted">População em 2022</span><b class="num">${fmt(m.p)}</b></div><div><span class="muted">Região imediata</span><b>${esc(m.rm)}</b></div><div><span class="muted">Região intermediária</span><b>${esc(m.ri)}</b></div>`;
+
+  root.innerHTML = `
+    <div class="portrait-head">
+      <div><p class="who">Retrato de ${esc(session.nome)}</p><h1>${isEstado ? "Ceará" : esc(m.n)}</h1></div>
+      <div class="facts">${facts}</div>
+    </div>
+    <div class="pgrid">
+      <div class="flower">${flowerSVG(P.dims)}</div>
+      <div class="reading">
+        <div class="score"><b class="num">${P.total}</b><span>de 100 de potencial de internacionalização</span></div>
+        <p>As dimensões mais fortes de ${esc(place)} são ${sorted[0].n} (${sorted[0].v}) e ${sorted[1].n} (${sorted[1].v}). Na Janela, ${nCompat} ${nCompat === 1 ? "oportunidade pede" : "oportunidades pedem"} exatamente esse perfil.</p>
+        <p>${low.n} (${low.v}) é a dimensão com mais espaço para avançar.</p>
+        <p class="hint">Valores simulados para teste. Cada pétala mostra uma dimensão; quanto mais longa, maior o potencial.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>Os 18 ODS, por dimensão</h2>
+      <p class="sub muted">Os 17 Objetivos de Desenvolvimento Sustentável da ONU e o 18º, de igualdade étnico-racial, adotado pelo Brasil.</p>
+      <div class="odsgrid">${P.dims.map(d => `
+        <div class="odsgroup"><h3><span>${d.n}${d.note ? ` <span class="muted" style="font-family:var(--f-body);font-weight:400;font-size:var(--t-xs)">${d.note}</span>` : ""}</span><span class="num">${d.v}</span></h3>
+        ${d.ods.map(o => `<div class="odsrow"><div class="lbl"><span class="n">ODS ${o}</span><span>${ODS[o]}</span></div><div class="bar" aria-hidden="true"><i style="width:${P.ods[o]}%"></i></div><span class="v num">${P.ods[o]}</span></div>`).join("")}
+        </div>`).join("")}
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>Oportunidades compatíveis</h2>
+      <p class="sub muted">Abertas a ${who === "OSC" ? "organizações da sociedade civil" : who === "Estado" ? "governos estaduais" : "municípios"} e alinhadas às dimensões mais fortes do retrato.</p>
+      <ul class="opps">${compat.map(oppItem).join("")}</ul>
+      <p style="margin-top:var(--s4)"><button class="btn btn-ghost" type="button" data-go="janela">Ver todas na Janela</button></p>
+    </div>
+
+    <div class="block">
+      <h2>Seu caminho até a candidatura</h2>
+      <p class="progress num" id="stepProgress"></p>
+      <ol class="steps" id="steps">${STEPS.map(([t,d],i) => `
+        <li class="step${done.includes(i) ? " done" : ""}"><input type="checkbox" id="step-${i}" data-step="${i}" ${done.includes(i) ? "checked" : ""}><span class="k num" aria-hidden="true">${i+1}</span><label for="step-${i}"><b>${t}</b><span class="muted">${d}</span></label></li>`).join("")}
+      </ol>
+    </div>
+
+    <div class="cta-band">
+      <div><h2>Quer companhia na travessia?</h2><p>A assessoria Basic ou Premium ajuda a priorizar, escrever e acompanhar as candidaturas.</p></div>
+      <button class="btn btn-ghost" type="button" data-go="travessia">Conhecer os planos</button>
+    </div>`;
+  updateProgress();
+}
+function updateProgress(){
+  const n = $$("#steps input:checked").length, el = $("#stepProgress");
+  if(el) el.textContent = `${n} de ${STEPS.length} passos concluídos`;
+}
+$("#retratoRoot").addEventListener("change", e => {
+  const c = e.target.closest("[data-step]"); if(!c) return;
+  c.closest(".step").classList.toggle("done", c.checked);
+  store.set(stepsKey(), $$("#steps input:checked").map(x => +x.dataset.step));
+  updateProgress();
+});
+
+/* Travessia */
+$$("[data-plan]").forEach(b => b.addEventListener("click", () => {
+  const plan = b.dataset.plan, s = $(`[data-status="${plan}"]`);
+  const who = session ? ` para ${session.nome}` : "";
+  s.textContent = `Pedido de proposta ${plan}${who} registrado neste teste. Nada foi enviado.`;
+  s.hidden = false;
+}));
+
+/* navegação */
+function go(view, push = true){
+  if(view === "sair"){ session = null; store.del("ipes-teste-sessao"); renderSession(); view = "inicio"; }
+  if(!VIEWS.includes(view)) view = "inicio";
+  $$("[data-view]").forEach(s => s.hidden = s.dataset.view !== view);
+  $$(".nav [data-go]").forEach(b => b.toggleAttribute("aria-current", false));
+  const cur = $(`.nav [data-go="${view}"]`); if(cur) cur.setAttribute("aria-current","page");
+  if(view === "retrato") renderRetrato();
+  if(view === "inicio") requestAnimationFrame(placeLabel);
+  if(view === "entrar"){ if(!$("#f-muni").value) prefillLogin(selected); }
+  if(push){ try{ history.replaceState(null, "", "#" + view); }catch(e){} }
+  window.scrollTo({top:0});
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-go]"); if(!b) return;
+  e.preventDefault(); go(b.dataset.go);
+});
+window.addEventListener("hashchange", () => go(location.hash.slice(1), false));
+
+/* início */
+$("#dimtable tbody").innerHTML = DIMS.map(d => `<tr><td>${d.n}</td><td>${d.ods.map(o => `ODS ${o}, ${ODS[o]}`).join("<br>")}</td></tr>`).join("");
+renderFilters(); renderOpps(); renderSession(); syncLogin();
+selectMuni(selected);
+const start = location.hash.slice(1);
+go(VIEWS.includes(start) ? start : "inicio", false);
+if(!start || start === "inicio") requestAnimationFrame(() => requestAnimationFrame(bloom));
+</script>
+
+</body>
+</html>

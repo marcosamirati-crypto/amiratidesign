@@ -5,11 +5,13 @@ const config = {
   // Obra em 3D do TCC (arquivos estáticos em public/osipova). Fica em /osipova e fora do Google.
   // Protótipo do app I'Club (build estático em public/iclub). As telas do app (/iclub/inicio etc.)
   // caem no index.html; os arquivos de public/iclub são servidos antes destas regras.
+  // App de teste do IPES (página única em public/ipes). Fica em /ipes e fora do Google.
   async rewrites() {
     return [
       { source: "/osipova", destination: "/osipova/index.html" },
       { source: "/iclub", destination: "/iclub/index.html" },
       { source: "/iclub/:path*", destination: "/iclub/index.html" },
+      { source: "/ipes", destination: "/ipes/index.html" },
     ];
   },
   async headers() {
@@ -17,6 +19,7 @@ const config = {
     return [
       { source: "/osipova/:path*", headers: noindex },
       { source: "/iclub/:path*", headers: noindex },
+      { source: "/ipes/:path*", headers: noindex },
     ];
   },
 };
