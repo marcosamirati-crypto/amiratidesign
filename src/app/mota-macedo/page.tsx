@@ -1,4 +1,5 @@
 import DemoForm from "@/components/mota/DemoForm";
+import HeroArt from "@/components/mota/HeroArt";
 import { mm } from "@/content/motaMacedo";
 
 function Confirm({ text }: { text?: string }) {
@@ -8,10 +9,7 @@ function Confirm({ text }: { text?: string }) {
 
 function Head({ label, title }: { label: string; title: string }) {
   return (
-    <>
-      <p className="mm-label">{label}</p>
-      <h2>{title}</h2>
-    </>
+    <h2 aria-label={`${label}: ${title}`}>{title}</h2>
   );
 }
 
@@ -38,15 +36,7 @@ export default function MotaMacedoPage() {
 
       <main id="topo">
         <section className="mm-hero">
-          <svg className="mm-orbit" viewBox="0 0 600 600" fill="none" aria-hidden="true">
-            <circle cx="300" cy="300" r="120" stroke="rgba(255,255,255,.07)" />
-            <ellipse cx="300" cy="300" rx="280" ry="110" transform="rotate(-24 300 300)" stroke="rgba(255,255,255,.13)" />
-            <ellipse cx="300" cy="300" rx="220" ry="70" transform="rotate(18 300 300)" stroke="rgba(233,180,76,.35)" />
-            <circle cx="300" cy="300" r="46" fill="#16203a" />
-            <circle cx="507" cy="342" r="6" fill="#e9b44c" />
-            <circle cx="507" cy="342" r="14" stroke="rgba(233,180,76,.35)" />
-          </svg>
-          <div className="mm-wrap">
+          <div className="mm-wrap mm-hero-grid">
             <div className="mm-hero-in">
               <p className="mm-eyebrow">{hero.eyebrow}</p>
               <h1>{hero.title}</h1>
@@ -61,9 +51,10 @@ export default function MotaMacedoPage() {
               </div>
             </div>
           </div>
+          <HeroArt />
         </section>
 
-        <section className="mm-sec">
+        <section className="mm-sec mm-sec--first">
           <div className="mm-wrap">
             <Head {...problem} />
             <div className="mm-grid mm-grid--3">
