@@ -17,7 +17,7 @@ export default function DemoForm() {
     if (fone.replace(/\D/g, "").length < 10) return setError("Escreva seu WhatsApp com DDD.");
     setError("");
     const text = [
-      `Olá! Quero uma demonstração da ${mm.brand}.`,
+      `Olá! Quero uma demonstração da ${mm.product} (${mm.brand}).`,
       "",
       `Nome: ${nome}`,
       get("empresa") && `Fazenda/empresa: ${get("empresa")}`,
@@ -31,7 +31,7 @@ export default function DemoForm() {
   }
 
   return (
-    <form className="mm-form" onSubmit={submit} onChange={() => error && setError("")} noValidate>
+    <form className="mm-form" data-reveal onSubmit={submit} onChange={() => error && setError("")} noValidate>
       <label>
         Nome
         <input name="nome" autoComplete="name" maxLength={80} />
@@ -59,9 +59,10 @@ export default function DemoForm() {
           {error}
         </p>
       )}
-      <button type="submit" className="mm-btn mm-btn--gold">
+      <button type="submit" className="mm-btn">
         {mm.final.button}
       </button>
+      <p className="mm-form-note">Abre o WhatsApp com a sua mensagem pronta. Nada fica salvo nesta página.</p>
     </form>
   );
 }
