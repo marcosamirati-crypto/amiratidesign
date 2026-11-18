@@ -21,8 +21,8 @@ export const metadata: Metadata = {
   description,
   // Fora do Google enquanto for prévia. Para liberar: troque por { index: true, follow: true }.
   robots: mm.preview ? { index: false, follow: false } : { index: true, follow: true },
-  alternates: { canonical: "/mota-macedo" },
-  openGraph: { type: "website", siteName: mm.product, title, description, locale: "pt_BR", url: "/mota-macedo", images: [{ url: "/mota/og.png", width: 1200, height: 630, alt: `${mm.product} — ${mm.statement.text}` }] },
+  alternates: { canonical: "/motasat" },
+  openGraph: { type: "website", siteName: mm.product, title, description, locale: "pt_BR", url: "/motasat", images: [{ url: "/mota/og.png", width: 1200, height: 630, alt: `${mm.product} — ${mm.statement.text}` }] },
   twitter: { card: "summary_large_image", title, description, images: ["/mota/og.png"] },
 };
 

@@ -14,6 +14,13 @@ const config = {
       { source: "/ipes", destination: "/ipes/index.html" },
     ];
   },
+  // Página da MotaSat: o endereço oficial é /motasat. O antigo e a grafia com "o" levam para ele.
+  async redirects() {
+    return [
+      { source: "/mota-macedo", destination: "/motasat", permanent: true },
+      { source: "/motosat", destination: "/motasat", permanent: true },
+    ];
+  },
   async headers() {
     const noindex = [{ key: "X-Robots-Tag", value: "noindex, nofollow" }];
     return [
