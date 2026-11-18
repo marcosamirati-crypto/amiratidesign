@@ -1,4 +1,4 @@
-// Conteúdo da one-page da Mota Macedo / MotaSat (rota /mota-macedo). Edite os textos aqui, sem mexer nos componentes.
+// Conteúdo da one-page da Mota Macedo / MotaSat (rota /motasat; /motosat e /mota-macedo redirecionam para ela). Edite os textos aqui, sem mexer nos componentes.
 // `confirm` = ponto que o cliente ainda precisa confirmar; só aparece enquanto `preview` for true.
 
 export const mm = {
