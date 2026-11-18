@@ -1,23 +1,41 @@
-// Conteúdo da one-page da Mota Macedo (rota /mota-macedo). Edite os textos aqui, sem mexer nos componentes.
+// Conteúdo da one-page da Mota Macedo / MotaSat (rota /mota-macedo). Edite os textos aqui, sem mexer nos componentes.
 // `confirm` = ponto que o cliente ainda precisa confirmar; só aparece enquanto `preview` for true.
 
 export const mm = {
-  /** true = faixa "Prévia" no topo + etiquetas "Confirmar" visíveis. Troque para false ao publicar. */
+  /** true = selo "Prévia" + etiquetas "Confirmar" visíveis. Troque para false ao publicar. */
   preview: true,
   /** false = esconde os valores e mostra "Sob consulta". */
   showPrice: true,
   brand: "Mota Macedo",
+  /** Marca do produto, mostrada no logotipo. */
+  product: "MotaSat",
   descriptor: "Tecnologia espacial para o agro",
   /** WhatsApp que recebe os pedidos de demonstração (só dígitos, com 55). */
   whatsapp: "5585985191683",
   email: "grupomotamacedo@gmail.com",
 
+  /**
+   * Foto de abertura (curvatura da Terra). Coloque o arquivo em /public/mota/ e escreva o caminho aqui,
+   * por exemplo "/mota/terra.avif". Vazio = a abertura usa a Terra desenhada em código.
+   */
+  openingImage: "",
+
+  nav: [
+    { label: "Tecnologia", href: "#tecnologia" },
+    { label: "Como funciona", href: "#como-funciona" },
+    { label: "Sobre", href: "#sobre" },
+    { label: "Contato", href: "#demo" },
+  ],
+
+  /** Frase de transição entre a abertura e a apresentação. A palavra em `accent` ganha a cor da marca. */
+  statement: { text: "O céu responde a uma pergunta da terra.", accent: "pergunta" },
+
   hero: {
     eyebrow: "Monitoramento agroclimático por nanossatélite",
-    title: "Sua lavoura vista do espaço. Suas decisões com dados.",
-    line: "Umidade, clima e nível de água da sua área, acompanhados todo mês por uma empresa cearense de tecnologia espacial.",
-    cta: "Agendar demonstração",
-    secondary: "Como funciona",
+    title: ["Sua lavoura vista do espaço.", "Suas decisões com dados."],
+    line: "Umidade, clima e nível de água da sua área, acompanhados por uma empresa cearense de tecnologia espacial.",
+    cta: "Pedir demonstração",
+    caption: "Ilustração: vista de cima de uma área irrigada.",
   },
 
   problem: {
@@ -32,18 +50,19 @@ export const mm = {
 
   measures: {
     label: "O que medimos",
-    title: "Três medidas. Três decisões melhores.",
+    title: ["Três medidas.", "Três decisões melhores."],
+    note: "Gráficos ilustrativos. Não representam dados reais.",
     confirm: "Como cada medida é obtida (do espaço ou por sensores no campo) e com que precisão.",
     items: [
-      { metric: "Umidade", decision: "Quando e quanto irrigar", text: "Acompanhe a umidade da sua área e irrigue só o necessário." },
-      { metric: "Clima", decision: "Quando plantar e colher", text: "Leitura do clima da sua região para planejar as janelas de trabalho." },
-      { metric: "Nível de água", decision: "Quanto de água você tem", text: "Evolução dos seus reservatórios para planejar a safra com segurança." },
+      { metric: "Umidade", decision: "Quando e quanto irrigar.", text: "Acompanhe a umidade da sua área e irrigue somente o necessário." },
+      { metric: "Clima", decision: "Quando plantar e colher.", text: "Leitura do clima da sua região para planejar as janelas de trabalho." },
+      { metric: "Nível de água", decision: "Quanto de água você tem.", text: "Evolução dos seus reservatórios para planejar a safra com segurança." },
     ],
   },
 
   how: {
     label: "Como funciona",
-    title: "Do contrato ao primeiro relatório em três passos.",
+    title: ["Do contrato ao primeiro relatório.", "Em três passos."],
     steps: [
       { title: "Montagem", text: "Mapeamos a sua área e configuramos o monitoramento para a sua realidade." },
       { title: "Monitoramento", text: "O nanossatélite acompanha a sua área e nossa equipe trata os dados." },
@@ -51,14 +70,15 @@ export const mm = {
     ],
   },
 
-  audience: {
-    label: "Para quem",
-    title: "Feito para quem vive da terra e da água.",
-    items: [
-      { title: "Fazendas médias e grandes", text: "Mais controle sobre irrigação, plantio e colheita." },
-      { title: "Cooperativas e associações", text: "Uma leitura comum para orientar todos os cooperados." },
-      { title: "Perímetros irrigados e gestores de água", text: "Acompanhamento de reservatórios e do uso da água." },
-    ],
+  satellite: {
+    label: "O nanossatélite",
+    name: "MotaSat-1 Araripe",
+    line: "Nanossatélite no padrão CubeSat 4U, com protótipo concluído.",
+    text: "Quatro unidades do padrão CubeSat, empilhadas num só corpo. O nome vem da Chapada do Araripe, no Ceará.",
+    /** Fotos reais do protótipo. Coloque os arquivos em /public/mota/ e liste aqui. Vazio = desenho esquemático. */
+    photos: [] as { src: string; alt: string; width: number; height: number }[],
+    schematic: "Representação esquemática do padrão 4U. Fotos do protótipo em breve.",
+    confirm: "Fotos reais do protótipo.",
   },
 
   proof: {
@@ -73,12 +93,22 @@ export const mm = {
     founder: { name: "Matheus Mota", role: "Fundador", quote: "Um pequeno satélite com um grande propósito: conectar o campo ao futuro.", confirm: "Foto e frase do fundador." },
   },
 
+  audience: {
+    label: "Para quem",
+    title: "Feito para quem vive da terra e da água.",
+    items: [
+      { title: "Fazendas médias e grandes", text: "Mais controle sobre irrigação, plantio e colheita." },
+      { title: "Cooperativas e associações", text: "Uma leitura comum para orientar todos os cooperados." },
+      { title: "Perímetros irrigados e gestores de água", text: "Acompanhamento de reservatórios e do uso da água." },
+    ],
+  },
+
   pricing: {
     label: "Investimento",
-    title: "Simples de entender. Sem letra miúda.",
+    title: ["Simples de entender.", "Sem letra miúda."],
     confirm: "Se os valores aparecem na página e o que está incluso em cada um.",
-    setup: { name: "Montagem", price: "R$ 5.000", note: "uma única vez", text: "Mapeamento da área e configuração do monitoramento." },
-    monthly: { name: "Acompanhamento", price: "R$ 2.000", note: "por mês", text: "Monitoramento contínuo, tratamento dos dados e relatório mensal." },
+    setup: { name: "Montagem", price: "R$ 5.000", note: "Pagamento único.", text: "Mapeamento da área e configuração do monitoramento." },
+    monthly: { name: "Acompanhamento", price: "R$ 2.000", note: "Por mês.", text: "Monitoramento contínuo, tratamento dos dados e relatório mensal." },
   },
 
   faq: {
@@ -97,11 +127,12 @@ export const mm = {
   final: {
     label: "Demonstração",
     title: "Veja como ficaria na sua área.",
-    line: "Preencha e fale direto com a nossa equipe pelo WhatsApp. Sem compromisso.",
-    button: "Pedir demonstração pelo WhatsApp",
+    line: "Preencha e fale diretamente com nossa equipe pelo WhatsApp. Sem compromisso.",
+    button: "Pedir demonstração",
   },
 
   footer: {
+    group: "MotaSat é uma empresa do Grupo Mota Macedo.",
     legal: "MOTA MACEDO INOVA SIMPLES (I.S.) · CNPJ 68.525.181/0001-03 · Fortaleza, CE",
     privacy: "Privacidade: os dados do formulário seguem direto pelo seu WhatsApp. Esta página não os armazena.",
     credit: "Página por Amirati",
