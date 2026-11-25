@@ -6,12 +6,14 @@ const config = {
   // Protótipo do app I'Club (build estático em public/iclub). As telas do app (/iclub/inicio etc.)
   // caem no index.html; os arquivos de public/iclub são servidos antes destas regras.
   // App de teste do IPES (página única em public/ipes). Fica em /ipes e fora do Google.
+  // Achado (proposta de rebranding do Mercado Mais Barato, página única em public/achado). Fica em /achado e fora do Google.
   async rewrites() {
     return [
       { source: "/osipova", destination: "/osipova/index.html" },
       { source: "/iclub", destination: "/iclub/index.html" },
       { source: "/iclub/:path*", destination: "/iclub/index.html" },
       { source: "/ipes", destination: "/ipes/index.html" },
+      { source: "/achado", destination: "/achado/index.html" },
     ];
   },
   // Página da MotaSat: o endereço oficial é /motasat. O antigo e a grafia com "o" levam para ele.
@@ -27,6 +29,8 @@ const config = {
       { source: "/osipova/:path*", headers: noindex },
       { source: "/iclub/:path*", headers: noindex },
       { source: "/ipes/:path*", headers: noindex },
+      { source: "/achado", headers: noindex },
+      { source: "/achado/:path*", headers: noindex },
     ];
   },
 };
