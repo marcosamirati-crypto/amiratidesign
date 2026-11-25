@@ -145,11 +145,19 @@ export async function togglePublished(fd: FormData) {
 export async function toggleRead(fd: FormData) {
   const supabase = await createAuthClient();
   await supabase.from("messages").update({ read: fd.get("read") !== "true" }).eq("id", String(fd.get("id")));
-  revalidatePath("/admin/mensagens");
+  revalidatePath("/admin", "layout");
 }
 
 export async function deleteMessage(fd: FormData) {
   const supabase = await createAuthClient();
   await supabase.from("messages").delete().eq("id", String(fd.get("id")));
-  revalidatePath("/admin/mensagens");
+  revalidatePath("/admin", "layout");
+}
+
+// ───────── Briefings (ficam na tabela messages, com nome "Briefing · …") ─────────
+export async function deleteBriefing(fd: FormData) {
+  const supabase = await createAuthClient();
+  await supabase.from("messages").delete().eq("id", String(fd.get("id")));
+  revalidatePath("/admin", "layout");
+  redirect("/admin/briefings");
 }

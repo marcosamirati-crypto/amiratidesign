@@ -1,4 +1,6 @@
 import { deleteMessage, toggleRead } from "../../actions";
+import Link from "next/link";
+import { BRIEFING_PREFIX } from "@/lib/briefing";
 import { createAuthClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -7,12 +9,16 @@ type Msg = { id: string; name: string; email: string; message: string; read: boo
 
 export default async function Messages() {
   const supabase = await createAuthClient();
-  const { data } = await supabase.from("messages").select("*").order("created_at", { ascending: false });
+  const { data } = await supabase.from("messages").select("*").not("name", "like", `${BRIEFING_PREFIX}%`).order("created_at", { ascending: false });
   const msgs = (data ?? []) as Msg[];
 
   return (
     <>
       <h1 className="display text-4xl">Mensagens</h1>
+      <p className="mt-3 text-sm text-muted">
+        Mensagens do formulário de contato. As respostas do briefing ficam em{" "}
+        <Link href="/admin/briefings" className="link-u hover:text-fg">Briefings</Link>.
+      </p>
       <ul className="mt-10 divide-y divide-line border-y border-line">
         {msgs.length === 0 && <li className="py-6 text-muted">Nenhuma mensagem.</li>}
         {msgs.map((m) => (

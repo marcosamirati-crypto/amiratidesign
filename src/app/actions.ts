@@ -1,5 +1,8 @@
 "use server";
 
+import { after } from "next/server";
+import { BRIEFING_PREFIX, parseBriefing } from "@/lib/briefing";
+import { notifyNewBriefing } from "@/lib/notify";
 import { createPublicClient, hasSupabase } from "@/lib/supabase/server";
 
 export type FormState = { ok: boolean; error?: string } | null;
@@ -52,13 +55,21 @@ export async function sendBriefing(_prev: BriefingState, fd: FormData): Promise<
   });
   const text = lines.join("\n").trim();
 
-  if (!hasSupabase) return { ok: true, saved: false, text };
+  const name = `${BRIEFING_PREFIX}${empresa || nome}`.slice(0, 120);
+  // Aviso por e-mail depois da resposta (não atrasa a pessoa). Vai mesmo se o banco falhar: vira o backup.
+  const notify = (saved: boolean) => after(() => notifyNewBriefing(parseBriefing(name, email, text), text, saved));
+
+  if (!hasSupabase) {
+    notify(false);
+    return { ok: true, saved: false, text };
+  }
   const { error } = await createPublicClient()
     .from("messages")
     .insert({
-      name: `Briefing · ${empresa || nome}`.slice(0, 120),
+      name,
       email,
       message: text.length > 4000 ? `${text.slice(0, 3980)}\n[continua…]` : text,
     });
+  notify(!error);
   return { ok: true, saved: !error, text };
 }
