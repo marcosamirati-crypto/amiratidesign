@@ -23,7 +23,8 @@ function supabaseChannel(name) {
     statusFns.forEach(f => f(st === 'SUBSCRIBED', state));
   });
   return {
-    send: (event, payload) => ch.send({ type: 'broadcast', event, payload }).catch(() => {}),
+    // só fala com o canal aberto; quem depende da entrega (pedidos do jogador) reenvia ao reabrir
+    send: (event, payload) => { if (state.status === 'SUBSCRIBED') ch.send({ type: 'broadcast', event, payload }).catch(() => {}); },
     on: (event, fn) => { (handlers[event] = handlers[event] || []).push(fn); },
     status: fn => statusFns.add(fn),
     state: () => state,

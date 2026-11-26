@@ -30,7 +30,7 @@ export function startMaster(host) { root = host; lobby(); }
 async function lobby() {
   clear(root);
   const list = h('div', { class: 'stack' }, h('p', { class: 'muted' }, 'Carregando suas mesas…'));
-  const name = h('input', { id: 'new-session', class: 'in big', maxlength: 60, placeholder: 'Nome da sessão' });
+  const name = h('input', { id: 'new-session', class: 'in big', maxlength: 60, placeholder: 'Nome da sessão', enterkeyhint: 'go', onkeydown: e => { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); create.click(); } } });
   const create = h('button', { class: 'btn primary big', onclick: async () => {
     if (!name.value.trim()) { name.focus(); return toast('Dê um nome à sessão.'); }
     create.disabled = true;

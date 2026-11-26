@@ -103,3 +103,5 @@ Mesa digital multiplayer do RPG do Zito, aberta para qualquer pessoa, sem conta.
 | `ANTHROPIC_API_KEY` | (já existe) interpretação da narração, crônica e códice |
 | `ZITO_MODEL` | opcional; padrão `claude-sonnet-5-5` |
 | `ZITO_AI` | `0` desliga a IA do /zito sem novo deploy |
+
+Para conferir se a retransmissão está de pé, abra `/api/zito/status`: a rota faz um teste de ida e volta no Supabase Realtime e responde `{"realtime":"ok"}` ou a etapa que falhou (resultado guardado por 60 s). Se a mesa não abrir, o próprio app mostra o motivo: no topo do Mestre ("na rede" / "fora da rede") e na entrada do jogador.
