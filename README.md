@@ -93,3 +93,15 @@ $env:ANTHROPIC_API_KEY="x"; $env:ANTHROPIC_BASE_URL="http://localhost:4010"; $en
 ## Backlog
 
 Gerador de propostas comerciais no admin: **não implementado**. O ponto de entrada está documentado em `src/app/admin/(panel)/propostas/README.md`.
+
+## Survival or Dice — RPG do Zito (`/zito`)
+
+Mesa digital multiplayer do RPG do Zito, aberta para qualquer pessoa, sem conta. App estático em `public/zito` (gerado a partir de `zito-src/`), rotas em `src/app/api/zito/` (configuração, códice e IA) e bíblia/bestiário no servidor em `src/lib/zito/`. O celular do Mestre hospeda a mesa; os aparelhos conversam pelo Supabase Realtime, com criptografia ponta a ponta. Detalhes, testes e limites em [`zito-src/README.md`](zito-src/README.md).
+
+| Variável | Uso |
+| --- | --- |
+| `ANTHROPIC_API_KEY` | (já existe) interpretação da narração, crônica e códice |
+| `ZITO_MODEL` | opcional; padrão `claude-sonnet-5-5` |
+| `ZITO_AI` | `0` desliga a IA do /zito sem novo deploy |
+
+Para conferir se a retransmissão está de pé, abra `/api/zito/status`: a rota faz um teste de ida e volta no Supabase Realtime e responde `{"realtime":"ok"}` ou a etapa que falhou (resultado guardado por 60 s). Se a mesa não abrir, o próprio app mostra o motivo: no topo do Mestre ("na rede" / "fora da rede") e na entrada do jogador.
