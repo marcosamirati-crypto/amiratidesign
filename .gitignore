@@ -10,3 +10,7 @@ next-env.d.ts
 # cópias acidentais (OneDrive/Explorer)
 * - Copia*
 */* - Copia*
+
+# capturas dos testes do Zito
+zito-src/shots/
+zito-src/shots-site/
