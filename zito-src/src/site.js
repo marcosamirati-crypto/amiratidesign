@@ -3,7 +3,7 @@
 import { h, clear } from './ui.js';
 import { cap } from './rt.js';
 import { platform } from './platform.js';
-import { initSite, siteReady, becomeMaster, hostSession, connectGuest, inviteLink, lastRole, forgetRole, exportSession, importBackup, storageProblem, site } from './site/runtime.js';
+import { initSite, siteReady, becomeMaster, hostSession, connectGuest, connectProblem, onLinkState, inviteLink, lastRole, forgetRole, exportSession, importBackup, storageProblem, site } from './site/runtime.js';
 import { startPlayer } from './player.js';
 import { startMaster } from './master.js';
 
@@ -25,6 +25,8 @@ Object.assign(platform, {
   hostSession,
   inviteLink,
   connect: connectGuest,
+  connectProblem,
+  onLinkState,
   toMaster: () => { becomeMaster(); history.replaceState(null, '', location.pathname + location.search); startMaster(host); },
   toPlayer: () => { forgetRole(); startPlayer(host, {}); },
   exportSession,

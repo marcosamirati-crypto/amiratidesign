@@ -418,3 +418,8 @@ body.locked .toasts{bottom:auto;top:calc(max(10px,env(safe-area-inset-top)) + 4p
 @media (max-width:380px){.char-v{grid-template-columns:56px 1fr auto 40px 40px}.title-l{font-size:34px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 .gm-link{color:var(--bone-2);font-size:15px}
+
+/* diagnóstico de conexão (site) */
+.err .err-detail { display: block; margin-top: 6px; font-size: 12px; color: var(--bone-3); word-break: break-word; }
+.tb-sub .net.ok { color: var(--bem); }
+.tb-sub .net.bad { color: var(--vida); font-weight: 700; }

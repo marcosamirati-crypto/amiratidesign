@@ -88,7 +88,20 @@ async function openCommand(sid) {
   on(col(P.gmLog(sid)).orderBy('ts', 'desc').limit(120), q => { ms.gmlog = q.docs.map(x => ({ id: x.id, ...x.data(), scope: x.data().vis })); if (ms.view === 'registro') paint(); });
   on(col(P.audit(sid)).orderBy('ts', 'desc').limit(40), q => { ms.audit = q.docs.map(x => ({ id: x.id, ...x.data() })); if (ms.view === 'registro') paint(); });
   const s0 = await getDoc(P.session(sid));
-  if (s0 && platform.hostSession) { platform.hostSession(s0.code); keepAwake(); }
+  if (s0 && platform.hostSession) {
+    platform.hostSession(s0.code); keepAwake();
+    if (platform.onLinkState) {
+      if (ms.offLink) ms.offLink();
+      let warned = false;
+      ms.offLink = platform.onLinkState(st => {
+        const was = ms.link && ms.link.status;
+        ms.link = st;
+        if (st.status === 'SUBSCRIBED') { if (warned) toast('Mesa de volta à rede. Os jogadores já podem entrar.'); warned = false; }
+        else if (!warned && st.status !== 'CONNECTING') { warned = true; toast(`Seu aparelho não conseguiu abrir a mesa na rede${st.err ? ` (${st.err})` : ''}. Os jogadores não vão encontrá-la até isso voltar.`); }
+        if (was !== st.status && ms.view === 'mesa') paint();
+      });
+    }
+  }
   if (s0) {
     const room = await joinRoom(s0.code);
     if (room) {
@@ -186,8 +199,18 @@ function gmTop() {
   const n = onlineUids().size;
   return h('header', { class: 'topbar gm' },
     h('button', { class: 'icon-btn', 'aria-label': 'Trocar de sessão', onclick: () => lobby() }, icon('undo')),
-    h('div', { class: 'tb-id' }, h('h1', { class: 'tb-name' }, s.name), h('p', { class: 'tb-sub' }, `${s.status === 'aberta' ? 'Aberta' : s.status === 'pausada' ? 'Pausada' : 'Encerrada'} · ${n} ${n === 1 ? 'jogador conectado' : 'jogadores conectados'}${s.mode === 'prisioneiros' ? ' · Prisioneiros' : ''}`)),
+    h('div', { class: 'tb-id' }, h('h1', { class: 'tb-name' }, s.name), h('p', { class: 'tb-sub' }, `${s.status === 'aberta' ? 'Aberta' : s.status === 'pausada' ? 'Pausada' : 'Encerrada'} · ${n} ${n === 1 ? 'jogador conectado' : 'jogadores conectados'}${s.mode === 'prisioneiros' ? ' · Prisioneiros' : ''}`,
+      linkNote())),
     h('button', { class: 'code-chip big', onclick: showInvite, 'aria-label': `Código ${s.code}. Mostrar QR` }, icon('qr', 18), s.code));
+}
+
+// só no site: diz ao Mestre se a mesa está na rede (os jogadores dependem disso)
+function linkNote() {
+  const st = ms.link;
+  if (!platform.onLinkState || !st) return null;
+  if (st.status === 'SUBSCRIBED') return h('span', { class: 'net ok' }, ' · na rede');
+  if (st.status === 'CONNECTING') return h('span', { class: 'net' }, ' · conectando…');
+  return h('span', { class: 'net bad' }, ' · fora da rede');
 }
 
 function showInvite() {

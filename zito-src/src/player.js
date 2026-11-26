@@ -41,7 +41,13 @@ function screenEnter(prefill) {
       if (platform.connect) {
         const fp = (last && last.code === code && last.fp) || (prefill === code ? st.fp : null);
         const ok = await platform.connect(code, fp);
-        if (!ok) { err.textContent = 'Não encontrei essa mesa. Confira o código e se o celular do Mestre está com a página aberta.'; return; }
+        if (!ok) {
+          const why = platform.connectProblem && platform.connectProblem();
+          clear(err);
+          put(err, why ? why.text : 'Não encontrei essa mesa. Confira o código e se o celular do Mestre está com a página aberta.');
+          if (why && why.detail) put(err, h('span', { class: 'err-detail' }, `Detalhe técnico: ${why.detail}`));
+          return;
+        }
         st.fp = fp;
       }
       const snap = await col(P.sessions()).where('code', '==', code).limit(1).get();

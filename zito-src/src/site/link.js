@@ -16,12 +16,17 @@ function supabaseChannel(name) {
   const ch = sb.channel(name, { config: { broadcast: { self: false, ack: false } } });
   const handlers = {};
   const statusFns = new Set();
+  let state = { status: 'CONNECTING', err: '' };
   ch.on('broadcast', { event: '*' }, ({ event, payload }) => { (handlers[event] || []).forEach(f => f(payload)); });
-  ch.subscribe(st => statusFns.forEach(f => f(st === 'SUBSCRIBED')));
+  ch.subscribe((st, e) => {
+    state = { status: st, err: e ? String(e.message || e).slice(0, 160) : '' };
+    statusFns.forEach(f => f(st === 'SUBSCRIBED', state));
+  });
   return {
     send: (event, payload) => ch.send({ type: 'broadcast', event, payload }).catch(() => {}),
     on: (event, fn) => { (handlers[event] = handlers[event] || []).push(fn); },
     status: fn => statusFns.add(fn),
+    state: () => state,
     close: () => { try { sb.removeChannel(ch); } catch {} },
   };
 }
@@ -41,6 +46,7 @@ function relayChannel(base, name) {
     send: (event, payload) => { if (ws.readyState === 1) ws.send(JSON.stringify({ event, payload })); },
     on: (event, fn) => { (handlers[event] = handlers[event] || []).push(fn); },
     status: fn => statusFns.add(fn),
+    state: () => ({ status: ws && ws.readyState === 1 ? 'SUBSCRIBED' : 'CONNECTING', err: '' }),
     close: () => { alive = false; try { ws.close(); } catch {} },
   };
 }
@@ -48,12 +54,12 @@ function channel(name, relay) { return relay ? relayChannel(relay, name) : supab
 export const roomName = code => 'sod-' + String(code).toLowerCase();
 
 // ---- lado do Mestre: recebe de todos, responde a cada um em particular
-export function hostLink({ code, keys, relay, onMessage, onPeerGone }) {
+export function hostLink({ code, keys, relay, onMessage, onPeerGone, onStatus }) {
   const ch = channel(roomName(code), relay);
   const peers = new Map(); // uid -> { key, pub, last }
   const fp = keys.uid.slice(0, 8);
   const beacon = () => ch.send('host', { pub: keys.pub, fp, code });
-  ch.status(ok => { if (ok) beacon(); });
+  ch.status((ok, st) => { if (ok) beacon(); onStatus && onStatus(st || ch.state()); });
   const iv = setInterval(beacon, 4000);
   const gc = setInterval(() => { const now = Date.now(); for (const [uid, p] of peers) if (now - p.last > 16000) { peers.delete(uid); onPeerGone && onPeerGone(uid); } }, 4000);
   ch.on('hello', async ({ pub, uid }) => {
@@ -80,6 +86,7 @@ export function hostLink({ code, keys, relay, onMessage, onPeerGone }) {
       ch.send('m', { to: uid, from: 'host', ...(await seal(p.key, obj)) });
     },
     connected: uid => peers.has(uid),
+    state: () => ch.state(),
     close() { clearInterval(iv); clearInterval(gc); ch.close(); },
   };
 }
@@ -87,14 +94,14 @@ export function hostLink({ code, keys, relay, onMessage, onPeerGone }) {
 // ---- lado do jogador: um "cano" com send/onMessage/onOpen/onClose
 export function guestLink({ code, keys, relay, expectFp }) {
   const ch = channel(roomName(code), relay);
-  let hostKey = null, hostPub = null, hostSeen = 0, sub = false, opened = false;
+  let hostKey = null, hostPub = null, hostSeen = 0, sub = false, opened = false, otherFp = false;
   const msgFns = new Set(), openFns = new Set(), closeFns = new Set();
   const hello = () => ch.send('hello', { pub: keys.pub, uid: keys.uid });
   const isOpen = () => sub && !!hostKey && Date.now() - hostSeen < 13000;
   const check = () => { const now = isOpen(); if (now && !opened) { opened = true; openFns.forEach(f => f()); } else if (!now && opened) { opened = false; closeFns.forEach(f => f()); } };
   ch.status(ok => { sub = ok; if (ok) hello(); check(); });
   ch.on('host', async ({ pub, fp }) => {
-    if (expectFp && fp !== expectFp) return; // anúncio que não bate com o convite
+    if (expectFp && fp !== expectFp) { otherFp = true; return; } // anúncio que não bate com o convite
     if (pub !== hostPub) { hostPub = pub; hostKey = await sharedKey(keys.priv, pub); hello(); }
     hostSeen = Date.now(); check();
   });
@@ -110,5 +117,15 @@ export function guestLink({ code, keys, relay, expectFp }) {
     async send(obj) { if (!hostKey) return false; ch.send('m', { to: 'host', from: keys.uid, ...(await seal(hostKey, obj)) }); return true; },
     onMessage: f => msgFns.add(f), onOpen: f => openFns.add(f), onClose: f => closeFns.add(f),
     isOpen, close() { clearInterval(tick); ch.close(); },
+    // por que ainda não abriu: para dizer ao jogador algo mais útil que "não achei"
+    why() {
+      const st = ch.state();
+      if (st.status === 'CHANNEL_ERROR') return { k: 'recusado', detail: st.err || st.status };
+      if (st.status === 'TIMED_OUT') return { k: 'tempo', detail: st.status };
+      if (st.status === 'CLOSED') return { k: 'caiu', detail: st.status };
+      if (!sub) return { k: 'rede', detail: st.status };
+      if (otherFp && !hostKey) return { k: 'outro', detail: '' };
+      return { k: 'mestre', detail: '' };
+    },
   };
 }

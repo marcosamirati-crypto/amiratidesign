@@ -264,7 +264,9 @@ with sync_playwright() as pw:
     p1.wait_for_timeout(6000)
     vb = dump()['pc/' + U1 + '/s/' + sid]['vida']
     m.locator('article.char', has_text='Ilda').locator('button[aria-label="Vida −1"]').click()
-    p1.wait_for_timeout(2500)
+    for _ in range(16):  # até 8 s: o jogador precisa reencontrar o Mestre
+        if f'{vb - 1}/18' in p1.locator('.vitals').inner_text(): break
+        p1.wait_for_timeout(500)
     ok('Jogador volta a receber atualizações depois que o Mestre volta', f'{vb - 1}/18' in p1.locator('.vitals').inner_text(), str(vb - 1))
     # Bestiário vem do servidor e fica só no aparelho do Mestre
     m.click('.tab:has-text("Mais")'); m.click('.seg button:has-text("Bestiário")'); m.wait_for_selector('.queen-grid', timeout=6000)

@@ -37,20 +37,39 @@ export function hostSession(code) {
   if (site.link && site.link.code === code) return site.link;
   if (site.link) { site.link.close(); site.link = null; }
   const h = site.host;
-  const l = hostLink({ code, keys: site.keys, relay: site.relay, onMessage: (from, obj) => { h.attach(from, o => l.send(from, o)); h.handle(from, obj); }, onPeerGone: uid => h.detach(uid) });
+  site.hostState = null;
+  const l = hostLink({ code, keys: site.keys, relay: site.relay, onMessage: (from, obj) => { h.attach(from, o => l.send(from, o)); h.handle(from, obj); }, onPeerGone: uid => h.detach(uid),
+    onStatus: st => { site.hostState = st; linkFns.forEach(f => { try { f(st); } catch {} }); } });
   l.code = code; site.link = l;
   return l;
 }
+// o Mestre acompanha se o aparelho dele está alcançável pelos jogadores
+const linkFns = new Set();
+export const onLinkState = fn => { linkFns.add(fn); if (site.hostState) fn(site.hostState); return () => linkFns.delete(fn); };
+export const linkState = () => site.hostState || null;
+
+const WHY = {
+  config: 'O site está sem a configuração de conexão. Avise o Amirati.',
+  recusado: 'O serviço de conexão recusou a entrada na sala.',
+  tempo: 'O serviço de conexão não respondeu a tempo. Verifique a internet e tente de novo.',
+  caiu: 'A conexão com o serviço caiu. Tente de novo.',
+  rede: 'Não consegui alcançar o serviço de conexão por esta rede. Tente outra rede (4G, por exemplo).',
+  outro: 'Uma mesa com esse código respondeu, mas não é a do seu convite. Peça o link de novo ao Mestre.',
+  mestre: 'Entrei na sala, mas o celular do Mestre não respondeu. A página da mesa precisa estar aberta na tela dele.',
+};
+export const connectProblem = () => site.lastFail || null;
 
 export function connectGuest(code, fp) {
   closeLink();
+  site.lastFail = null;
+  if (!siteReady()) { site.lastFail = { text: WHY.config, detail: '' }; return Promise.resolve(false); }
   const l = guestLink({ code, keys: site.keys, relay: site.relay, expectFp: fp || null });
   l.code = code; site.link = l;
   const c = makeClient(l, { uid: site.keys.uid, owner: false });
   site.client = c; cap.db = c.db; cap.room = c.room; cap.user = c.user; me.isOwner = false;
   return new Promise(res => {
     if (l.isOpen()) return res(true);
-    const t = setTimeout(() => res(false), 10000);
+    const t = setTimeout(() => { const w = l.why(); site.lastFail = { text: WHY[w.k], detail: w.detail }; res(false); }, 10000);
     l.onOpen(() => { clearTimeout(t); res(true); });
   });
 }
