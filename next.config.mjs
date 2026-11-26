@@ -7,6 +7,7 @@ const config = {
   // caem no index.html; os arquivos de public/iclub são servidos antes destas regras.
   // App de teste do IPES (página única em public/ipes). Fica em /ipes e fora do Google.
   // Achado (proposta de rebranding do Mercado Mais Barato, página única em public/achado). Fica em /achado e fora do Google.
+  // Survival or Dice, o RPG do Zito (app estático em public/zito + rotas /api/zito). Fica em /zito e fora do Google.
   async rewrites() {
     return [
       { source: "/osipova", destination: "/osipova/index.html" },
@@ -14,6 +15,7 @@ const config = {
       { source: "/iclub/:path*", destination: "/iclub/index.html" },
       { source: "/ipes", destination: "/ipes/index.html" },
       { source: "/achado", destination: "/achado/index.html" },
+      { source: "/zito", destination: "/zito/index.html" },
     ];
   },
   // Página da MotaSat: o endereço oficial é /motasat. O antigo e a grafia com "o" levam para ele.
@@ -31,6 +33,8 @@ const config = {
       { source: "/ipes/:path*", headers: noindex },
       { source: "/achado", headers: noindex },
       { source: "/achado/:path*", headers: noindex },
+      { source: "/zito", headers: noindex },
+      { source: "/zito/:path*", headers: noindex },
     ];
   },
 };
